@@ -1,0 +1,34 @@
+item {
+  id: 1
+  name: 'Sloper'
+}
+
+item {
+  id: 2
+  name: 'Hand Start'
+}
+
+item {
+  id: 3
+  name: 'Crimp'
+}
+
+item {
+  id: 4
+  name: 'Pinch'
+}
+
+item {
+  id: 5
+  name: 'Jug'
+}
+
+item {
+  id: 6
+  name: 'Pocket'
+}
+
+item {
+  id: 7
+  name: 'Octopus Pinch'
+}
