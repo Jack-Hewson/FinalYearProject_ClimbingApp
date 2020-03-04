@@ -1,0 +1,38 @@
+<annotation>
+	<folder>48</folder>
+	<filename>20200219_093457_065.jpg</filename>
+	<path>C:\Users\jacks\OneDrive - University of Plymouth\_Fourth Year\PRCO304\images\training\48\20200219_093457_065.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>567</width>
+		<height>1008</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>Pocket</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>139</xmin>
+			<ymin>455</ymin>
+			<xmax>384</xmax>
+			<ymax>632</ymax>
+		</bndbox>
+	</object>
+	<object>
+		<name>Hand Start</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>233</xmin>
+			<ymin>634</ymin>
+			<xmax>280</xmax>
+			<ymax>682</ymax>
+		</bndbox>
+	</object>
+</annotation>

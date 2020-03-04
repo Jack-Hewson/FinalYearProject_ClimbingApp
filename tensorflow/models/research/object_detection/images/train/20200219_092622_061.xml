@@ -1,0 +1,62 @@
+<annotation>
+	<folder>22</folder>
+	<filename>20200219_092622_061.jpg</filename>
+	<path>C:\Users\jacks\OneDrive - University of Plymouth\_Fourth Year\PRCO304\images\training\22\20200219_092622_061.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>567</width>
+		<height>1008</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>Pocket</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>110</xmin>
+			<ymin>170</ymin>
+			<xmax>469</xmax>
+			<ymax>529</ymax>
+		</bndbox>
+	</object>
+	<object>
+		<name>Pocket</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>125</xmin>
+			<ymin>524</ymin>
+			<xmax>352</xmax>
+			<ymax>765</ymax>
+		</bndbox>
+	</object>
+	<object>
+		<name>Hand Start</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>335</xmin>
+			<ymin>735</ymin>
+			<xmax>372</xmax>
+			<ymax>774</ymax>
+		</bndbox>
+	</object>
+	<object>
+		<name>Hand Start</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>370</xmin>
+			<ymin>523</ymin>
+			<xmax>414</xmax>
+			<ymax>566</ymax>
+		</bndbox>
+	</object>
+</annotation>

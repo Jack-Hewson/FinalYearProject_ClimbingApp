@@ -1,0 +1,26 @@
+<annotation>
+	<folder>6</folder>
+	<filename>20200219_092810_019.jpg</filename>
+	<path>C:\Users\jacks\OneDrive - University of Plymouth\_Fourth Year\PRCO304\images\training\6\20200219_092810_019.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>567</width>
+		<height>1008</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>Sloper</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>141</xmin>
+			<ymin>291</ymin>
+			<xmax>417</xmax>
+			<ymax>578</ymax>
+		</bndbox>
+	</object>
+</annotation>
