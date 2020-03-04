@@ -1,0 +1,38 @@
+<annotation>
+	<folder>test</folder>
+	<filename>20200219_093457_067.jpg</filename>
+	<path>C:\tensorflow1\models\research\object_detection\images\test\20200219_093457_067.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>567</width>
+		<height>1008</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>Pocket</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>135</xmin>
+			<ymin>457</ymin>
+			<xmax>379</xmax>
+			<ymax>625</ymax>
+		</bndbox>
+	</object>
+	<object>
+		<name>Hand Start</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>232</xmin>
+			<ymin>630</ymin>
+			<xmax>282</xmax>
+			<ymax>678</ymax>
+		</bndbox>
+	</object>
+</annotation>
