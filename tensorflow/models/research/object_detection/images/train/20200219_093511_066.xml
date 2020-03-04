@@ -1,0 +1,26 @@
+<annotation>
+	<folder>39</folder>
+	<filename>20200219_093511_066.jpg</filename>
+	<path>C:\Users\jacks\OneDrive - University of Plymouth\_Fourth Year\PRCO304\images\training\39\20200219_093511_066.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>567</width>
+		<height>1008</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>Pocket</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>258</xmin>
+			<ymin>364</ymin>
+			<xmax>487</xmax>
+			<ymax>574</ymax>
+		</bndbox>
+	</object>
+</annotation>
