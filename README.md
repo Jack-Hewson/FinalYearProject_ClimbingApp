@@ -41,3 +41,5 @@ If you do not have a CUDA-Enabled GPU then you can simply install tensorflow
 | Package Name  | Version |
 | ------------- | ------------- |
 | tensorflow | 1.13.1 |
+
+
