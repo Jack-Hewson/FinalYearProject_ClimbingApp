@@ -1,5 +1,7 @@
 package com.example.climbingapp;
 
+import android.Manifest;
+import android.media.ImageReader;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -20,6 +22,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
+
+import android.media.ImageReader.OnImageAvailableListener;
 
 public class MainActivity extends AppCompatActivity {
 

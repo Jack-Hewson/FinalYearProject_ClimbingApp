@@ -1,2 +1,2 @@
-include ':app'
+include ':app', ':tensorflow-lite'
 rootProject.name='ClimbingApp'
