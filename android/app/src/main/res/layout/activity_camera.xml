@@ -20,6 +20,14 @@
         android:layout_height="match_parent"
         android:background="@android:color/transparent"
         android:orientation="vertical">
+
+        <FrameLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_anchorGravity="bottom"
+            tools:context="org.tensorflow.demo.CameraActivity"
+            android:layout_below="@+id/toolbar"/>
     </RelativeLayout>
 
 
@@ -32,12 +40,5 @@
         app:headerLayout="@layout/nav_header_main"
         app:menu="@menu/activity_main_drawer" />
 
-    <FrameLayout
-        android:id="@+id/container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_anchor="@+id/relativeLayout"
-        app:layout_anchorGravity="bottom"
-        tools:context="org.tensorflow.demo.CameraActivity"
-        android:layout_below="@+id/toolbar"/>
+
 </androidx.drawerlayout.widget.DrawerLayout>
