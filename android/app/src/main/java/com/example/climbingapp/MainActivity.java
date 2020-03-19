@@ -4,6 +4,7 @@ import android.Manifest;
 import android.media.ImageReader;
 import android.os.Bundle;
 
+import com.example.climbingapp.ui.gallery.GalleryFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -35,8 +36,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
    //     Toolbar toolbar = findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
-       FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+     FloatingActionButton fab = findViewById(R.id.fab);
+        /**       if (null == savedInstanceState) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.container, GalleryFragment.newInstance())
+                    .commit();
+        }
+*/        fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
