@@ -49,7 +49,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.nio.ByteBuffer;
 
-public class CameraActivity extends AppCompatActivity implements OnImageAvailableListener{
+public abstract class CameraActivity extends AppCompatActivity implements OnImageAvailableListener{
 
   private static final int PERMISSIONS_REQUEST = 1;
 
@@ -64,7 +64,7 @@ public class CameraActivity extends AppCompatActivity implements OnImageAvailabl
   @Override
   protected void onCreate(final Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.oldactivity_camera);
+    setContentView(R.layout.activity_camera);
    // Toolbar toolbar = findViewById(R.id.toolbar);
    // setSupportActionBar(toolbar);
     FloatingActionButton fab = findViewById(R.id.fab);
@@ -89,11 +89,11 @@ public class CameraActivity extends AppCompatActivity implements OnImageAvailabl
     NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
     NavigationUI.setupWithNavController(navigationView, navController);
 
-   // if (hasPermission()) {
-   //   setFragment();
-   //} else {
-   //  requestPermission();
-  //  }
+    if (hasPermission()) {
+      setFragment();
+    } else {
+     requestPermission();
+    }
 
   }
 
@@ -238,8 +238,8 @@ public class CameraActivity extends AppCompatActivity implements OnImageAvailabl
     String cameraId = chooseCamera();
 
     Fragment fragment;
-    CameraConnectionFragment camera2Fragment =
-            CameraConnectionFragment.newInstance(
+      CameraConnectionFragment camera2Fragment =
+          CameraConnectionFragment.newInstance(
                   (size, rotation) -> {
                     previewHeight = size.getHeight();
                     previewWidth = size.getWidth();
@@ -265,17 +265,9 @@ public class CameraActivity extends AppCompatActivity implements OnImageAvailabl
     }
   }
 
-  protected void onPreviewSizeChosen(final Size size, final int rotation){
-    previewHeight = size.getWidth();
-    previewWidth = size.getHeight();
-  }
+  protected abstract void onPreviewSizeChosen(final Size size, final int rotation);
 
-  protected int getLayoutId(){
-    return R.layout.camera_connecton_fragment_tracking;
-  }
+  protected abstract int getLayoutId();
 
-  protected Size getDesiredPreviewFrameSize() {
-    final Size DESIRED_PREVIEW_SIZE = new Size(640, 480);
-    return DESIRED_PREVIEW_SIZE;
-  }
+  protected abstract Size getDesiredPreviewFrameSize();
 }

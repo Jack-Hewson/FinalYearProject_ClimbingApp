@@ -46,7 +46,7 @@ import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.climbingapp.ui.customview.oldAutoFitTextureView;
+import com.example.climbingapp.ui.customview.AutoFitTextureView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -90,7 +90,7 @@ public class CameraConnectionFragment extends Fragment {
       };
 
   private String cameraId;
-  private oldAutoFitTextureView textureView;
+  private AutoFitTextureView textureView;
   private CameraCaptureSession captureSession;
   private CameraDevice cameraDevice;
   private Integer sensorOrientation;
