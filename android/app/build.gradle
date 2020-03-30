@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'de.undercouch.download'
 
 android {
     compileSdkVersion 29
@@ -29,6 +30,17 @@ android {
         abortOnError false
     }
 }
+
+// import DownloadModels task
+//project.ext.ASSET_DIR = projectDir.toString() + '/src/main/assets'
+//project.ext.TMP_DIR   = project.buildDir.toString() + '/downloads'
+
+// Download default models; if you wish to use your own models then
+// place them in the "assets" directory and comment out this line.
+//apply from: "download_model.gradle"
+
+//apply from:'download_model.gradle'
+
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
