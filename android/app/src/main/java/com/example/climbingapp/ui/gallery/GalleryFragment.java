@@ -15,7 +15,6 @@ import android.graphics.Color;
 import android.graphics.ImageFormat;
 import android.graphics.Matrix;
 import android.graphics.Paint;
-import android.graphics.Point;
 import android.graphics.RectF;
 import android.graphics.SurfaceTexture;
 import android.graphics.Typeface;
@@ -47,13 +46,11 @@ import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import android.media.Image.Plane;
 
-import androidx.annotation.BoolRes;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -63,18 +60,16 @@ import androidx.fragment.app.Fragment;
 import com.example.climbingapp.R;
 import com.example.climbingapp.ui.customview.AutoFitTextureView;
 import com.example.climbingapp.ui.customview.OverlayView;
-import com.example.climbingapp.ui.customview.OverlayView.DrawCallback;
 import com.example.climbingapp.ui.env.BorderedText;
 import com.example.climbingapp.ui.env.ImageUtils;
 import com.example.climbingapp.ui.env.Logger;
 import com.example.climbingapp.ui.tflite.Classifier;
-import com.example.climbingapp.ui.tflite.TFLiteObjectDetectionAPIModel;
+import com.example.climbingapp.ui.tflite.FirebaseObjectDetectionAPIModel;
 import com.example.climbingapp.ui.tracking.MultiBoxTracker;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -396,7 +391,7 @@ public class GalleryFragment extends Fragment implements View.OnClickListener, A
                     public void run() {
                         LOGGER.i("Running detection on image " + currTimestamp);
                         final long startTime = SystemClock.uptimeMillis();
-                        final List<Classifier.Recognition> results = detector.recognizeImage(croppedBitmap);
+                        final List<Classifier.Recognition> results = (List<Classifier.Recognition>) detector.recognizeImage(croppedBitmap);
                         lastProcessingTimeMs = SystemClock.uptimeMillis() - startTime;
 
                         cropCopyBitmap = Bitmap.createBitmap(croppedBitmap);
@@ -1350,12 +1345,13 @@ public class GalleryFragment extends Fragment implements View.OnClickListener, A
 
         try {
             detector =
-                    TFLiteObjectDetectionAPIModel.create(
+                    FirebaseObjectDetectionAPIModel.create(
                             getActivity().getAssets(),
                             TF_OD_API_MODEL_FILE,
                             TF_OD_API_LABELS_FILE,
                             TF_OD_API_INPUT_SIZE,
-                            TF_OD_API_IS_QUANTIZED);
+                            TF_OD_API_IS_QUANTIZED,
+                            getActivity().getApplicationContext());
             cropSize = TF_OD_API_INPUT_SIZE;
         }
         catch (final IOException e) {

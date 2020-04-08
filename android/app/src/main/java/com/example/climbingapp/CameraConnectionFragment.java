@@ -278,9 +278,6 @@ public class CameraConnectionFragment extends Fragment {
   @Override
   public View onCreateView(
       final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
-    LOGGER.i("LAYOUT = " + layout);
-    LOGGER.i("activity_camera = " + R.layout.tfe_od_activity_camera);
-    LOGGER.i("tracking = " + R.layout.tfe_od_camera_connection_fragment_tracking);
     return inflater.inflate(R.layout.tfe_od_camera_connection_fragment_tracking, container, false);
   }
 
@@ -323,7 +320,6 @@ public class CameraConnectionFragment extends Fragment {
 
   /** Sets up member variables related to camera. */
   private void setUpCameraOutputs() {
-    LOGGER.i("RUNNING: setUpCameraOutputs");
     final Activity activity = getActivity();
     final CameraManager manager = (CameraManager) activity.getSystemService(Context.CAMERA_SERVICE);
     try {

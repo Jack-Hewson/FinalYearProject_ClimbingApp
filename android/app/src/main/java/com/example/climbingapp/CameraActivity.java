@@ -51,25 +51,20 @@ import android.view.Surface;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.view.WindowManager;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
-import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.FragmentActivity;
 
 import com.example.climbingapp.ui.customview.OverlayView;
 import com.example.climbingapp.ui.env.BorderedText;
 import com.example.climbingapp.ui.env.ImageUtils;
 import com.example.climbingapp.ui.env.Logger;
 import com.example.climbingapp.ui.tflite.Classifier;
-import com.example.climbingapp.ui.tflite.TFLiteObjectDetectionAPIModel;
+import com.example.climbingapp.ui.tflite.FirebaseObjectDetectionAPIModel;
 import com.example.climbingapp.ui.tracking.MultiBoxTracker;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
@@ -112,7 +107,7 @@ public class CameraActivity extends androidx.fragment.app.Fragment
   // Configuration values for the prepackaged SSD model.
   private static final int TF_OD_API_INPUT_SIZE = 300;
   private static final boolean TF_OD_API_IS_QUANTIZED = false;
-  private static final String TF_OD_API_MODEL_FILE = "detect.tflite";
+  private static final String TF_OD_API_MODEL_FILE = "detectClimbing.tflite";
   private static final String TF_OD_API_LABELS_FILE = "file:///android_asset/labelmap.txt";
   private static final CameraActivity.DetectorMode MODE = CameraActivity.DetectorMode.TF_OD_API;
   // Minimum detection confidence to track a detection.
@@ -263,7 +258,7 @@ public class CameraActivity extends androidx.fragment.app.Fragment
       final int uvRowStride = planes[1].getRowStride();
       final int uvPixelStride = planes[1].getPixelStride();
 
-      LOGGER.i("width = " + previewWidth + " height = " + previewHeight);
+     // LOGGER.i("width = " + previewWidth + " height = " + previewHeight);
 
 
       imageConverter =
@@ -446,7 +441,7 @@ public class CameraActivity extends androidx.fragment.app.Fragment
     for (int i = 0; i < planes.length; ++i) {
       final ByteBuffer buffer = planes[i].getBuffer();
       if (yuvBytes[i] == null) {
-        LOGGER.d("Initializing buffer %d at size %d", i, buffer.capacity());
+     //   LOGGER.d("Initializing buffer %d at size %d", i, buffer.capacity());
         yuvBytes[i] = new byte[buffer.capacity()];
       }
       buffer.get(yuvBytes[i]);
@@ -524,7 +519,7 @@ public class CameraActivity extends androidx.fragment.app.Fragment
       return;
     }
     computingDetection = true;
-    LOGGER.i("Preparing image " + currTimestamp + " for detection in bg thread.");
+   // LOGGER.i("Preparing image " + currTimestamp + " for detection in bg thread.");
 
     rgbFrameBitmap.setPixels(getRgbBytes(), 0, previewWidth, 0, 0, previewWidth, previewHeight);
 
@@ -541,9 +536,10 @@ public class CameraActivity extends androidx.fragment.app.Fragment
             new Runnable() {
               @Override
               public void run() {
-                LOGGER.i("Running detection on image " + currTimestamp);
+               // LOGGER.i("Running detection on image " + currTimestamp);
                 final long startTime = SystemClock.uptimeMillis();
                 final List<Classifier.Recognition> results = detector.recognizeImage(croppedBitmap);
+                LOGGER.i("RESULTS = " + results);
                 lastProcessingTimeMs = SystemClock.uptimeMillis() - startTime;
 
                 cropCopyBitmap = Bitmap.createBitmap(croppedBitmap);
@@ -562,7 +558,6 @@ public class CameraActivity extends androidx.fragment.app.Fragment
 
                 final List<Classifier.Recognition> mappedRecognitions =
                         new LinkedList<Classifier.Recognition>();
-
                 for (final Classifier.Recognition result : results) {
                   final RectF location = result.getLocation();
                   if (location != null && result.getConfidence() >= minimumConfidence) {
@@ -605,12 +600,13 @@ public class CameraActivity extends androidx.fragment.app.Fragment
 
     try {
       detector =
-              TFLiteObjectDetectionAPIModel.create(
+              FirebaseObjectDetectionAPIModel.create(
                       getActivity().getAssets(),
                       TF_OD_API_MODEL_FILE,
                       TF_OD_API_LABELS_FILE,
                       TF_OD_API_INPUT_SIZE,
-                      TF_OD_API_IS_QUANTIZED);
+                      TF_OD_API_IS_QUANTIZED,
+                      getActivity().getApplicationContext());
       cropSize = TF_OD_API_INPUT_SIZE;
     } catch (final IOException e) {
       e.printStackTrace();
@@ -628,7 +624,7 @@ public class CameraActivity extends androidx.fragment.app.Fragment
     sensorOrientation = rotation - getScreenOrientation();
     LOGGER.i("Camera orientation relative to screen canvas: %d", sensorOrientation);
 
-    LOGGER.i("Initializing at size %dx%d", previewWidth, previewHeight);
+ //   LOGGER.i("Initializing at size %dx%d", previewWidth, previewHeight);
     rgbFrameBitmap = Bitmap.createBitmap(previewWidth, previewHeight, Bitmap.Config.ARGB_8888);
     croppedBitmap = Bitmap.createBitmap(cropSize, cropSize, Bitmap.Config.ARGB_8888);
 
