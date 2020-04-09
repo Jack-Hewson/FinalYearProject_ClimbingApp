@@ -55,7 +55,6 @@ public class MultiBoxTracker {
         for (final int colour: COLOURS) {
             availableColours.add(colour);
         }
-
         boxPaint.setColor(Color.RED);
         boxPaint.setStyle(Paint.Style.STROKE);
         boxPaint.setStrokeWidth(10.0f);

@@ -1,19 +1,3 @@
-/*
- * Copyright 2019 The TensorFlow Authors. All Rights Reserved.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *       http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.example.climbingapp;
 
 import android.Manifest;
@@ -21,15 +5,7 @@ import android.Manifest;
 import android.app.Fragment;
 import android.content.Context;
 
-
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Matrix;
-import android.graphics.Paint;
-import android.graphics.RectF;
-import android.graphics.Typeface;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraManager;
@@ -42,10 +18,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
-import android.os.SystemClock;
 import android.os.Trace;
 import android.util.Size;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Surface;
 import android.view.View;
@@ -55,25 +29,14 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SwitchCompat;
-
-import com.example.climbingapp.ui.customview.OverlayView;
-import com.example.climbingapp.ui.env.BorderedText;
 import com.example.climbingapp.ui.env.ImageUtils;
 import com.example.climbingapp.ui.env.Logger;
-import com.example.climbingapp.ui.tflite.Classifier;
-import com.example.climbingapp.ui.tflite.FirebaseObjectDetectionAPIModel;
-import com.example.climbingapp.ui.tracking.MultiBoxTracker;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
-
-import java.io.IOException;
 import java.nio.ByteBuffer;
-import java.util.LinkedList;
-import java.util.List;
 
-public class CameraActivity extends androidx.fragment.app.Fragment
+public abstract class CameraActivity extends androidx.fragment.app.Fragment
     implements OnImageAvailableListener,
         CompoundButton.OnCheckedChangeListener,
         View.OnClickListener {
@@ -102,44 +65,6 @@ public class CameraActivity extends androidx.fragment.app.Fragment
   private ImageView plusImageView, minusImageView;
   private SwitchCompat apiSwitchCompat;
   private TextView threadsTextView;
-
-
-  // Configuration values for the prepackaged SSD model.
-  private static final int TF_OD_API_INPUT_SIZE = 300;
-  private static final boolean TF_OD_API_IS_QUANTIZED = false;
-  private static final String TF_OD_API_MODEL_FILE = "detectClimbing.tflite";
-  private static final String TF_OD_API_LABELS_FILE = "file:///android_asset/labelmap.txt";
-  private static final CameraActivity.DetectorMode MODE = CameraActivity.DetectorMode.TF_OD_API;
-  // Minimum detection confidence to track a detection.
-  private static final float MINIMUM_CONFIDENCE_TF_OD_API = 0.5f;
-  private static final boolean MAINTAIN_ASPECT = false;
-  private static final Size DESIRED_PREVIEW_SIZE = new Size(640, 480);
-  private static final boolean SAVE_PREVIEW_BITMAP = false;
-  private static final float TEXT_SIZE_DIP = 10;
-  OverlayView trackingOverlay;
-  private Integer sensorOrientation;
-
-  private Classifier detector;
-
-  private long lastProcessingTimeMs;
-  private Bitmap rgbFrameBitmap = null;
-  private Bitmap croppedBitmap = null;
-  private Bitmap cropCopyBitmap = null;
-
-  private boolean computingDetection = false;
-
-  private long timestamp = 0;
-
-  private Matrix frameToCropTransform;
-  private Matrix cropToFrameTransform;
-
-  private MultiBoxTracker tracker;
-
-  private BorderedText borderedText;
-
-  private enum DetectorMode {
-    TF_OD_API
-  }
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -508,7 +433,15 @@ public class CameraActivity extends androidx.fragment.app.Fragment
     inferenceTimeTextView.setText(inferenceTime);
   }
 
-  protected void processImage() {
+  protected abstract void processImage();
+
+  protected abstract void onPreviewSizeChosen(final Size size, final int rotation);
+  protected abstract int getLayoutId();
+  protected abstract Size getDesiredPreviewFrameSize();
+  protected abstract void setNumThreads(final int numThreads);
+  protected abstract void setUseNNAPI(final boolean isChecked);
+
+  /**protected void processImage() {
     ++timestamp;
     final long currTimestamp = timestamp;
     trackingOverlay.postInvalidate();
@@ -586,7 +519,8 @@ public class CameraActivity extends androidx.fragment.app.Fragment
               }
             });
   }
-
+   */
+/**
   public void onPreviewSizeChosen(final Size size, final int rotation) {
     final float textSizePx =
             TypedValue.applyDimension(
@@ -648,19 +582,18 @@ public class CameraActivity extends androidx.fragment.app.Fragment
 
     tracker.setFrameConfiguration(previewWidth, previewHeight, sensorOrientation);
   }
-
+*/
+/**
   protected int getLayoutId() {
     return R.layout.tfe_od_camera_connection_fragment_tracking;
   }
+
+ */
+/**
   protected Size getDesiredPreviewFrameSize() {
     return DESIRED_PREVIEW_SIZE;
   }
+ */
 
-  protected void setNumThreads(final int numThreads) {
-    runInBackground(() -> detector.setNumThreads(numThreads));
-  }
 
-  protected void setUseNNAPI(final boolean isChecked) {
-    runInBackground(() -> detector.setUseNNAPI(isChecked));
-  }
 }
