@@ -201,7 +201,7 @@ public class FirebaseObjectDetectionAPIModel implements Classifier {
         } catch (FirebaseMLException e) {
             e.printStackTrace();
         }
-
+        try {
         firebaseInterpreter.run(inputs, inputOutputOptions)
                 .addOnSuccessListener(
                         new OnSuccessListener<FirebaseModelOutputs>() {
@@ -272,6 +272,9 @@ final ArrayList<Recognition> recognitions = new ArrayList<>(NUM_DETECTIONS);
                     e.printStackTrace();
                 }
             }
+        }
+        catch (Exception e){}
+
         return  recognitionsFB;
     }
 

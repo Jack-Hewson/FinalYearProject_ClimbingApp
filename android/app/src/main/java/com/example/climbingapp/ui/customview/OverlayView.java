@@ -20,10 +20,13 @@ import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.example.climbingapp.ui.env.Logger;
+
 import java.util.LinkedList;
 import java.util.List;
 
 public class OverlayView extends View {
+  private static final Logger LOGGER = new Logger();
   private final List<DrawCallback> callbacks = new LinkedList<DrawCallback>();
 
   public OverlayView(final Context context, final AttributeSet attrs) {

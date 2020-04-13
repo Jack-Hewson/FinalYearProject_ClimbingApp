@@ -1384,7 +1384,7 @@ public class GalleryFragment extends Fragment implements View.OnClickListener, A
             new OverlayView.DrawCallback() {
                 @Override
                 public void drawCallback(final Canvas canvas) {
-                    tracker.draw(canvas);
+                    tracker.draw(canvas, getContext(), getView());
                 }
             });
         tracker.setFrameConfiguration(previewWidth, previewHeight, sensorOrientation);

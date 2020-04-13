@@ -16,6 +16,7 @@
 
 package com.example.climbingapp;
 
+import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -25,8 +26,13 @@ import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.media.ImageReader.OnImageAvailableListener;
 import android.os.SystemClock;
+import android.text.Layout;
 import android.util.Size;
 import android.util.TypedValue;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 import java.io.IOException;
 import java.util.LinkedList;
@@ -60,12 +66,14 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
     private static final float MINIMUM_CONFIDENCE_TF_OD_API = 0.6f;
     private static final boolean MAINTAIN_ASPECT = false;
 
-    private static final Size DESIRED_PREVIEW_SIZE = new Size(640, 480);
+    private static final Size DESIRED_PREVIEW_SIZE = new Size(1920, 1080);
 
     private static final boolean SAVE_PREVIEW_BITMAP = false;
     private static final float TEXT_SIZE_DIP = 10;
 
     OverlayView trackingOverlay;
+
+    LinearLayout buttonOverlay;
 
     private Integer sensorOrientation;
 
@@ -85,6 +93,8 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
 
     private MultiBoxTracker tracker;
     private BorderedText borderedText;
+
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onPreviewSizeChosen(final Size size, final int rotation) {
         final float textSizePx =
@@ -141,15 +151,31 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
                 new OverlayView.DrawCallback() {
                     @Override
                     public void drawCallback(final Canvas canvas) {
-                        tracker.draw(canvas);
+                        tracker.draw(canvas, getContext(), getView());
                     }
                 });
+
+        trackingOverlay.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                float x = event.getX();
+                float y = event.getY();
+                if (x < 720 && y < 1520)
+                    LOGGER.i("TOP LEFT TOUCHED");
+                else if (x > 720 && y < 1520)
+                    LOGGER.i("TOP RIGHT TOUCHED");
+
+                return false;
+            }
+        });
 
         tracker.setFrameConfiguration(previewWidth, previewHeight, sensorOrientation);
     }
 
     @Override
     protected void processImage() {
+        buttonOverlay = getView().findViewById(R.id.object_layout);
         ++timestamp;
         final long currTimestamp = timestamp;
         trackingOverlay.postInvalidate();
@@ -177,9 +203,9 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
                 new Runnable() {
                     @Override
                     public void run() {
+
                         final long startTime = SystemClock.uptimeMillis();
                         final List<Classifier.Recognition> results = detector.recognizeImage(croppedBitmap);
-                        LOGGER.i("RESULTS = " + results);
                         lastProcessingTimeMs = SystemClock.uptimeMillis() - startTime;
 
                         cropCopyBitmap = Bitmap.createBitmap(croppedBitmap);
@@ -190,30 +216,22 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
                         paint.setStrokeWidth(2.0f);
 
                         float minimumConfidence = MINIMUM_CONFIDENCE_TF_OD_API;
-                        switch (MODE) {
-                            case TF_OD_API:
-                                minimumConfidence = MINIMUM_CONFIDENCE_TF_OD_API;
-                                break;
-                        }
 
-                        final List<Classifier.Recognition> mappedRecognitions =
-                                new LinkedList<Classifier.Recognition>();
+                        final List<Classifier.Recognition> mappedRecognitions = new LinkedList<Classifier.Recognition>();
+
                         for (final Classifier.Recognition result : results) {
                             final RectF location = result.getLocation();
                             if (location != null && result.getConfidence() >= minimumConfidence) {
                                 canvas.drawRect(location, paint);
-
                                 cropToFrameTransform.mapRect(location);
-
                                 result.setLocation(location);
                                 mappedRecognitions.add(result);
                             }
                         }
-
                         tracker.trackResults(mappedRecognitions, currTimestamp);
                         trackingOverlay.postInvalidate();
-
                         computingDetection = false;
+
                         getActivity().runOnUiThread(
                                 new Runnable() {
                                     @Override
@@ -221,6 +239,18 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
                                         showFrameInfo(previewWidth + "x" + previewHeight);
                                         showCropInfo(cropCopyBitmap.getWidth() + "x" + cropCopyBitmap.getHeight());
                                         showInference(lastProcessingTimeMs + "ms");
+                                        buttonOverlay.removeAllViews();
+                                        for (final Classifier.Recognition result : results) {
+                                            final RectF location = result.getLocation();
+                                            if (location != null && result.getConfidence() >= minimumConfidence) {
+                                                LOGGER.i("Center X = " + location.centerX());
+                                                LOGGER.i("Center Y = " + location.centerY());
+                                                LOGGER.i("LEFT = " + location.left);
+                                                LOGGER.i("RIGHT = " + location.right);
+
+                                            }
+                                        }
+
                                     }
                                 });
                     }

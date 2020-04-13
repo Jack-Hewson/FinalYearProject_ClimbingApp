@@ -68,7 +68,6 @@ public abstract class CameraActivity extends androidx.fragment.app.Fragment
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    LOGGER.d("onCreate " + this);
   //  super.onCreate(null);
     View view = inflater.inflate(R.layout.tfe_od_activity_camera, container, false);
 
@@ -99,7 +98,7 @@ public abstract class CameraActivity extends androidx.fragment.app.Fragment
             } else {
               gestureLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
             }
-            //                int width = bottomSheetLayout.getMeasuredWidth();
+            //int width = bottomSheetLayout.getMeasuredWidth();
             int height = gestureLayout.getMeasuredHeight();
 
             sheetBehavior.setPeekHeight(height);
@@ -184,7 +183,6 @@ public abstract class CameraActivity extends androidx.fragment.app.Fragment
       final int uvPixelStride = planes[1].getPixelStride();
 
      // LOGGER.i("width = " + previewWidth + " height = " + previewHeight);
-
 
       imageConverter =
           new Runnable() {
@@ -352,8 +350,8 @@ public abstract class CameraActivity extends androidx.fragment.app.Fragment
               getLayoutId(),
               getDesiredPreviewFrameSize());
 
-      camera2Fragment.setCamera(cameraId);
-      fragment = camera2Fragment;
+    camera2Fragment.setCamera(cameraId);
+    fragment = camera2Fragment;
 
     getActivity().getFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
 
@@ -436,9 +434,13 @@ public abstract class CameraActivity extends androidx.fragment.app.Fragment
   protected abstract void processImage();
 
   protected abstract void onPreviewSizeChosen(final Size size, final int rotation);
+
   protected abstract int getLayoutId();
+
   protected abstract Size getDesiredPreviewFrameSize();
+
   protected abstract void setNumThreads(final int numThreads);
+
   protected abstract void setUseNNAPI(final boolean isChecked);
 
   /**protected void processImage() {

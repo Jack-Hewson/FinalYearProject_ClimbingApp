@@ -36,18 +36,25 @@
         android:orientation="vertical">
 
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
+        <FrameLayout
+            android:id="@+id/container"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:layout_alignParentTop="true"
-            android:background="@color/tfe_semi_transparent">
+            android:layout_height="match_parent"
+            tools:context="org.tensorflow.demo.CameraActivity" >
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/tfl2_logo" />
-        </androidx.appcompat.widget.Toolbar>
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/tfe_semi_transparent">
+
+               <!-- <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/tfl2_logo" />
+                    -->
+            </androidx.appcompat.widget.Toolbar>
+        </FrameLayout>
 
     </RelativeLayout>
 
@@ -55,11 +62,6 @@
         android:id="@+id/bottom_sheet_layout"
         layout="@layout/tfe_od_layout_bottom_sheet" />
 
-    <FrameLayout
-        android:id="@+id/container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_anchor="@+id/relativeLayout"
-        app:layout_anchorGravity="center" />
-
+    <include
+        layout="@layout/object_button_layout" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

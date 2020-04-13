@@ -1,5 +1,6 @@
 package com.example.climbingapp.ui.tracking;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -9,7 +10,12 @@ import android.graphics.RectF;
 import android.text.TextUtils;
 import android.util.Pair;
 import android.util.TypedValue;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
 
+import com.example.climbingapp.R;
 import com.example.climbingapp.ui.env.BorderedText;
 import com.example.climbingapp.ui.env.ImageUtils;
 import com.example.climbingapp.ui.env.Logger;
@@ -39,6 +45,7 @@ public class MultiBoxTracker {
             Color.parseColor("#AA33AA"),
             Color.parseColor("#0D0068")
     };
+    private static final Logger LOGGER = new Logger();
     final List<Pair<Float, RectF>> screenRects = new LinkedList<Pair<Float, RectF>>();
     private final Logger logger = new Logger();
     private final Queue<Integer> availableColours = new LinkedList<Integer>();
@@ -50,7 +57,9 @@ public class MultiBoxTracker {
     private int frameWidth;
     private int frameHeight;
     private int sensorOrientation;
+    LinearLayout buttonOverlay;
 
+    @SuppressLint("ClickableViewAccessibility")
     public MultiBoxTracker(final Context context) {
         for (final int colour: COLOURS) {
             availableColours.add(colour);
@@ -101,7 +110,9 @@ public class MultiBoxTracker {
         return frameToCanvasMatrix;
     }
 
-    public synchronized void draw(final Canvas canvas) {
+    @SuppressLint("ClickableViewAccessibility")
+    public synchronized void draw(final Canvas canvas, Context context, View view) {
+        buttonOverlay = view.findViewById(R.id.object_layout);
         final boolean rotated = sensorOrientation % 180 == 90;
         final float multiplier = Math.min(
                 canvas.getHeight() / (float) (rotated ? frameWidth : frameHeight),
@@ -114,9 +125,10 @@ public class MultiBoxTracker {
                 false);
         for (final TrackedRecognition recognition : trackedObjects) {
             final RectF trackedPos = new RectF(recognition.location);
-
+            LOGGER.i("trackedpos OG" + trackedPos);
             getFrameToCanvasMatrix().mapRect(trackedPos);
             boxPaint.setColor(recognition.colour);
+            LOGGER.i("trackedpos After" + trackedPos);
 
             float cornerSize = Math.min(trackedPos.width(), trackedPos.height()) / 8.0f;
             canvas.drawRoundRect(trackedPos, cornerSize, cornerSize, boxPaint);
@@ -127,6 +139,17 @@ public class MultiBoxTracker {
 
             borderedText.drawText(canvas, trackedPos.left + cornerSize, trackedPos.top,
                     labelString + "%", boxPaint);
+
+            Button myButton = new Button(context);
+            //myButton.setX(location.centerY());
+            // myButton.setY(location.centerX());
+
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            lp.height = (int)trackedPos.height();
+            lp.width = (int)trackedPos.height();
+            lp.setMargins((int)trackedPos.left, (int)trackedPos.top, (int)trackedPos.right, (int)trackedPos.bottom);
+            myButton.setLayoutParams(lp);
+            buttonOverlay.addView(myButton, lp);
         }
     }
 
@@ -145,13 +168,13 @@ public class MultiBoxTracker {
             final RectF detectionScreenRect = new RectF();
             rgbFrameToScreen.mapRect(detectionScreenRect, detectionFrameRect);
 
-            logger.v(
+            LOGGER.v(
                     "Result! Frame: " + result.getLocation() + " mapped to screen:" + detectionScreenRect);
 
             screenRects.add(new Pair<Float, RectF>(result.getConfidence(), detectionScreenRect));
 
             if (detectionFrameRect.width() < MIN_SIZE || detectionFrameRect.height() < MIN_SIZE) {
-                logger.w("Degenerate rectangle! " + detectionFrameRect);
+                LOGGER.w("Degenerate rectangle! " + detectionFrameRect);
                 continue;
             }
 
