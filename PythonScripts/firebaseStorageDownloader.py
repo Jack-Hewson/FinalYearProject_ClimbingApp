@@ -1,6 +1,16 @@
 import pyrebase
 import random
+import sys
+sys.path.append("C:/Users/jacks/OneDrive - University of Plymouth/_Fourth Year/PRCO304/tensorflow1/models/research/slim")
+sys.path.append("C:/Users/jacks/OneDrive - University of Plymouth/_Fourth Year/PRCO304/tensorflow1/models/research")
+print (sys.path)
 from object_detection import xml_to_csv
+from object_detection import train
+
+print(train.__file__)
+
+
+  
 
 config = {
    "apiKey": "AIzaSyD-Pj8Jqgnip2goZCDq0X-3ETslPJzGPFE",
@@ -32,24 +42,24 @@ random.shuffle(imagesList)
 testingQntImage = testingQntXML = int(len(xmlList) * 0.2)
 trainingQntImage = trainingQntXML = len(xmlList) - testingQntXML
 
-for xml in xmlList:
-   if (testingQntXML > 0):
-      print("Downloading XML file '" + xml + "' for testing")
-      storage.child(xml).download("images/test/" + xml.split("/")[1])
-      testingQntXML = testingQntXML - 1
-   else:
-      print("Downloading XML file '" + xml + "' for training")
-      storage.child(xml).download("images/train/"+ xml.split("/")[1])
-      trainingQntXML = trainingQntXML - 1
-
-for image in imagesList:
-   if (testingQntImage > 0):
-      print("Downloading image file '" + image + "' for testing")
-      storage.child(image).download("images/test/" + image.split("/")[1])
-      testingQntImage = testingQntImage - 1
-   else:
-      print("Downloading image file '" + image + "' for training")
-      storage.child(image).download("images/train/" + image.split("/")[1])
-      trainingQntImage = trainingQntImage - 1
-
-xml_to_csv.main()
+#for xml in xmlList:
+#   if (testingQntXML > 0):
+#      print("Downloading XML file '" + xml + "' for testing")
+#      storage.child(xml).download("images/test/" + xml.split("/")[1])
+#      testingQntXML = testingQntXML - 1
+#   else:
+#      print("Downloading XML file '" + xml + "' for training")
+#      storage.child(xml).download("images/train/"+ xml.split("/")[1])
+#      trainingQntXML = trainingQntXML - 1
+#
+#for image in imagesList:
+#   if (testingQntImage > 0):
+#      print("Downloading image file '" + image + "' for testing")
+#      storage.child(image).download("images/test/" + image.split("/")[1])
+#      testingQntImage = testingQntImage - 1
+#   else:
+#      print("Downloading image file '" + image + "' for training")
+#      storage.child(image).download("images/train/" + image.split("/")[1])
+#      trainingQntImage = trainingQntImage - 1
+#
+#xml_to_csv.main()
