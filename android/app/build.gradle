@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'de.undercouch.download'
 
 android {
     compileSdkVersion 29
@@ -30,6 +32,17 @@ android {
     }
 }
 
+// import DownloadModels task
+//project.ext.ASSET_DIR = projectDir.toString() + '/src/main/assets'
+//project.ext.TMP_DIR   = project.buildDir.toString() + '/downloads'
+
+// Download default models; if you wish to use your own models then
+// place them in the "assets" directory and comment out this line.
+//apply from: "download_model.gradle"
+
+//apply from:'download_model.gradle'
+
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.1.0'
@@ -45,4 +58,7 @@ dependencies {
     implementation 'androidx.coordinatorlayout:coordinatorlayout:1.0.0'
     implementation 'org.tensorflow:tensorflow-lite:0.0.0-nightly'
     implementation 'androidx.navigation:navigation-runtime:2.2.1'
+    implementation 'com.google.firebase:firebase-analytics:17.2.2'
+    implementation 'com.google.firebase:firebase-auth:19.3.0'
+    implementation 'com.google.firebase:firebase-ml-model-interpreter:22.0.1'
 }
