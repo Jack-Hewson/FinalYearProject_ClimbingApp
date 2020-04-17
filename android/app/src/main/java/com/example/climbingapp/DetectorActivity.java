@@ -240,7 +240,7 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
                                         showCropInfo(cropCopyBitmap.getWidth() + "x" + cropCopyBitmap.getHeight());
                                         showInference(lastProcessingTimeMs + "ms");
                                         buttonOverlay.removeAllViews();
-                                        for (final Classifier.Recognition result : results) {
+                                        /**for (final Classifier.Recognition result : results) {
                                             final RectF location = result.getLocation();
                                             if (location != null && result.getConfidence() >= minimumConfidence) {
                                                 LOGGER.i("Center X = " + location.centerX());
@@ -249,7 +249,7 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
                                                 LOGGER.i("RIGHT = " + location.right);
 
                                             }
-                                        }
+                                        }*/
 
                                     }
                                 });

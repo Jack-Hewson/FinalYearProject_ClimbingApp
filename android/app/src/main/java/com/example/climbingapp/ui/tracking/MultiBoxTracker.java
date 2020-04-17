@@ -45,6 +45,7 @@ public class MultiBoxTracker {
             Color.parseColor("#AA33AA"),
             Color.parseColor("#0D0068")
     };
+
     private static final Logger LOGGER = new Logger();
     final List<Pair<Float, RectF>> screenRects = new LinkedList<Pair<Float, RectF>>();
     private final Logger logger = new Logger();
@@ -141,15 +142,18 @@ public class MultiBoxTracker {
                     labelString + "%", boxPaint);
 
             Button myButton = new Button(context);
-            //myButton.setX(location.centerY());
-            // myButton.setY(location.centerX());
-
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             lp.height = (int)trackedPos.height();
             lp.width = (int)trackedPos.height();
             lp.setMargins((int)trackedPos.left, (int)trackedPos.top, (int)trackedPos.right, (int)trackedPos.bottom);
             myButton.setLayoutParams(lp);
             buttonOverlay.addView(myButton, lp);
+            myButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    LOGGER.i(recognition.title +  " BUTTON SELECTED");
+                }
+            });
         }
     }
 
