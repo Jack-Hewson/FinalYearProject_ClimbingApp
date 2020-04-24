@@ -1,6 +1,9 @@
 package com.example.climbingapp;
 
 import android.content.Context;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Environment;
 
 import com.example.climbingapp.ui.ImageObject;
 import com.example.climbingapp.ui.env.Logger;
@@ -12,13 +15,39 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URI;
 import java.nio.charset.StandardCharsets;
 
 public class FileProcessor {
     private static final Logger LOGGER = new Logger();
 
-    public String createFile(Context context) {
+    public File createFolder(Context context, String foldername) {
+        File file = new File(context.getFilesDir(), foldername);
+        if (!file.exists()) {
+            file.mkdir();
+        }
+        return file;
+    }
+
+    public File createFile(Context context, File foldername, String filename) {
+        File file = new File(foldername + "/" + filename);
+        LOGGER.i("Creating File " + file.getAbsolutePath());
+        if (!file.exists()) {
+            try {
+                file.createNewFile();
+                LOGGER.i("File created");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            LOGGER.i("File already exists");
+        }
+        return file;
+    }
+
+    public String createXMLFile(Context context, ImageObject imageObject, String filename) {
         /** String fileName = "Hello_file";
          String string = "jello world";
          FileOutputStream fos = getContext().openFileOutput(fileName, Context.MODE_PRIVATE);
@@ -26,12 +55,14 @@ public class FileProcessor {
          fos.close();
          */
 
-        ImageObject imageObject = new ImageObject("TestFilename", 100, 200, 300);
+        //ImageObject imageObject = new ImageObject("TestFilename", 100, 200, 300);
         ImageObject.Holds hold = imageObject.new Holds("HOLD1", 10, 20, 30, 40);
 
+        String foldername = "xml";
+        String filelocation = foldername + "/" + filename;
         String folder = "test";
         String imgFilename = imageObject.getFilename();
-        String pcFilePath = "C:\\Users\\jacks\\OneDrive - University of Plymouth";
+        String pcFilePath = "C:\\Users\\jacks\\OneDrive - University of Plymouth\\" + filelocation;
         String imgWidth = String.valueOf(imageObject.getImgWidth());
         String imgHeight = String.valueOf(imageObject.getImgHeight());
         String imgDepth = String.valueOf(imageObject.getImgDepth());
@@ -41,14 +72,8 @@ public class FileProcessor {
         String holdXMax = String.valueOf(hold.getHoldXMax());
         String holdYMax = String.valueOf(hold.getHoldYMax());
 
-        String filename = "sample.xml";
-        String foldername = "forFirebase";
-        String filelocation = foldername + "/" + filename;
+        File file = createFolder(context, foldername);
 
-        File file = new File(context.getFilesDir(), foldername);
-        if (!file.exists()) {
-            file.mkdir();
-        }
         try {
             File gpxfile = new File(file, filename);
             FileWriter writer = new FileWriter(gpxfile);
@@ -138,5 +163,48 @@ public class FileProcessor {
             LOGGER.i("FILE CONTENTS = " + contents);
         }
         return fis;
+    }
+
+    public int[] getMaxImageSize(int inHeight, int inWidth) {
+        int outHeight;
+        int outWidth;
+        int maxSize = 1100;
+
+        if (inWidth > inHeight) {
+            outWidth = maxSize;
+            outHeight = (inHeight * maxSize) / inWidth;
+        } else {
+            outHeight = maxSize;
+            outWidth = (inWidth * maxSize) / inHeight;
+        }
+        return new int[] {outHeight, outWidth};
+    }
+
+    public String getLocalModel(){
+        String dirPath = "/data/user/0/com.example.climbingapp/files/fireBaseModels/";
+        File dir = new File(dirPath);
+        String[] files = dir.list();
+
+        for (String aFile: files) {
+            LOGGER.i("afile " + aFile);
+        }
+
+        String modelVersion = files[0].split("\\.")[0];
+
+        return modelVersion;
+    }
+
+    public void deleteOldModel(String file) {
+        String dirPath = "/data/user/0/com.example.climbingapp/files/fireBaseModels/" + file + ".tflite";
+        File old = new File(dirPath);
+
+        LOGGER.i("Deleting old model " + dirPath);
+        try {
+            old.delete();
+            LOGGER.i("Old model successfully deleted");
+        } catch (Exception e) {
+            LOGGER.i("ERROR: Cannot delete old model " + dirPath);
+        }
+
     }
 }

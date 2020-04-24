@@ -6,12 +6,12 @@ public class ImageObject {
     private int imgHeight;
     private int imgDepth;
 
-    public ImageObject(String filename, int imgWidth, int imgHeight, int imgDepth) {
+    /**public ImageObject(String filename, int imgWidth, int imgHeight, int imgDepth) {
         this.filename = filename;
         this.imgWidth = imgWidth;
         this.imgHeight = imgHeight;
         this.imgDepth = imgDepth;
-    }
+    }*/
 
     public class Holds {
         private String holdName;
@@ -63,5 +63,21 @@ public class ImageObject {
 
     public int getImgDepth(){
         return imgDepth;
+    }
+
+    public void setFilename(String filename){
+        this.filename = filename;
+    }
+
+    public void setImgWidth(int imgWidth) {
+        this.imgWidth = imgWidth;
+    }
+
+    public void setImgHeight(int imgHeight){
+        this.imgHeight = imgHeight;
+    }
+
+    public void setImgDepth(int imgDepth){
+        this.imgDepth = imgDepth;
     }
 }

@@ -10,4 +10,8 @@
     <color name="tfe_color_accent">#425066</color>
 
     <color name="tfe_semi_transparent">#66000000</color>
+
+    <color name="transparent">#06000000</color>
+    <color name="transparent_50">#7FFF0000</color>
+    <color name="turq">#40E0D0</color>
 </resources>

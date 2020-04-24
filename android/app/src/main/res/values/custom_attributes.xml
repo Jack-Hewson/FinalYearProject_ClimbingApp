@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="IconCropView">
+        <attr name="minimumSide" format="dimension"/>
+        <attr name="resizeCornerDrawable" format="reference"/>
+        <attr name="moveCornerDrawable" format="reference"/>
+        <attr name="cornerColor" format="color"/>
+        <attr name="edgeColor" format="color" />
+        <attr name="outsideCropColor" format="color" />
+        <attr name="crop_cornerSize" format="dimension" />
+    </declare-styleable>
+</resources>

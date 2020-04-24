@@ -1,4 +1,4 @@
-package com.example.climbingapp.ui.tflite;
+package com.example.climbingapp.ui.Firebase;
 
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;
@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
-import com.google.android.gms.tasks.Continuation;
+import com.example.climbingapp.ui.tflite.Classifier;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;

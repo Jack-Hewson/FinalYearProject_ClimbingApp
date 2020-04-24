@@ -26,12 +26,10 @@ import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.media.ImageReader.OnImageAvailableListener;
 import android.os.SystemClock;
-import android.text.Layout;
 import android.util.Size;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 import java.io.IOException;
@@ -43,7 +41,8 @@ import com.example.climbingapp.ui.env.BorderedText;
 import com.example.climbingapp.ui.env.ImageUtils;
 import com.example.climbingapp.ui.env.Logger;
 import com.example.climbingapp.ui.tflite.Classifier;
-import com.example.climbingapp.ui.tflite.FirebaseObjectDetectionAPIModel;
+import com.example.climbingapp.ui.Firebase.FirebaseObjectDetectionAPIModel;
+import com.example.climbingapp.ui.tflite.TFLiteObjectDetectionAPIModel;
 import com.example.climbingapp.ui.tracking.MultiBoxTracker;
 
 /**
@@ -55,7 +54,7 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
     private static final boolean TF_OD_API_IS_QUANTIZED = false;
 
     private static final int TF_OD_API_INPUT_SIZE = 300;
-    private static final String TF_OD_API_MODEL_FILE = "detectClimbing.tflite";
+    private static final String TF_OD_API_MODEL_FILE = "detectClimb.tflite";
     private static final String TF_OD_API_LABELS_FILE = "file:///android_asset/labelmap.txt";
     private enum DetectorMode {
         TF_OD_API
@@ -109,13 +108,21 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
 
         try {
             detector =
-                    FirebaseObjectDetectionAPIModel.create(
+                   /** FirebaseObjectDetectionAPIModel.create(
                             getActivity().getAssets(),
                             TF_OD_API_MODEL_FILE,
                             TF_OD_API_LABELS_FILE,
                             TF_OD_API_INPUT_SIZE,
                             TF_OD_API_IS_QUANTIZED,
                             getActivity().getApplicationContext());
+                    */
+                    TFLiteObjectDetectionAPIModel.create(
+                            getActivity().getAssets(),
+                            getContext(),
+                            TF_OD_API_MODEL_FILE,
+                            TF_OD_API_LABELS_FILE,
+                            TF_OD_API_INPUT_SIZE,
+                            TF_OD_API_IS_QUANTIZED);
             cropSize = TF_OD_API_INPUT_SIZE;
         } catch (final IOException e) {
             e.printStackTrace();
@@ -203,7 +210,6 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
                 new Runnable() {
                     @Override
                     public void run() {
-
                         final long startTime = SystemClock.uptimeMillis();
                         final List<Classifier.Recognition> results = detector.recognizeImage(croppedBitmap);
                         lastProcessingTimeMs = SystemClock.uptimeMillis() - startTime;

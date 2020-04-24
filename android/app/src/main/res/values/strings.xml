@@ -3,11 +3,12 @@
     <string name="request_permission">This app needs camera permission.</string>
     <string name="camera_error">This device doesn\'t support Camera2 API.</string>
 
-    <string name="app_name">ClimbingApp</string>
+    <string name="app_name">Bouldr</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_title">Bouldr</string>
+    <string name="nav_header_subtitle">Model Version: </string>
+    <string name="nav_head_model_version">0</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 

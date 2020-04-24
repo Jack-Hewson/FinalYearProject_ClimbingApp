@@ -64,7 +64,7 @@ import com.example.climbingapp.ui.env.BorderedText;
 import com.example.climbingapp.ui.env.ImageUtils;
 import com.example.climbingapp.ui.env.Logger;
 import com.example.climbingapp.ui.tflite.Classifier;
-import com.example.climbingapp.ui.tflite.FirebaseObjectDetectionAPIModel;
+import com.example.climbingapp.ui.Firebase.FirebaseObjectDetectionAPIModel;
 import com.example.climbingapp.ui.tracking.MultiBoxTracker;
 
 import java.io.File;

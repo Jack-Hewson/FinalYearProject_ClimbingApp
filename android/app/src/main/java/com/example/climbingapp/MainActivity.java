@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.media.ImageReader;
 import android.os.Bundle;
 
+import com.example.climbingapp.ui.Firebase.FirebaseAPI;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -25,10 +26,13 @@ import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 
 import android.media.ImageReader.OnImageAvailableListener;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
+    FileProcessor fileProcessor = new FileProcessor();
+    FirebaseAPI firebaseAPI = new FirebaseAPI();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +67,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
+        TextView modelVersion = findViewById(R.id.model_version);
+        String modelVal = fileProcessor.getLocalModel();
+        //firebaseAPI.downloadModel(getBaseContext());
+        modelVersion.setText(modelVal);
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }

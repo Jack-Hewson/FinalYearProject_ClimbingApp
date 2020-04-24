@@ -4,36 +4,66 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-        <!--Linear Layout with horizontal orientation
-            and other properties-->
-        <LinearLayout
-            android:id="@+id/layout_button"
-            android:orientation="horizontal"
-            android:layout_alignParentTop="true"
-            android:weightSum="2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+    <!--Linear Layout with horizontal orientation
+        and other properties-->
+    <LinearLayout
+        android:id="@+id/layout_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:orientation="horizontal"
+        android:weightSum="2">
 
-            <!--Button for choosing image from gallery-->
-            <Button
-                android:id="@+id/btnChoose"
-                android:text="Choose"
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content" />
+        <!--Button for choosing image from gallery-->
+        <Button
+            android:id="@+id/btnChoose"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Choose" />
 
-            <!--Button for uploading image-->
-            <Button
-                android:id="@+id/btnUpload"
-                android:text="Upload"
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
+        <!--Button for uploading image-->
+        <Button
+            android:id="@+id/btnUpload"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Upload" />
+    </LinearLayout>
 
-        <!--Image View for showing image choosen from gallery-->
-        <ImageView
-            android:id="@+id/imgView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+    <!--Image View for showing image choosen from gallery-->
+    <ImageView
+        android:id="@+id/imgView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <ImageView
+        android:id="@+id/crop_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"/>
+
+    <com.example.climbingapp.ui.IconCropView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/transparent"
+        app:cornerColor="@color/turq"
+        app:crop_cornerSize="30dp"
+        app:edgeColor="@color/colorPrimary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:minimumSide="50dp"
+        app:moveCornerDrawable="@drawable/move_box_circle"
+        app:outsideCropColor="@color/transparent_50"
+        app:resizeCornerDrawable="@drawable/adjust_edge_circle" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
