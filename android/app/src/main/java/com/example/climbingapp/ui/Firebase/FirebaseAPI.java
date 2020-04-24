@@ -3,6 +3,7 @@ package com.example.climbingapp.ui.Firebase;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -190,7 +191,7 @@ public class FirebaseAPI {
         }
     }
 
-    public void downloadModel(Context context) {
+    public void downloadModel(Context context, ProgressBar progressBar) {
         Toast.makeText(context, "Downloading model from the cloud", Toast.LENGTH_SHORT).show();
         File folder = fileProcessor.createFolder(context, "fireBaseModels");
         getLatestCloudModel(new FirebaseCallback() {
@@ -204,8 +205,7 @@ public class FirebaseAPI {
                             public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                                 Toast.makeText(context, "Download successful", Toast.LENGTH_SHORT).show();
                                 LOGGER.i("Downloaded latest model");
-                                String oldModel = fileProcessor.getLocalModel();
-                                fileProcessor.deleteOldModel(oldModel);
+                                fileProcessor.deleteOldModel(latestFilename);
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
@@ -220,7 +220,7 @@ public class FirebaseAPI {
                             public void onProgress(@NonNull FileDownloadTask.TaskSnapshot taskSnapshot) {
                                 double progress = (100.0 * taskSnapshot.getBytesTransferred()
                                         / taskSnapshot.getTotalByteCount());
-                                Toast.makeText(context, "Downloading... " + (int) progress + "%", Toast.LENGTH_SHORT);
+                                progressBar.setProgress((int) progress);
                                 LOGGER.i("Downloading... " + (int) progress + "%");
                             }
                         });

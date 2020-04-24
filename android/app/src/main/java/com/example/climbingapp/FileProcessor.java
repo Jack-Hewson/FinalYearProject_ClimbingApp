@@ -177,34 +177,45 @@ public class FileProcessor {
             outHeight = maxSize;
             outWidth = (inWidth * maxSize) / inHeight;
         }
-        return new int[] {outHeight, outWidth};
+        return new int[]{outHeight, outWidth};
     }
 
-    public String getLocalModel(){
+    public String getLocalModel() {
         String dirPath = "/data/user/0/com.example.climbingapp/files/fireBaseModels/";
         File dir = new File(dirPath);
-        String[] files = dir.list();
 
-        for (String aFile: files) {
-            LOGGER.i("afile " + aFile);
+        try {
+            String[] files = dir.list();
+
+            for (String aFile : files) {
+                LOGGER.i("afile " + aFile);
+            }
+            return files[0].split("\\.")[0];
+        } catch (Exception e) {
+            return "1";
         }
-
-        String modelVersion = files[0].split("\\.")[0];
-
-        return modelVersion;
     }
 
-    public void deleteOldModel(String file) {
-        String dirPath = "/data/user/0/com.example.climbingapp/files/fireBaseModels/" + file + ".tflite";
-        File old = new File(dirPath);
+    public void deleteOldModel(String lastestModel) {
+        String oldModel = getLocalModel();
 
-        LOGGER.i("Deleting old model " + dirPath);
-        try {
-            old.delete();
-            LOGGER.i("Old model successfully deleted");
-        } catch (Exception e) {
-            LOGGER.i("ERROR: Cannot delete old model " + dirPath);
+        LOGGER.i("latestModel = " + lastestModel.split("\\.")[0]);
+        LOGGER.i("oldModel = " + oldModel);
+
+        if (Integer.parseInt(lastestModel.split("\\.")[0]) != Integer.parseInt(oldModel)) {
+            LOGGER.i("model can be deleted");
+            String dirPath = "/data/user/0/com.example.climbingapp/files/fireBaseModels/" + oldModel + ".tflite";
+            File old = new File(dirPath);
+
+            LOGGER.i("Deleting old model " + dirPath);
+            try {
+                old.delete();
+                LOGGER.i("Old model successfully deleted");
+            } catch (Exception e) {
+                LOGGER.i("ERROR: Cannot delete old model " + dirPath);
+            }
+        } else {
+            LOGGER.i("model can not be deleted");
         }
-
     }
 }

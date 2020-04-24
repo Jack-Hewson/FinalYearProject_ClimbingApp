@@ -2,10 +2,15 @@ package com.example.climbingapp.ui.home;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewStub;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -22,37 +27,55 @@ public class HomeFragment extends Fragment {
     private Button btnDownload;
     FirebaseAPI firebaseAPI = new FirebaseAPI();
     FileProcessor fileProcessor = new FileProcessor();
+    ProgressBar progressBar;
 
-    public View onCreateView(@NonNull LayoutInflater inflater,ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        btnDownload = view.findViewById(R.id.downloadYes);
 
         String localModel = fileProcessor.getLocalModel();
 
+        if (localModel == null) {
+            localModel = "1";
+        }
+
+
+        String finalLocalModel = localModel;
         firebaseAPI.getLatestCloudModel(new FirebaseAPI.FirebaseCallback() {
             @Override
             public void onFirebaseCallback(StorageReference value) {
                 String latestFilename = value.toString().split("/")[4];
                 String modelVersion = latestFilename.split("\\.")[0];
                 LOGGER.i("Comparing local and cloud model");
-                LOGGER.i("Local model = " + localModel);
+                LOGGER.i("Local model = " + finalLocalModel);
                 LOGGER.i("cloud model = " + modelVersion);
-                if (Integer.parseInt(localModel) < Integer.parseInt(modelVersion)){
+                if (Integer.parseInt(finalLocalModel) < Integer.parseInt(modelVersion)) {
                     LOGGER.i("Cloud version is newer");
+                    LinearLayout linearLayout = (LinearLayout) View
+                            .inflate(getContext(), R.layout.model_download, null);
+
+                    ViewStub stub = view.findViewById(R.id.modelStub);
+                    stub.inflate();
+                    progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+
+                    btnDownload = view.findViewById(R.id.downloadYes);
+
+                    btnDownload.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            firebaseAPI.downloadModel(getContext(), progressBar);
+                        }
+                    });
+
+                    TextView lblCurrent = view.findViewById(R.id.lblCurrentModel);
+                    TextView lblCloud = view.findViewById(R.id.lblCloudModel);
+                    lblCurrent.setText(finalLocalModel);
+                    lblCloud.setText(modelVersion);
                 } else {
                     LOGGER.i("Local version is the newest");
                 }
             }
         });
-
-        btnDownload.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                firebaseAPI.downloadModel(getContext());
-            }
-        });
-
 
         return view;
     }

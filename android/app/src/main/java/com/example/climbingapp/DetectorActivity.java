@@ -118,7 +118,6 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
                     */
                     TFLiteObjectDetectionAPIModel.create(
                             getActivity().getAssets(),
-                            getContext(),
                             TF_OD_API_MODEL_FILE,
                             TF_OD_API_LABELS_FILE,
                             TF_OD_API_INPUT_SIZE,

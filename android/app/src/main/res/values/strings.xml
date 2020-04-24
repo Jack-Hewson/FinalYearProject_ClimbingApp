@@ -21,4 +21,8 @@
 
     <string name="tfe_od_camera_error" translation_description="Error regarding camera support[CHAR_LIMIT=40]">This device doesn\'t support Camera2 API.</string>
     <string name="picture">Picture</string>
+
+    <string name="modelAvailable">There is a new model available to download</string>
+    <string name="modelLocal">Current version: </string>
+    <string name="modelCloud">Model Available: </string>
 </resources>

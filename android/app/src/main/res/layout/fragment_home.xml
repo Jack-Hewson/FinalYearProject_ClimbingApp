@@ -12,17 +12,28 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
+        android:text="WELCOME TO THE HOME FRAGMENT"
         android:textAlignment="center"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+<!--
+    <include
+        android:id="@+id/model_download"
+        layout="@layout/model_download"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/text_home"
+        tools:layout_editor_absoluteX="14dp" />
+        -->
+    <ViewStub
+        android:id="@+id/modelStub"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inflatedId="@+id/inflateview"
+        app:layout_constraintTop_toBottomOf="@+id/text_home"
+        android:layout="@layout/model_download"
+        tools:layout_editor_absoluteX="14dp"/>
 
-    <Button
-        android:id="@+id/downloadYes"
-        android:layout_width="374dp"
-        android:layout_height="43dp"
-        android:text="Download Latest Model"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="35dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

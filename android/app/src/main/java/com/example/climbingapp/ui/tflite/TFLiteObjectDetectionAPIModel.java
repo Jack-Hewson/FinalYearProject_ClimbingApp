@@ -84,8 +84,10 @@ public class TFLiteObjectDetectionAPIModel implements Classifier {
 
   private TFLiteObjectDetectionAPIModel() {}
 
+
+
   /** Memory-map the model file in Assets. */
-  private static MappedByteBuffer loadModelFile(File file, String modelFilename)
+  private static MappedByteBuffer loadModelFile(File file)
       throws IOException {
     LOGGER.i("Loading downloaded model from Firebase");
     FileInputStream inputStream = new FileInputStream(file);
@@ -116,7 +118,6 @@ public class TFLiteObjectDetectionAPIModel implements Classifier {
    */
   public static Classifier create(
       final AssetManager assetManager,
-      final Context context,
       final String modelFilename,
       final String labelFilename,
       final int inputSize,
@@ -125,7 +126,6 @@ public class TFLiteObjectDetectionAPIModel implements Classifier {
     final TFLiteObjectDetectionAPIModel d = new TFLiteObjectDetectionAPIModel();
 
     FirebaseAPI firebaseAPI = new FirebaseAPI();
-    //File downloadedModel = firebaseAPI.downloadModel(context);
     FileProcessor fileProcessor = new FileProcessor();
 
     InputStream labelsInput = null;
@@ -150,13 +150,16 @@ public class TFLiteObjectDetectionAPIModel implements Classifier {
 
     //modelFilename = "data/user/0/com.example.climbingapp/files/fireBaseModels/detectClimb2.tflite";
 
-    File file = new File("/data/user/0/com.example.climbingapp/files/fireBaseModels/detectClimb2.tflite");
-
+    String localModel = fileProcessor.getLocalModel();
 
     try {
-      if(file.exists()){
-        d.tfLite = new Interpreter(loadModelFile(file, modelFilename));
+      if(localModel != "1"){
+        LOGGER.i("FILE DOES EXIST");
+        String dirPath = "/data/user/0/com.example.climbingapp/files/fireBaseModels/" + localModel + ".tflite";
+        File file = new File(dirPath);
+        d.tfLite = new Interpreter(loadModelFile(file));
       } else {
+        LOGGER.i("FILE DOES not EXIST");
         d.tfLite = new Interpreter(loadModelFile(assetManager, modelFilename));
       }
 

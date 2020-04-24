@@ -247,7 +247,6 @@ public abstract class CameraActivity extends androidx.fragment.app.Fragment
     } catch (final InterruptedException e) {
       LOGGER.e(e, "Exception!");
     }
-
     super.onPause();
   }
 
