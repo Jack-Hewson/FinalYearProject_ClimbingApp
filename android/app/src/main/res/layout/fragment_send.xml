@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
 
     <!--Linear Layout with horizontal orientation
         and other properties-->
@@ -32,38 +34,58 @@
     </LinearLayout>
 
     <!--Image View for showing image choosen from gallery-->
-    <ImageView
-        android:id="@+id/imgView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layout_button">
 
+        <ImageView
+            android:id="@+id/imgView"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:scaleType="center"/>
+        <!--
     <ImageView
         android:id="@+id/crop_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"/>
+        app:layout_constraintVertical_bias="0.0" />
 
     <com.example.climbingapp.ui.IconCropView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/transparent"
-        app:cornerColor="@color/turq"
-        app:crop_cornerSize="30dp"
-        app:edgeColor="@color/colorPrimary"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:minimumSide="50dp"
-        app:moveCornerDrawable="@drawable/move_box_circle"
-        app:outsideCropColor="@color/transparent_50"
-        app:resizeCornerDrawable="@drawable/adjust_edge_circle" />
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+         android:background="@color/transparent"
+         app:cornerColor="@color/turq"
+         app:crop_cornerSize="30dp"
+         app:edgeColor="@color/colorPrimary"
+         app:layout_constraintStart_toStartOf="parent"
+         app:layout_constraintTop_toTopOf="parent"
+         app:minimumSide="50dp"
+         app:moveCornerDrawable="@drawable/move_box_circle"
+         app:outsideCropColor="@color/transparent_50"
+         app:resizeCornerDrawable="@drawable/adjust_edge_circle" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+     <com.example.climbingapp.ui.DrawView
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"/>
+
+     <include
+         android:layout_width="fill_parent"
+         android:layout_height="wrap_content"
+         layout="@layout/resizable_rectangle"/>-->
+
+        <ViewStub
+            android:id="@+id/boxStub"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inflatedId="@+id/inflateBox"
+            android:layout="@layout/resizable_rectangle" />
+    </RelativeLayout>
+</RelativeLayout>

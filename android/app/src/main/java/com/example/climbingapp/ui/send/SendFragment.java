@@ -4,6 +4,7 @@ import android.app.ActionBar;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -17,6 +18,7 @@ import android.util.Xml;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewStub;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -30,6 +32,8 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.climbingapp.FileProcessor;
 import com.example.climbingapp.MainActivity;
+import com.example.climbingapp.ui.ColorBall;
+import com.example.climbingapp.ui.DrawView;
 import com.example.climbingapp.ui.Firebase.FirebaseAPI;
 
 import com.example.climbingapp.R;
@@ -54,6 +58,8 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 import java.util.UUID;
 
@@ -71,8 +77,9 @@ public class SendFragment extends Fragment {
     //private SendViewModel sendViewModel;
     private FirebaseAPI firebaseAPI = new FirebaseAPI();
     private FileProcessor fileProcessor = new FileProcessor();
-    ImageObject imageObject = new ImageObject();
+    ImageObject imageObject = ImageObject.getInstance();
     byte[] imageByteArray;
+    ViewStub stub;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_send, container, false);
@@ -96,13 +103,12 @@ public class SendFragment extends Fragment {
                 String imageName = firebaseAPI.uploadImage(getContext(), imageByteArray);
                 imageObject.setFilename(imageName + ".jpg");
                 LOGGER.i("object file name = " + imageObject.getFilename());
-                String fileLocation = fileProcessor.createXMLFile(getContext(), imageObject, imageName);
+                String fileLocation = fileProcessor.createXMLFile(getContext(), imageName);
                 LOGGER.i("file location = " + fileLocation);
                 //FileInputStream fis = fileProcessor.readFile(getContext(), filename);
                 firebaseAPI.uploadFile(getContext(), fileLocation);
             }
         });
-
         return view;
     }
 
@@ -126,10 +132,9 @@ public class SendFragment extends Fragment {
         // Get the Uri of data
         filePath = data.getData();
         try {
-            // Setting image on image view using Bitmap
             Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), filePath);
             imageResized = fileProcessor.getMaxImageSize(bitmap.getHeight(), bitmap.getWidth());
-            Bitmap resized = Bitmap.createScaledBitmap(bitmap, imageResized[1],imageResized[0],true);
+            Bitmap resized = Bitmap.createScaledBitmap(bitmap, imageResized[1], imageResized[0], true);
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             resized.compress(Bitmap.CompressFormat.JPEG, 100, baos);
             imageByteArray = baos.toByteArray();
@@ -138,8 +143,14 @@ public class SendFragment extends Fragment {
             imageObject.setImgWidth(resized.getWidth());
             imageObject.setImgHeight(resized.getHeight());
             imageView.setImageBitmap(resized);
+
+            stub = getView().findViewById(R.id.boxStub);
+            if (stub instanceof ViewStub) {
+                stub.inflate();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
 }

@@ -1,17 +1,30 @@
 package com.example.climbingapp.ui;
 
 public class ImageObject {
+    private static ImageObject imageObject = new ImageObject();
+
+    private ImageObject() {
+    }
+
+    public static ImageObject getInstance() {
+        return imageObject;
+    }
+
     private String filename;
     private int imgWidth;
     private int imgHeight;
     private int imgDepth;
 
-    /**public ImageObject(String filename, int imgWidth, int imgHeight, int imgDepth) {
-        this.filename = filename;
-        this.imgWidth = imgWidth;
-        this.imgHeight = imgHeight;
-        this.imgDepth = imgDepth;
-    }*/
+    private Holds holds;
+
+    /**
+     * public ImageObject(String filename, int imgWidth, int imgHeight, int imgDepth) {
+     * this.filename = filename;
+     * this.imgWidth = imgWidth;
+     * this.imgHeight = imgHeight;
+     * this.imgDepth = imgDepth;
+     * }
+     */
 
     public class Holds {
         private String holdName;
@@ -20,31 +33,32 @@ public class ImageObject {
         private int holdXMax;
         private int holdYMax;
 
-        public Holds(String holdName, int holdXMin, int holdYMin, int holdXMax, int holdYMax){
+        public Holds(String holdName, int holdXMin, int holdYMin, int holdXMax, int holdYMax) {
             this.holdName = holdName;
             this.holdXMin = holdXMin;
             this.holdYMin = holdYMin;
             this.holdXMax = holdXMax;
             this.holdYMax = holdYMax;
+            holds = this;
         }
 
         public String getHoldname() {
             return holdName;
         }
 
-        public int getHoldXMin(){
+        public int getHoldXMin() {
             return holdXMin;
         }
 
-        public int getHoldYMin(){
+        public int getHoldYMin() {
             return holdYMin;
         }
 
-        public int getHoldXMax(){
+        public int getHoldXMax() {
             return holdXMax;
         }
 
-        public int getHoldYMax(){
+        public int getHoldYMax() {
             return holdYMax;
         }
     }
@@ -53,19 +67,19 @@ public class ImageObject {
         return filename;
     }
 
-    public int getImgWidth(){
+    public int getImgWidth() {
         return imgWidth;
     }
 
-    public int getImgHeight(){
+    public int getImgHeight() {
         return imgHeight;
     }
 
-    public int getImgDepth(){
+    public int getImgDepth() {
         return imgDepth;
     }
 
-    public void setFilename(String filename){
+    public void setFilename(String filename) {
         this.filename = filename;
     }
 
@@ -73,11 +87,15 @@ public class ImageObject {
         this.imgWidth = imgWidth;
     }
 
-    public void setImgHeight(int imgHeight){
+    public void setImgHeight(int imgHeight) {
         this.imgHeight = imgHeight;
     }
 
-    public void setImgDepth(int imgDepth){
+    public void setImgDepth(int imgDepth) {
         this.imgDepth = imgDepth;
+    }
+
+    public Holds getHolds() {
+        return holds;
     }
 }

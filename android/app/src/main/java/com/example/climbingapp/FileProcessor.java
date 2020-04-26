@@ -22,6 +22,7 @@ import java.nio.charset.StandardCharsets;
 
 public class FileProcessor {
     private static final Logger LOGGER = new Logger();
+    ImageObject imageObject = ImageObject.getInstance();
 
     public File createFolder(Context context, String foldername) {
         File file = new File(context.getFilesDir(), foldername);
@@ -47,7 +48,7 @@ public class FileProcessor {
         return file;
     }
 
-    public String createXMLFile(Context context, ImageObject imageObject, String filename) {
+    public String createXMLFile(Context context, String filename) {
         /** String fileName = "Hello_file";
          String string = "jello world";
          FileOutputStream fos = getContext().openFileOutput(fileName, Context.MODE_PRIVATE);
@@ -56,7 +57,9 @@ public class FileProcessor {
          */
 
         //ImageObject imageObject = new ImageObject("TestFilename", 100, 200, 300);
-        ImageObject.Holds hold = imageObject.new Holds("HOLD1", 10, 20, 30, 40);
+        ImageObject.Holds hold = imageObject.new Holds("HOLD1", 12, 20, 30, 40);
+
+        ImageObject.Holds hold1 = imageObject.getHolds();
 
         String foldername = "xml";
         String filelocation = foldername + "/" + filename;
@@ -67,10 +70,10 @@ public class FileProcessor {
         String imgHeight = String.valueOf(imageObject.getImgHeight());
         String imgDepth = String.valueOf(imageObject.getImgDepth());
         String holdName = hold.getHoldname();
-        String holdXMin = String.valueOf(hold.getHoldXMin());
-        String holdYMin = String.valueOf(hold.getHoldYMin());
-        String holdXMax = String.valueOf(hold.getHoldXMax());
-        String holdYMax = String.valueOf(hold.getHoldYMax());
+        String holdXMin = String.valueOf(hold1.getHoldXMin());
+        String holdYMin = String.valueOf(hold1.getHoldYMin());
+        String holdXMax = String.valueOf(hold1.getHoldXMax());
+        String holdYMax = String.valueOf(hold1.getHoldYMax());
 
         File file = createFolder(context, foldername);
 
@@ -181,10 +184,9 @@ public class FileProcessor {
     }
 
     public String getLocalModel() {
-        String dirPath = "/data/user/0/com.example.climbingapp/files/fireBaseModels/";
-        File dir = new File(dirPath);
-
         try {
+            String dirPath = "/data/user/0/com.example.climbingapp/files/fireBaseModels/";
+            File dir = new File(dirPath);
             String[] files = dir.list();
 
             for (String aFile : files) {
