@@ -19,6 +19,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 
 public class FileProcessor {
     private static final Logger LOGGER = new Logger();
@@ -57,9 +58,10 @@ public class FileProcessor {
          */
 
         //ImageObject imageObject = new ImageObject("TestFilename", 100, 200, 300);
-        ImageObject.Holds hold = imageObject.new Holds("HOLD1", 12, 20, 30, 40);
 
-        ImageObject.Holds hold1 = imageObject.getHolds();
+
+        ArrayList<ImageObject.Holds> holds = imageObject.getHolds();
+        //ImageObject.Holds hold1 = holds.get(0);
 
         String foldername = "xml";
         String filelocation = foldername + "/" + filename;
@@ -69,11 +71,11 @@ public class FileProcessor {
         String imgWidth = String.valueOf(imageObject.getImgWidth());
         String imgHeight = String.valueOf(imageObject.getImgHeight());
         String imgDepth = String.valueOf(imageObject.getImgDepth());
-        String holdName = hold.getHoldname();
-        String holdXMin = String.valueOf(hold1.getHoldXMin());
-        String holdYMin = String.valueOf(hold1.getHoldYMin());
-        String holdXMax = String.valueOf(hold1.getHoldXMax());
-        String holdYMax = String.valueOf(hold1.getHoldYMax());
+        //String holdName = hold.getHoldname();
+        //String holdXMin = String.valueOf(hold1.getHoldXMin());
+       // String holdYMin = String.valueOf(hold1.getHoldYMin());
+        //String holdXMax = String.valueOf(hold1.getHoldXMax());
+        //String holdYMax = String.valueOf(hold1.getHoldYMax());
 
         File file = createFolder(context, foldername);
 
@@ -107,31 +109,31 @@ public class FileProcessor {
             BuffWriter.newLine();
             BuffWriter.write("<segmented>0</segmented>");
             BuffWriter.newLine();
-            //For Loop goes here
-            BuffWriter.write("<object>");
-            BuffWriter.newLine();
-            BuffWriter.write("<name>" + holdName + "</name>");
-            BuffWriter.newLine();
-            BuffWriter.write("<pose>Unspecified</pose>");
-            BuffWriter.newLine();
-            BuffWriter.write("<trunacated>0</trunacated>");
-            BuffWriter.newLine();
-            BuffWriter.write("<difficult>0</difficult>");
-            BuffWriter.newLine();
-            BuffWriter.write("<bndbox>");
-            BuffWriter.newLine();
-            BuffWriter.write("<xmin>" + holdXMin + "</xmin>");
-            BuffWriter.newLine();
-            BuffWriter.write("<ymin>" + holdYMin + "</ymin>");
-            BuffWriter.newLine();
-            BuffWriter.write("<xmax>" + holdXMax + "</xmax>");
-            BuffWriter.newLine();
-            BuffWriter.write("<ymax>" + holdYMax + "</ymax>");
-            BuffWriter.newLine();
-            BuffWriter.write("</bndbox>");
-            BuffWriter.newLine();
-            BuffWriter.write("</object>");
-            //For Loop ends here
+            for (ImageObject.Holds hold : holds) {
+                BuffWriter.write("<object>");
+                BuffWriter.newLine();
+                BuffWriter.write("<name>" + hold.getHoldname() + "</name>");
+                BuffWriter.newLine();
+                BuffWriter.write("<pose>Unspecified</pose>");
+                BuffWriter.newLine();
+                BuffWriter.write("<trunacated>0</trunacated>");
+                BuffWriter.newLine();
+                BuffWriter.write("<difficult>0</difficult>");
+                BuffWriter.newLine();
+                BuffWriter.write("<bndbox>");
+                BuffWriter.newLine();
+                BuffWriter.write("<xmin>" + hold.getHoldXMin() + "</xmin>");
+                BuffWriter.newLine();
+                BuffWriter.write("<ymin>" + hold.getHoldYMin() + "</ymin>");
+                BuffWriter.newLine();
+                BuffWriter.write("<xmax>" + hold.getHoldXMax() + "</xmax>");
+                BuffWriter.newLine();
+                BuffWriter.write("<ymax>" + hold.getHoldYMax() + "</ymax>");
+                BuffWriter.newLine();
+                BuffWriter.write("</bndbox>");
+                BuffWriter.newLine();
+                BuffWriter.write("</object>");
+            }
             BuffWriter.newLine();
             BuffWriter.write("</annotation>");
             // writer.flush();
@@ -181,6 +183,19 @@ public class FileProcessor {
             outWidth = (inWidth * maxSize) / inHeight;
         }
         return new int[]{outHeight, outWidth};
+    }
+
+    public double getScaleReduction(int[] newSize, int oldH, int oldW){
+        int newH = newSize[0];
+        int newW = newSize[0];
+        LOGGER.i("newH = " + newH);
+        LOGGER.i("oldH = " + oldH);
+
+        LOGGER.i("oldW = " + oldW);
+        LOGGER.i("newW = " + newW);
+        LOGGER.i("width dif = " + (double) oldW / (double) newW);
+
+        return (double) oldH / (double) newH;
     }
 
     public String getLocalModel() {

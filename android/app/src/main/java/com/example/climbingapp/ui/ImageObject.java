@@ -1,5 +1,7 @@
 package com.example.climbingapp.ui;
 
+import java.util.ArrayList;
+
 public class ImageObject {
     private static ImageObject imageObject = new ImageObject();
 
@@ -15,7 +17,7 @@ public class ImageObject {
     private int imgHeight;
     private int imgDepth;
 
-    private Holds holds;
+    private ArrayList<Holds> holds = new ArrayList<>();
 
     /**
      * public ImageObject(String filename, int imgWidth, int imgHeight, int imgDepth) {
@@ -39,7 +41,7 @@ public class ImageObject {
             this.holdYMin = holdYMin;
             this.holdXMax = holdXMax;
             this.holdYMax = holdYMax;
-            holds = this;
+            holds.add(this);
         }
 
         public String getHoldname() {
@@ -95,7 +97,7 @@ public class ImageObject {
         this.imgDepth = imgDepth;
     }
 
-    public Holds getHolds() {
+    public ArrayList<Holds> getHolds() {
         return holds;
     }
 }

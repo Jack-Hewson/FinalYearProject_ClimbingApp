@@ -25,11 +25,19 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.Bundle;
+import android.text.Layout;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+
+import androidx.annotation.NonNull;
 
 import com.example.climbingapp.R;
+import com.example.climbingapp.ui.env.Logger;
 
 public class DrawView extends View {
 
@@ -47,7 +55,16 @@ public class DrawView extends View {
     // variable to know what ball is being dragged
     Paint paint;
     Canvas canvas;
-    ImageObject imageObject = ImageObject.getInstance();
+    ImageObject imageObject;
+    View view;
+    private static final Logger LOGGER = new Logger();
+
+    private Button btnOk;
+
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.resizable_rectangle, container, false);
+        return view;
+    }
 
     public DrawView(Context context) {
         super(context);
@@ -86,10 +103,13 @@ public class DrawView extends View {
 
         // declare each ball with the ColorBall class
         colorballs = new ArrayList<ColorBall>();
-        colorballs.add(0,new ColorBall(context, R.drawable.gray_circle, point1,0));
-        colorballs.add(1,new ColorBall(context, R.drawable.gray_circle, point2,1));
-        colorballs.add(2,new ColorBall(context, R.drawable.gray_circle, point3,2));
-        colorballs.add(3,new ColorBall(context, R.drawable.gray_circle, point4,3));
+        colorballs.add(0, new ColorBall(context, R.drawable.gray_circle, point1, 0));
+        colorballs.add(1, new ColorBall(context, R.drawable.gray_circle, point2, 1));
+        colorballs.add(2, new ColorBall(context, R.drawable.gray_circle, point3, 2));
+        colorballs.add(3, new ColorBall(context, R.drawable.gray_circle, point4, 3));
+
+        imageObject = ImageObject.getInstance();
+
     }
 
     // the method that draws the balls
@@ -128,8 +148,16 @@ public class DrawView extends View {
                     new Paint());
         }
 
-        ImageObject.Holds hold = imageObject.new Holds("drawViewGold", 3,6,9,12);
 
+        btnOk = getRootView().findViewById(R.id.drawOk);
+
+        btnOk.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                ImageObject.Holds h = imageObject.new Holds("HOLD1", point3.x, point3.y, point1.x, point1.y);
+                LOGGER.i("Button clicked");
+            }
+        });
     }
 
     // events when touching the screen
@@ -144,7 +172,7 @@ public class DrawView extends View {
             case MotionEvent.ACTION_DOWN: // touch down so check if the finger is on
                 // a ball
                 balID = -1;
-                startMovePoint = new Point(X,Y);
+                startMovePoint = new Point(X, Y);
                 for (ColorBall ball : colorballs) {
                     // check if inside the bounds of the ball (circle)
                     // get the center for the ball
@@ -201,8 +229,8 @@ public class DrawView extends View {
                     }
 
                     invalidate();
-                }else{
-                    if (startMovePoint!=null) {
+                } else {
+                    if (startMovePoint != null) {
                         paint.setColor(Color.CYAN);
                         int diffX = X - startMovePoint.x;
                         int diffY = Y - startMovePoint.y;
@@ -216,7 +244,7 @@ public class DrawView extends View {
                         colorballs.get(1).addY(diffY);
                         colorballs.get(2).addY(diffY);
                         colorballs.get(3).addY(diffY);
-                        if(groupId==1)
+                        if (groupId == 1)
                             canvas.drawRect(point1.x, point3.y, point3.x, point1.y,
                                     paint);
                         else
@@ -225,6 +253,16 @@ public class DrawView extends View {
                         invalidate();
                     }
                 }
+
+                LOGGER.i("Top Right: X = " + point1.x + " Y = " + point1.y);
+                LOGGER.i("Bottom Right: X = " + point2.x + " Y = " + point2.y);
+                LOGGER.i("Bottom Left: X = " + point3.x + " Y = " + point3.y);
+                LOGGER.i("Top Left: X = " + point4.x + " Y = " + point4.y);
+                LOGGER.i("maxX = " + point1.x + " maxY = " + point1.y);
+                LOGGER.i("minX = " + point3.x + " minY = " + point3.y);
+                LOGGER.d("..................................................");
+                LOGGER.d("..................................................");
+                LOGGER.d("..................................................");
 
                 break;
 

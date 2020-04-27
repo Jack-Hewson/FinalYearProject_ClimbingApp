@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.drawable.ColorDrawable;
 import android.media.ExifInterface;
 import android.media.Image;
@@ -132,25 +133,35 @@ public class SendFragment extends Fragment {
         // Get the Uri of data
         filePath = data.getData();
         try {
+            Matrix matrix = new Matrix();
+
+            matrix.postRotate(90);
             Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), filePath);
             imageResized = fileProcessor.getMaxImageSize(bitmap.getHeight(), bitmap.getWidth());
+            double scale = fileProcessor.getScaleReduction(imageResized, bitmap.getHeight(), bitmap.getWidth());
+            LOGGER.i("Scale = " + scale);
             Bitmap resized = Bitmap.createScaledBitmap(bitmap, imageResized[1], imageResized[0], true);
+            Bitmap rotatedBitmap = Bitmap.createBitmap(resized, 0, 0, resized.getWidth(), resized.getHeight(), matrix, true);
+
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            resized.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            rotatedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
             imageByteArray = baos.toByteArray();
-            LOGGER.i("Image WIDTH = " + resized.getWidth());
-            LOGGER.i("Image HEIGHT = " + resized.getHeight());
-            imageObject.setImgWidth(resized.getWidth());
-            imageObject.setImgHeight(resized.getHeight());
-            imageView.setImageBitmap(resized);
+            //LOGGER.i("Image WIDTH = " + resized.getWidth());
+            //LOGGER.i("Image HEIGHT = " + resized.getHeight());
+            imageObject.setImgWidth(rotatedBitmap.getWidth());
+            imageObject.setImgHeight(rotatedBitmap.getHeight());
+            //imageView.setRotation(90);
+            imageView.setImageBitmap(rotatedBitmap);
 
             stub = getView().findViewById(R.id.boxStub);
             if (stub instanceof ViewStub) {
                 stub.inflate();
             }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
 
+    }
 }

@@ -35,15 +35,16 @@
 
     <!--Image View for showing image choosen from gallery-->
     <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_below="@+id/layout_button">
 
         <ImageView
             android:id="@+id/imgView"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:scaleType="center"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"/>
         <!--
     <ImageView
         android:id="@+id/crop_image"
