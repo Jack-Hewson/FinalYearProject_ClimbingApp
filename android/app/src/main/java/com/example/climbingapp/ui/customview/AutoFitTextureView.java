@@ -6,6 +6,7 @@ import android.view.TextureView;
 
 /** A {@link TextureView} that can be adjusted to a specified aspect ratio. */
 public class AutoFitTextureView extends TextureView {
+
     private int ratioWidth = 0;
     private int ratioHeight = 0;
 

@@ -109,7 +109,7 @@ public class HoldDetectFragment extends Fragment implements View.OnClickListener
     private Size inputSize = DESIRED_PREVIEW_SIZE;
     //private final Size inputSize;
     private int layout;
-   // private final ImageReader.OnImageAvailableListener imageListener;
+    // private final ImageReader.OnImageAvailableListener imageListener;
 
     static {
         ORIENTATIONS.append(Surface.ROTATION_0, 90);
@@ -234,7 +234,7 @@ public class HoldDetectFragment extends Fragment implements View.OnClickListener
         }
 
         @Override
-        public void onError(final CameraDevice cd,final int error) {
+        public void onError(final CameraDevice cd, final int error) {
             cameraOpenCloseLock.release();
             cd.close();
             cameraDevice = null;
@@ -246,17 +246,17 @@ public class HoldDetectFragment extends Fragment implements View.OnClickListener
 
     };
 /**
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        setUseNNAPI(isChecked);
-        if (isChecked) {
-            apiSwitchCompat.setText("NNAPI");
-        }
-        else {
-            apiSwitchCompat.setText("TFLITE");
-        }
-    }
-*/
-                                 /**
+ public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+ setUseNNAPI(isChecked);
+ if (isChecked) {
+ apiSwitchCompat.setText("NNAPI");
+ }
+ else {
+ apiSwitchCompat.setText("TFLITE");
+ }
+ }
+ */
+    /**
      * An additional thread for running tasks that shouldn't block the UI.
      */
     private HandlerThread mBackgroundThread;
@@ -269,7 +269,7 @@ public class HoldDetectFragment extends Fragment implements View.OnClickListener
     /**
      * An {@link ImageReader} that handles still image capture.
      */
-   // private ImageReader mImageReader;
+    // private ImageReader mImageReader;
 
     /**
      * This is the output file for our picture.
@@ -286,7 +286,7 @@ public class HoldDetectFragment extends Fragment implements View.OnClickListener
         @Override
         public void onImageAvailable(ImageReader reader) {
             LOGGER.i("RUNNING: onImageAvailable");
-            if (previewSize.getWidth() == 0 || previewSize.getHeight() == 0){
+            if (previewSize.getWidth() == 0 || previewSize.getHeight() == 0) {
                 return;
             }
 
@@ -294,11 +294,11 @@ public class HoldDetectFragment extends Fragment implements View.OnClickListener
                 rgbBytes = new int[previewSize.getWidth() * previewSize.getHeight()];
             }
 
-            try{
+            try {
                 LOGGER.i("RUNNING: Image image = reader.acquireLatestImage");
                 Image image = reader.acquireLatestImage();
                 LOGGER.i("SUCCESS: Image image = reader.acquireLatestImage", image);
-                if(isProcessingFrame){
+                if (isProcessingFrame) {
                     image.close();
                     return;
                 }
@@ -339,8 +339,7 @@ public class HoldDetectFragment extends Fragment implements View.OnClickListener
                         };
 
                 processImage();
-            }
-            catch (final Exception e) {
+            } catch (final Exception e) {
                 LOGGER.e(e, "Exception!");
                 Trace.endSection();
                 return;
@@ -352,7 +351,7 @@ public class HoldDetectFragment extends Fragment implements View.OnClickListener
 
     };
 
-    protected synchronized  void runInBackground(final Runnable r) {
+    protected synchronized void runInBackground(final Runnable r) {
         if (handler != null) {
             handler.post(r);
         }
@@ -364,7 +363,7 @@ public class HoldDetectFragment extends Fragment implements View.OnClickListener
         }
     }
 
-    protected void processImage(){
+    protected void processImage() {
         ++timestamp;
         LOGGER.i("RUNNING: processImage()");
         final long currTimestamp = timestamp;
@@ -376,7 +375,7 @@ public class HoldDetectFragment extends Fragment implements View.OnClickListener
         }
         computingDetection = true;
         LOGGER.i("Preparing image " + currTimestamp + " for detection in bg thread.");
-        rgbFrameBitmap.setPixels(getRgbBytes(), 0,previewSize.getWidth(), 0, 0, previewSize.getWidth(), previewSize.getHeight());
+        rgbFrameBitmap.setPixels(getRgbBytes(), 0, previewSize.getWidth(), 0, 0, previewSize.getWidth(), previewSize.getHeight());
         readyForNextImage();
 
         final Canvas canvas = new Canvas(croppedBitmap);
@@ -439,8 +438,7 @@ public class HoldDetectFragment extends Fragment implements View.OnClickListener
     }
 
 
-
-//
+    //
     protected void showFrameInfo(String frameInfo) {
         frameValueTextView = getView().findViewById(R.id.frame_info);
         frameValueTextView.setText(frameInfo);
@@ -467,7 +465,7 @@ public class HoldDetectFragment extends Fragment implements View.OnClickListener
         }
     }
 
-    protected int[] getRgbBytes(){
+    protected int[] getRgbBytes() {
         imageConverter.run();
         return rgbBytes;
     }
@@ -498,7 +496,6 @@ public class HoldDetectFragment extends Fragment implements View.OnClickListener
      * Whether the current camera device supports Flash or not.
      */
     private boolean mFlashSupported;
-
 
 
     /**
@@ -557,13 +554,15 @@ public class HoldDetectFragment extends Fragment implements View.OnClickListener
         public void onCaptureProgressed(
                 final CameraCaptureSession session,
                 final CaptureRequest request,
-                final CaptureResult partialResult) {}
+                final CaptureResult partialResult) {
+        }
 
         @Override
         public void onCaptureCompleted(
                 final CameraCaptureSession session,
                 final CaptureRequest request,
-                final TotalCaptureResult result) {}
+                final TotalCaptureResult result) {
+        }
     };
 
     /**
@@ -590,8 +589,8 @@ public class HoldDetectFragment extends Fragment implements View.OnClickListener
      * doesn't exist, choose the largest one that is at most as large as the respective max size,
      * and whose aspect ratio matches with the specified value.
      *
-     * @param choices           The list of sizes that the camera supports for the intended output
-     *                          class
+     * @param choices The list of sizes that the camera supports for the intended output
+     *                class
      * @return The optimal {@code Size}, or an arbitrary one if none were big enough
      */
     private static Size chooseOptimalSize(Size[] choices, int width, int height) {
@@ -634,34 +633,34 @@ public class HoldDetectFragment extends Fragment implements View.OnClickListener
             return choices[0];
         }
 /**
-        // Collect the supported resolutions that are at least as big as the preview Surface
-        List<Size> bigEnough = new ArrayList<>();
-        // Collect the supported resolutions that are smaller than the preview Surface
-        List<Size> notBigEnough = new ArrayList<>();
-        int w = aspectRatio.getWidth();
-        int h = aspectRatio.getHeight();
-        for (Size option : choices) {
-            if (option.getWidth() <= maxWidth && option.getHeight() <= maxHeight &&
-                    option.getHeight() == option.getWidth() * h / w) {
-                if (option.getWidth() >= textureViewWidth &&
-                        option.getHeight() >= textureViewHeight) {
-                    bigEnough.add(option);
-                } else {
-                    notBigEnough.add(option);
-                }
-            }
-        }
+ // Collect the supported resolutions that are at least as big as the preview Surface
+ List<Size> bigEnough = new ArrayList<>();
+ // Collect the supported resolutions that are smaller than the preview Surface
+ List<Size> notBigEnough = new ArrayList<>();
+ int w = aspectRatio.getWidth();
+ int h = aspectRatio.getHeight();
+ for (Size option : choices) {
+ if (option.getWidth() <= maxWidth && option.getHeight() <= maxHeight &&
+ option.getHeight() == option.getWidth() * h / w) {
+ if (option.getWidth() >= textureViewWidth &&
+ option.getHeight() >= textureViewHeight) {
+ bigEnough.add(option);
+ } else {
+ notBigEnough.add(option);
+ }
+ }
+ }
 
-        // Pick the smallest of those big enough. If there is no one big enough, pick the
-        // largest of those not big enough.
-        if (bigEnough.size() > 0) {
-            return Collections.min(bigEnough, new CompareSizesByArea());
-        } else if (notBigEnough.size() > 0) {
-            return Collections.max(notBigEnough, new CompareSizesByArea());
-        } else {
-            Log.e(TAG, "Couldn't find any suitable preview size");
-            return choices[0];
-        }
+ // Pick the smallest of those big enough. If there is no one big enough, pick the
+ // largest of those not big enough.
+ if (bigEnough.size() > 0) {
+ return Collections.min(bigEnough, new CompareSizesByArea());
+ } else if (notBigEnough.size() > 0) {
+ return Collections.max(notBigEnough, new CompareSizesByArea());
+ } else {
+ Log.e(TAG, "Couldn't find any suitable preview size");
+ return choices[0];
+ }
  */
     }
 
@@ -677,6 +676,7 @@ public class HoldDetectFragment extends Fragment implements View.OnClickListener
     public interface ConnectionCallback {
         void onPreviewSizeChosen(Size size, int cameraRotation);
     }
+
     private final ConnectionCallback cameraConnectionCallback;
 
 
@@ -694,22 +694,21 @@ public class HoldDetectFragment extends Fragment implements View.OnClickListener
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         LOGGER.d("onCreate " + this);
-     //   setFragment();
+        //setFragment();
         return inflater.inflate(R.layout.tfe_od_activity_camera, container, false);
     }
-
     //protected void setFragment() {
 
-     //   getFragmentManager().beginTransaction().replace(R.id.container, R.layout.tfe_od_camera_connection_fragment_tracking).commit();
-  // }
+    //   getFragmentManager().beginTransaction().replace(R.id.container, R.layout.tfe_od_camera_connection_fragment_tracking).commit();
+    // }
 
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
-       // view.findViewById(R.id.picture).setOnClickListener(this);
-  //      view.findViewById(R.id.info).setOnClickListener(this);
+        //view.findViewById(R.id.picture).setOnClickListener(this);
+        //view.findViewById(R.id.info).setOnClickListener(this);
         view.findViewById(R.id.minus).setOnClickListener(this);
         view.findViewById(R.id.plus).setOnClickListener(this);
-        textureView = (AutoFitTextureView) view.findViewById(R.id.texture);
+        textureView = view.findViewById(R.id.texture);
     }
 
     @Override
@@ -744,7 +743,7 @@ public class HoldDetectFragment extends Fragment implements View.OnClickListener
     }
 
     private void requestPermission() {
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (shouldShowRequestPermissionRationale(PERMISSION_CAMERA)) {
                 new ConfirmationDialog().show(getChildFragmentManager(), FRAGMENT_DIALOG);
             } else {
@@ -1139,10 +1138,10 @@ public class HoldDetectFragment extends Fragment implements View.OnClickListener
         threadsTextView = getView().findViewById(R.id.threads);
 
         switch (view.getId()) {
-           // case R.id.picture: {
-           //     takePicture();
-           //     break;
-           // }
+            // case R.id.picture: {
+            //     takePicture();
+            //     break;
+            // }
             case R.id.info: {
                 Activity activity = getActivity();
                 if (null != activity) {
@@ -1353,8 +1352,7 @@ public class HoldDetectFragment extends Fragment implements View.OnClickListener
                             TF_OD_API_IS_QUANTIZED,
                             getActivity().getApplicationContext());
             cropSize = TF_OD_API_INPUT_SIZE;
-        }
-        catch (final IOException e) {
+        } catch (final IOException e) {
             e.printStackTrace();
             LOGGER.e(e, "Exception initializing classifier!");
             showToast("Classifier could not be initialised");
@@ -1381,12 +1379,12 @@ public class HoldDetectFragment extends Fragment implements View.OnClickListener
 
         trackingOverlay = getView().findViewById(R.id.tracking_overlay);
         trackingOverlay.addCallback(
-            new OverlayView.DrawCallback() {
-                @Override
-                public void drawCallback(final Canvas canvas) {
-                    tracker.draw(canvas, getContext(), getView());
-                }
-            });
+                new OverlayView.DrawCallback() {
+                    @Override
+                    public void drawCallback(final Canvas canvas) {
+                        tracker.draw(canvas, getContext(), getView());
+                    }
+                });
         tracker.setFrameConfiguration(previewWidth, previewHeight, sensorOrientation);
     }
 
