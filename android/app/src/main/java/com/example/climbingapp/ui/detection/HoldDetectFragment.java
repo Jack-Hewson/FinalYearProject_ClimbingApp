@@ -695,7 +695,7 @@ public class HoldDetectFragment extends Fragment implements View.OnClickListener
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         LOGGER.d("onCreate " + this);
      //   setFragment();
-        return inflater.inflate(R.layout.fragment_camera2_basic, container, false);
+        return inflater.inflate(R.layout.tfe_od_activity_camera, container, false);
     }
 
     //protected void setFragment() {
