@@ -14,30 +14,30 @@
     <fragment
         android:id="@+id/nav_gallery"
         android:name="com.example.climbingapp.DetectorActivity"
-        android:label="@string/menu_gallery"
+        android:label="@string/menu_detection"
         tools:layout="@layout/tfe_od_activity_camera" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.example.climbingapp.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        android:id="@+id/nav_info"
+        android:name="com.example.climbingapp.ui.info.InfoFragment"
+        android:label="@string/menu_info"
+        tools:layout="@layout/fragment_info" />
 
     <fragment
         android:id="@+id/nav_tools"
-        android:name="com.example.climbingapp.ui.tools.ToolsFragment"
-        android:label="@string/menu_tools"
-        tools:layout="@layout/fragment_tools" />
+        android:name="com.example.climbingapp.ui.options.OptionsFragment"
+        android:label="@string/menu_options"
+        tools:layout="@layout/fragment_options" />
 
     <fragment
         android:id="@+id/nav_share"
-        android:name="com.example.climbingapp.ui.share.ShareFragment"
-        android:label="@string/menu_share"
-        tools:layout="@layout/fragment_share" />
+        android:name="com.example.climbingapp.ui.camera.CameraFragment"
+        android:label="@string/menu_camera"
+        tools:layout="@layout/fragment_camera" />
 
     <fragment
         android:id="@+id/nav_send"
-        android:name="com.example.climbingapp.ui.send.SendFragment"
-        android:label="@string/menu_send"
-        tools:layout="@layout/fragment_send" />
+        android:name="com.example.climbingapp.ui.image.ImageFragment"
+        android:label="@string/menu_image"
+        tools:layout="@layout/fragment_image" />
 </navigation>

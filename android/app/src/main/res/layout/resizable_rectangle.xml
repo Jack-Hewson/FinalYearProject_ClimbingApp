@@ -10,7 +10,6 @@
         android:text="Ok"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true">
-
     </Button>
 
     <com.example.climbingapp.ui.DrawView

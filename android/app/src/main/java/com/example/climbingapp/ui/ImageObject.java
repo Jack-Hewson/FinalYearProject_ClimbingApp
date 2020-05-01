@@ -16,6 +16,7 @@ public class ImageObject {
     private int imgWidth;
     private int imgHeight;
     private int imgDepth;
+    private double imgScale;
 
     private ArrayList<Holds> holds = new ArrayList<>();
 
@@ -37,10 +38,10 @@ public class ImageObject {
 
         public Holds(String holdName, int holdXMin, int holdYMin, int holdXMax, int holdYMax) {
             this.holdName = holdName;
-            this.holdXMin = holdXMin;
-            this.holdYMin = holdYMin;
-            this.holdXMax = holdXMax;
-            this.holdYMax = holdYMax;
+            this.holdXMin = (int) Math.floor(holdXMin / (imgScale * 0.75));
+            this.holdYMin = (int) Math.floor(holdYMin / (imgScale * 0.75));
+            this.holdXMax = (int) Math.ceil(holdXMax / (imgScale * 0.75));
+            this.holdYMax = (int) Math.ceil(holdYMax / (imgScale * 0.75));
             holds.add(this);
         }
 
@@ -95,6 +96,14 @@ public class ImageObject {
 
     public void setImgDepth(int imgDepth) {
         this.imgDepth = imgDepth;
+    }
+
+    public void setImgScale(double imgScale) {
+        this.imgScale = imgScale;
+    }
+
+    public double getImgScale() {
+        return imgScale;
     }
 
     public ArrayList<Holds> getHolds() {

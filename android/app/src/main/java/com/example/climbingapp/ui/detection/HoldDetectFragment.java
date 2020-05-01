@@ -1,4 +1,4 @@
-package com.example.climbingapp.ui.gallery;
+package com.example.climbingapp.ui.detection;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -81,7 +81,7 @@ import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
 @SuppressLint("ValidFragment")
-public class GalleryFragment extends Fragment implements View.OnClickListener, ActivityCompat.OnRequestPermissionsResultCallback {
+public class HoldDetectFragment extends Fragment implements View.OnClickListener, ActivityCompat.OnRequestPermissionsResultCallback {
     private static final Logger LOGGER = new Logger();
     private static final int MINIMUM_PREVIEW_SIZE = 320;
     /**
@@ -122,7 +122,7 @@ public class GalleryFragment extends Fragment implements View.OnClickListener, A
     /**
      * Tag for the {@link Log}.
      */
-    private static final String TAG = "GalleryFragment";
+    private static final String TAG = "HoldDetectFragment";
 
     /**
      * Camera state: Showing camera preview.
@@ -665,12 +665,12 @@ public class GalleryFragment extends Fragment implements View.OnClickListener, A
  */
     }
 
-    public static GalleryFragment newInstance(
+    public static HoldDetectFragment newInstance(
             final ConnectionCallback callback,
             final ImageReader.OnImageAvailableListener imageListener,
             final int layout,
             final Size inputSize) {
-        return new GalleryFragment(callback, imageListener, layout, inputSize);
+        return new HoldDetectFragment(callback, imageListener, layout, inputSize);
     }
 
 
@@ -680,7 +680,7 @@ public class GalleryFragment extends Fragment implements View.OnClickListener, A
     private final ConnectionCallback cameraConnectionCallback;
 
 
-    public GalleryFragment(
+    public HoldDetectFragment(
             final ConnectionCallback connectionCallback,
             final ImageReader.OnImageAvailableListener imageListener,
             final int layout,
@@ -816,7 +816,7 @@ public class GalleryFragment extends Fragment implements View.OnClickListener, A
     }
 
     /**
-     * Opens the camera specified by {@link GalleryFragment#mCameraId}.
+     * Opens the camera specified by {@link HoldDetectFragment#mCameraId}.
      */
     private void openCamera(final int width, final int height) {
         if (ContextCompat.checkSelfPermission(getActivity(), PERMISSION_CAMERA)

@@ -182,18 +182,22 @@ public class FileProcessor {
             outHeight = maxSize;
             outWidth = (inWidth * maxSize) / inHeight;
         }
+
+        LOGGER.i("max height = " + outHeight);
+        LOGGER.i("max width = " + outWidth);
+
+        imageObject.setImgScale((double) inHeight/(double) outHeight);
         return new int[]{outHeight, outWidth};
     }
 
     public double getScaleReduction(int[] newSize, int oldH, int oldW){
         int newH = newSize[0];
-        int newW = newSize[0];
+        int newW = newSize[1];
         LOGGER.i("newH = " + newH);
         LOGGER.i("oldH = " + oldH);
 
         LOGGER.i("oldW = " + oldW);
         LOGGER.i("newW = " + newW);
-        LOGGER.i("width dif = " + (double) oldW / (double) newW);
 
         return (double) oldH / (double) newH;
     }
