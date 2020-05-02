@@ -32,6 +32,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
@@ -56,9 +57,11 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
     private static final int TF_OD_API_INPUT_SIZE = 300;
     private static final String TF_OD_API_MODEL_FILE = "detectClimb.tflite";
     private static final String TF_OD_API_LABELS_FILE = "file:///android_asset/labelmap.txt";
+
     private enum DetectorMode {
         TF_OD_API
     }
+
     private static final DetectorMode MODE = DetectorMode.TF_OD_API;
 
     // Minimum detection confidence to track a detection.
@@ -108,14 +111,14 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
 
         try {
             detector =
-                   /** FirebaseObjectDetectionAPIModel.create(
-                            getActivity().getAssets(),
-                            TF_OD_API_MODEL_FILE,
-                            TF_OD_API_LABELS_FILE,
-                            TF_OD_API_INPUT_SIZE,
-                            TF_OD_API_IS_QUANTIZED,
-                            getActivity().getApplicationContext());
-                    */
+                    /** FirebaseObjectDetectionAPIModel.create(
+                     getActivity().getAssets(),
+                     TF_OD_API_MODEL_FILE,
+                     TF_OD_API_LABELS_FILE,
+                     TF_OD_API_INPUT_SIZE,
+                     TF_OD_API_IS_QUANTIZED,
+                     getActivity().getApplicationContext());
+                     */
                     TFLiteObjectDetectionAPIModel.create(
                             getActivity().getAssets(),
                             TF_OD_API_MODEL_FILE,
@@ -246,15 +249,15 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
                                         showInference(lastProcessingTimeMs + "ms");
                                         buttonOverlay.removeAllViews();
                                         /**for (final Classifier.Recognition result : results) {
-                                            final RectF location = result.getLocation();
-                                            if (location != null && result.getConfidence() >= minimumConfidence) {
-                                                LOGGER.i("Center X = " + location.centerX());
-                                                LOGGER.i("Center Y = " + location.centerY());
-                                                LOGGER.i("LEFT = " + location.left);
-                                                LOGGER.i("RIGHT = " + location.right);
+                                         final RectF location = result.getLocation();
+                                         if (location != null && result.getConfidence() >= minimumConfidence) {
+                                         LOGGER.i("Center X = " + location.centerX());
+                                         LOGGER.i("Center Y = " + location.centerY());
+                                         LOGGER.i("LEFT = " + location.left);
+                                         LOGGER.i("RIGHT = " + location.right);
 
-                                            }
-                                        }*/
+                                         }
+                                         }*/
 
                                     }
                                 });

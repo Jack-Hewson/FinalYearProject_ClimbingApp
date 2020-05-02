@@ -27,7 +27,7 @@ import java.util.Queue;
 
 public class MultiBoxTracker {
     private static final float TEXT_SIZE_DP = 18;
-    private static final float MIN_SIZE= 16.0f;
+    private static final float MIN_SIZE = 16.0f;
     private static final int[] COLOURS = {
             Color.BLUE,
             Color.RED,
@@ -62,7 +62,7 @@ public class MultiBoxTracker {
 
     @SuppressLint("ClickableViewAccessibility")
     public MultiBoxTracker(final Context context) {
-        for (final int colour: COLOURS) {
+        for (final int colour : COLOURS) {
             availableColours.add(colour);
         }
         boxPaint.setColor(Color.RED);
@@ -120,8 +120,8 @@ public class MultiBoxTracker {
                 canvas.getWidth() / (float) (rotated ? frameHeight : frameWidth));
         frameToCanvasMatrix = ImageUtils.getTransformationMatrix(
                 frameWidth, frameHeight,
-                (int)(multiplier * (rotated ? frameHeight : frameWidth)),
-                (int)(multiplier * (rotated ? frameWidth : frameHeight)),
+                (int) (multiplier * (rotated ? frameHeight : frameWidth)),
+                (int) (multiplier * (rotated ? frameWidth : frameHeight)),
                 sensorOrientation,
                 false);
         for (final TrackedRecognition recognition : trackedObjects) {
@@ -143,15 +143,15 @@ public class MultiBoxTracker {
 
             Button myButton = new Button(context);
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            lp.height = (int)trackedPos.height();
-            lp.width = (int)trackedPos.height();
-            lp.setMargins((int)trackedPos.left, (int)trackedPos.top, (int)trackedPos.right, (int)trackedPos.bottom);
+            lp.height = (int) trackedPos.height();
+            lp.width = (int) trackedPos.height();
+            lp.setMargins((int) trackedPos.left, (int) trackedPos.top, (int) trackedPos.right, (int) trackedPos.bottom);
             myButton.setLayoutParams(lp);
             buttonOverlay.addView(myButton, lp);
             myButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    LOGGER.i(recognition.title +  " BUTTON SELECTED");
+                    LOGGER.i(recognition.title + " BUTTON SELECTED");
                 }
             });
         }
@@ -163,7 +163,7 @@ public class MultiBoxTracker {
         screenRects.clear();
         final Matrix rgbFrameToScreen = new Matrix(getFrameToCanvasMatrix());
 
-        for (final Recognition result : results){
+        for (final Recognition result : results) {
             if (result.getLocation() == null) {
                 continue;
             }
@@ -191,7 +191,7 @@ public class MultiBoxTracker {
             return;
         }
 
-        for (final Pair<Float, Recognition> potential: rectsToTrack) {
+        for (final Pair<Float, Recognition> potential : rectsToTrack) {
             final TrackedRecognition trackedRecognition = new TrackedRecognition();
             trackedRecognition.detectionConfidence = potential.first;
             trackedRecognition.location = new RectF(potential.second.getLocation());

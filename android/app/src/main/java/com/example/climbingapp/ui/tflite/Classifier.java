@@ -25,7 +25,7 @@ public interface Classifier {
         public String getConfidence;
         private RectF location;
 
-        public Recognition(final String id, final String title, final Float confidence, final RectF location){
+        public Recognition(final String id, final String title, final Float confidence, final RectF location) {
             this.id = id;
             this.title = title;
             this.confidence = confidence;
@@ -36,7 +36,7 @@ public interface Classifier {
             return id;
         }
 
-        public  String getTitle() {
+        public String getTitle() {
             return title;
         }
 
@@ -71,7 +71,7 @@ public interface Classifier {
                 resultString += location + " ";
             }
 
-            return  resultString.trim();
+            return resultString.trim();
         }
     }
 }

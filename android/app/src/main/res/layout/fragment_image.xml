@@ -3,8 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
+    android:layout_height="match_parent"
+    tools:context="com.example.climbingapp.ui.image.ImageFragment"
+    android:background="@color/design_default_color_primary">
 
     <!--Linear Layout with horizontal orientation
         and other properties-->
@@ -44,7 +45,7 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:scaleType="fitCenter"
-            android:adjustViewBounds="true"/>
+            android:adjustViewBounds="true" />
         <!--
     <ImageView
         android:id="@+id/crop_image"

@@ -25,7 +25,7 @@
             android:id="@+id/txtCurrent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/modelLocal"/>
+            android:text="@string/modelLocal" />
 
         <TextView
             android:id="@+id/lblCurrentModel"
@@ -64,5 +64,5 @@
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:max="100"/>
+        android:max="100" />
 </LinearLayout>

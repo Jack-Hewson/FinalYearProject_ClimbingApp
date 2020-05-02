@@ -1,9 +1,6 @@
 package com.example.climbingapp;
 
 import android.content.Context;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.os.Environment;
 
 import com.example.climbingapp.ui.ImageObject;
 import com.example.climbingapp.ui.env.Logger;
@@ -15,9 +12,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
@@ -73,7 +68,7 @@ public class FileProcessor {
         String imgDepth = String.valueOf(imageObject.getImgDepth());
         //String holdName = hold.getHoldname();
         //String holdXMin = String.valueOf(hold1.getHoldXMin());
-       // String holdYMin = String.valueOf(hold1.getHoldYMin());
+        // String holdYMin = String.valueOf(hold1.getHoldYMin());
         //String holdXMax = String.valueOf(hold1.getHoldXMax());
         //String holdYMax = String.valueOf(hold1.getHoldYMax());
 
@@ -186,11 +181,11 @@ public class FileProcessor {
         LOGGER.i("max height = " + outHeight);
         LOGGER.i("max width = " + outWidth);
 
-        imageObject.setImgScale((double) inHeight/(double) outHeight);
+        imageObject.setImgScale((double) inHeight / (double) outHeight);
         return new int[]{outHeight, outWidth};
     }
 
-    public double getScaleReduction(int[] newSize, int oldH, int oldW){
+    public double getScaleReduction(int[] newSize, int oldH, int oldW) {
         int newH = newSize[0];
         int newW = newSize[1];
         LOGGER.i("newH = " + newH);

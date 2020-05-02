@@ -2,18 +2,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    
+
     <Button
         android:id="@+id/drawOk"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:text="Ok"
+        android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true">
-    </Button>
+        android:text="Ok" />
 
     <com.example.climbingapp.ui.DrawView
         android:id="@+id/drawView1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 </RelativeLayout>

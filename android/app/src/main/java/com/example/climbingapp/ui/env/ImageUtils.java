@@ -26,7 +26,7 @@ public class ImageUtils {
         final String root = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "tensorflow";
         final File myDir = new File(root);
 
-        if (!myDir.mkdirs()){
+        if (!myDir.mkdirs()) {
         }
 
         final String fname = filename;
@@ -40,8 +40,7 @@ public class ImageUtils {
             bitmap.compress(Bitmap.CompressFormat.PNG, 99, out);
             out.flush();
             out.close();
-        }
-        catch (final Exception e) {
+        } catch (final Exception e) {
         }
     }
 
@@ -54,18 +53,18 @@ public class ImageUtils {
 
             for (int i = 0; i < width; i++, yp++) {
                 int y = 0xff & input[yp];
-                if((i & 1) == 0) {
+                if ((i & 1) == 0) {
                     v = 0xff & input[uvp++];
                     u = 0xff & input[uvp++];
                 }
 
-                output[yp] = YUV2RGB(y, u ,v);
+                output[yp] = YUV2RGB(y, u, v);
             }
         }
     }
 
     private static int YUV2RGB(int y, int u, int v) {
-        y = (y -16) < 0 ? 0 : (y - 16);
+        y = (y - 16) < 0 ? 0 : (y - 16);
         u -= 128;
         v -= 128;
 
@@ -82,7 +81,7 @@ public class ImageUtils {
     }
 
     public static void convertYUV420ToARGB8888(byte[] yData, byte[] uData, byte[] vData, int width,
-            int height, int yRowStride, int uvRowStride, int uvPixelStride, int[] out) {
+                                               int height, int yRowStride, int uvRowStride, int uvPixelStride, int[] out) {
         int yp = 0;
         for (int j = 0; j < height; j++) {
             int pY = yRowStride * j;
@@ -122,8 +121,7 @@ public class ImageUtils {
             if (maintainAspectRatio) {
                 final float scaleFactor = Math.max(scaleFactorX, scaleFactorY);
                 matrix.postScale(scaleFactor, scaleFactor);
-            }
-            else {
+            } else {
                 matrix.postScale(scaleFactorX, scaleFactorY);
             }
         }

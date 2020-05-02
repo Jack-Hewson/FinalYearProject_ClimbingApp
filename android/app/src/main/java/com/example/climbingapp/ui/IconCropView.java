@@ -198,7 +198,8 @@ public class IconCropView extends View {
 
                 break;
             }
-            case MotionEvent.ACTION_UP: {}
+            case MotionEvent.ACTION_UP: {
+            }
             case MotionEvent.ACTION_MOVE: {
                 if (corner == 0) {
                     points[0].x = Math.max(points[0].x + (int) Math.min(Math.floor((event.getX() - start.x - offset.x)), Math.floor(getWidth() - points[0].x - 2 * halfCorner - side)), 0);

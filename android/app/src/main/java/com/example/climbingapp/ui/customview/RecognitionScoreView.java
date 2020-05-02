@@ -12,7 +12,7 @@ import com.example.climbingapp.ui.tflite.Classifier.Recognition;
 
 import java.util.List;
 
-public class RecognitionScoreView extends View implements ResultsView{
+public class RecognitionScoreView extends View implements ResultsView {
     private static final Logger LOGGER = new Logger();
     private static final float TEXT_SIZE_DIP = 14;
     private final float textSizePx;

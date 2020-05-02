@@ -151,7 +151,7 @@ public class DrawView extends View {
 
         btnOk = getRootView().findViewById(R.id.drawOk);
 
-        btnOk.setOnClickListener(new View.OnClickListener(){
+        btnOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ImageObject.Holds h = imageObject.new Holds("HOLD1", point3.x, point3.y, point1.x, point1.y);

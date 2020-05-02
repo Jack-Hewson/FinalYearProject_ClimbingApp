@@ -12,7 +12,7 @@ import com.example.climbingapp.R;
 
 public class InfoFragment extends Fragment {
 
-    public View onCreateView(@NonNull LayoutInflater inflater,ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.resizable_rectangle, container, false);
         return view;
     }

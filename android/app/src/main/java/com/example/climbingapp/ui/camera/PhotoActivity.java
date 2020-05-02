@@ -1,10 +1,8 @@
-package com.example.climbingapp;
+package com.example.climbingapp.ui.camera;
 
 import android.Manifest;
-
 import android.app.Fragment;
 import android.content.Context;
-
 import android.content.pm.PackageManager;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCharacteristics;
@@ -31,15 +29,16 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.SwitchCompat;
 
+import com.example.climbingapp.CameraConnectionFragment;
+import com.example.climbingapp.R;
 import com.example.climbingapp.ui.env.ImageUtils;
 import com.example.climbingapp.ui.env.Logger;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
 import java.nio.ByteBuffer;
 
-public abstract class CameraActivity extends androidx.fragment.app.Fragment
+public abstract class PhotoActivity extends androidx.fragment.app.Fragment
         implements OnImageAvailableListener,
         CompoundButton.OnCheckedChangeListener,
         View.OnClickListener {
@@ -59,22 +58,15 @@ public abstract class CameraActivity extends androidx.fragment.app.Fragment
     private Runnable postInferenceCallback;
     private Runnable imageConverter;
 
-    private LinearLayout bottomSheetLayout;
     private LinearLayout gestureLayout;
     private BottomSheetBehavior<LinearLayout> sheetBehavior;
 
     protected TextView frameValueTextView, cropValueTextView, inferenceTimeTextView;
     protected ImageView bottomSheetArrowImageView;
-    private ImageView plusImageView, minusImageView;
-    private SwitchCompat apiSwitchCompat;
-    private TextView threadsTextView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        //  super.onCreate(null);
         View view = inflater.inflate(R.layout.tfe_od_activity_camera, container, false);
-
-        //  getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         if (hasPermission()) {
             setFragment();
@@ -82,14 +74,7 @@ public abstract class CameraActivity extends androidx.fragment.app.Fragment
             requestPermission();
         }
 
-        threadsTextView = view.findViewById(R.id.threads);
-        plusImageView = view.findViewById(R.id.plus);
-        minusImageView = view.findViewById(R.id.minus);
-        apiSwitchCompat = view.findViewById(R.id.api_info_switch);
-        bottomSheetLayout = view.findViewById(R.id.bottom_sheet_layout);
         gestureLayout = view.findViewById(R.id.gesture_layout);
-        sheetBehavior = BottomSheetBehavior.from(bottomSheetLayout);
-        bottomSheetArrowImageView = view.findViewById(R.id.bottom_sheet_arrow);
 
         ViewTreeObserver vto = gestureLayout.getViewTreeObserver();
         vto.addOnGlobalLayoutListener(
@@ -140,12 +125,6 @@ public abstract class CameraActivity extends androidx.fragment.app.Fragment
         frameValueTextView = view.findViewById(R.id.frame_info);
         cropValueTextView = view.findViewById(R.id.crop_info);
         inferenceTimeTextView = view.findViewById(R.id.inference_info);
-
-        apiSwitchCompat.setOnCheckedChangeListener(this);
-
-        plusImageView.setOnClickListener(this);
-        minusImageView.setOnClickListener(this);
-
         return view;
     }
 
@@ -343,7 +322,7 @@ public abstract class CameraActivity extends androidx.fragment.app.Fragment
                             public void onPreviewSizeChosen(final Size size, final int rotation) {
                                 previewHeight = size.getHeight();
                                 previewWidth = size.getWidth();
-                                CameraActivity.this.onPreviewSizeChosen(size, rotation);
+                                PhotoActivity.this.onPreviewSizeChosen(size, rotation);
                             }
                         },
                         this,
@@ -388,46 +367,6 @@ public abstract class CameraActivity extends androidx.fragment.app.Fragment
         }
     }
 
-    @Override
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        setUseNNAPI(isChecked);
-        if (isChecked) apiSwitchCompat.setText("NNAPI");
-        else apiSwitchCompat.setText("TFLITE");
-    }
-
-    @Override
-    public void onClick(View v) {
-        if (v.getId() == R.id.plus) {
-            String threads = threadsTextView.getText().toString().trim();
-            int numThreads = Integer.parseInt(threads);
-            if (numThreads >= 9) return;
-            numThreads++;
-            threadsTextView.setText(String.valueOf(numThreads));
-            setNumThreads(numThreads);
-        } else if (v.getId() == R.id.minus) {
-            String threads = threadsTextView.getText().toString().trim();
-            int numThreads = Integer.parseInt(threads);
-            if (numThreads == 1) {
-                return;
-            }
-            numThreads--;
-            threadsTextView.setText(String.valueOf(numThreads));
-            setNumThreads(numThreads);
-        }
-    }
-
-    protected void showFrameInfo(String frameInfo) {
-        frameValueTextView.setText(frameInfo);
-    }
-
-    protected void showCropInfo(String cropInfo) {
-        cropValueTextView.setText(cropInfo);
-    }
-
-    protected void showInference(String inferenceTime) {
-        inferenceTimeTextView.setText(inferenceTime);
-    }
-
     protected abstract void processImage();
 
     protected abstract void onPreviewSizeChosen(final Size size, final int rotation);
@@ -435,9 +374,5 @@ public abstract class CameraActivity extends androidx.fragment.app.Fragment
     protected abstract int getLayoutId();
 
     protected abstract Size getDesiredPreviewFrameSize();
-
-    protected abstract void setNumThreads(final int numThreads);
-
-    protected abstract void setUseNNAPI(final boolean isChecked);
 
 }

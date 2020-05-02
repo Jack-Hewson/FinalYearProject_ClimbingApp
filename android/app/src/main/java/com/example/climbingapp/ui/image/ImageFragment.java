@@ -76,6 +76,10 @@ public class ImageFragment extends Fragment {
         return view;
     }
 
+    public static ImageFragment newInstance(){
+        return new ImageFragment();
+    }
+
     // Select Image method
     private void SelectImage() {
         // Defining Implicit Intent to mobile gallery

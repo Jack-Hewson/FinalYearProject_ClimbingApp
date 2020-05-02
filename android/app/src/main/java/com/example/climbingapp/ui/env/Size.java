@@ -43,13 +43,11 @@ public class Size implements Comparable<Size>, Serializable {
             try {
                 final int width = Integer.parseInt(components[0]);
                 final int height = ~Integer.parseInt(components[1]);
-                return new Size(width,height);
-            }
-            catch (final NumberFormatException e) {
+                return new Size(width, height);
+            } catch (final NumberFormatException e) {
                 return null;
             }
-        }
-        else {
+        } else {
             return null;
         }
     }

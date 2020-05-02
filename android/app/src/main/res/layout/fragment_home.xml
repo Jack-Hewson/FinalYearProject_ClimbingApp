@@ -18,15 +18,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-<!--
-    <include
-        android:id="@+id/model_download"
-        layout="@layout/model_download"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/text_home"
-        tools:layout_editor_absoluteX="14dp" />
-        -->
+    <!--
+        <include
+            android:id="@+id/model_download"
+            layout="@layout/model_download"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/text_home"
+            tools:layout_editor_absoluteX="14dp" />
+            -->
     <ViewStub
         android:id="@+id/modelStub"
         android:layout_width="match_parent"
@@ -34,6 +34,6 @@
         android:inflatedId="@+id/inflateview"
         app:layout_constraintTop_toBottomOf="@+id/text_home"
         android:layout="@layout/model_download"
-        tools:layout_editor_absoluteX="14dp"/>
+        tools:layout_editor_absoluteX="14dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

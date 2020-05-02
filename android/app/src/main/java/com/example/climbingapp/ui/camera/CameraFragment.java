@@ -62,9 +62,11 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.climbingapp.R;
 import com.example.climbingapp.ui.customview.AutoFitTextureView;
+import com.example.climbingapp.ui.image.ImageFragment;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -78,7 +80,7 @@ import java.util.List;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
-public class CameraFragment extends Fragment
+public class CameraFragment extends androidx.fragment.app.Fragment
         implements View.OnClickListener, ActivityCompat.OnRequestPermissionsResultCallback {
 
     /**
@@ -219,7 +221,6 @@ public class CameraFragment extends Fragment
                 activity.finish();
             }
         }
-
     };
 
     /**
@@ -351,7 +352,6 @@ public class CameraFragment extends Fragment
                                        @NonNull TotalCaptureResult result) {
             process(result);
         }
-
     };
 
     /**
@@ -370,6 +370,15 @@ public class CameraFragment extends Fragment
             });
         }
     }
+
+    protected void setFragment() {
+        Fragment fragment = new ImageFragment();
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.wholeOverlay, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
+
 
     /**
      * Given {@code choices} of {@code Size}s supported by a camera, choose the smallest one that
@@ -847,6 +856,7 @@ public class CameraFragment extends Fragment
                         activity.runOnUiThread(new Runnable() {
 
                             Bitmap myBitmap = BitmapFactory.decodeFile(mFile.getAbsolutePath());
+
                             @Override
                             public void run() {
                                 photoView.setImageBitmap(myBitmap);
@@ -854,9 +864,7 @@ public class CameraFragment extends Fragment
                         });
                     }
 
-
-
-
+                    setFragment();
                 }
             };
 
@@ -1045,5 +1053,4 @@ public class CameraFragment extends Fragment
                     .create();
         }
     }
-
 }
