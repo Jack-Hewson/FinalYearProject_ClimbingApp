@@ -372,7 +372,7 @@ public class CameraFragment extends androidx.fragment.app.Fragment
     }
 
     protected void setFragment() {
-        Fragment fragment = new ImageFragment();
+        Fragment fragment = new ImageFragment(mFile);
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.wholeOverlay, fragment);
         transaction.addToBackStack(null);

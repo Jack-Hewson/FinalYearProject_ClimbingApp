@@ -2,6 +2,7 @@ package com.example.climbingapp.ui.image;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,14 +18,13 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.example.climbingapp.FileProcessor;
-import com.example.climbingapp.ui.Firebase.FirebaseAPI;
-
 import com.example.climbingapp.R;
+import com.example.climbingapp.ui.Firebase.FirebaseAPI;
 import com.example.climbingapp.ui.ImageObject;
 import com.example.climbingapp.ui.env.Logger;
 
 import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
+import java.io.File;
 import java.io.IOException;
 
 public class ImageFragment extends Fragment {
@@ -35,6 +35,7 @@ public class ImageFragment extends Fragment {
     private ImageView imageView;
     // Uri indicates, where the image will be picked from
     private Uri filePath;
+    private File imgFile;
     // request code
     private final int PICK_IMAGE_REQUEST = 22;
     // instance for firebase storage and StorageReference
@@ -45,13 +46,25 @@ public class ImageFragment extends Fragment {
     byte[] imageByteArray;
     ViewStub stub;
 
+    public ImageFragment(File imgFile) {
+        this.imgFile = imgFile;
+    }
+
+    public ImageFragment() {
+    }
+
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_image, container, false);
         // initialise views
         btnSelect = view.findViewById(R.id.btnChoose);
         btnUpload = view.findViewById(R.id.btnUpload);
         imageView = view.findViewById(R.id.imgView);
+        stub = view.findViewById(R.id.boxStub);
 
+        if (imgFile != null) {
+            loadImage(imgFile);
+            loadStub();
+        }
         // on pressing btnSelect SelectImage() is called
         btnSelect.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,8 +89,42 @@ public class ImageFragment extends Fragment {
         return view;
     }
 
-    public static ImageFragment newInstance(){
-        return new ImageFragment();
+    private Bitmap resizeImage(Bitmap bitmap) {
+        int[] imageResized = fileProcessor.getMaxImageSize(bitmap.getHeight(), bitmap.getWidth());
+        double scale = fileProcessor.getScaleReduction(imageResized, bitmap.getHeight(), bitmap.getWidth());
+        LOGGER.i("Scale = " + scale);
+        return Bitmap.createScaledBitmap(bitmap, imageResized[1], imageResized[0], true);
+    }
+
+    private void showImage(Bitmap bitmap) {
+        Bitmap resized = resizeImage(bitmap);
+        Bitmap rotatedBitmap = rotateImage(resized);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        rotatedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        imageByteArray = baos.toByteArray();
+        imageObject.setImgWidth(rotatedBitmap.getWidth());
+        imageObject.setImgHeight(rotatedBitmap.getHeight());
+        imageView.setImageBitmap(rotatedBitmap);
+    }
+
+    private Bitmap rotateImage(Bitmap bitmap){
+        Matrix matrix = new Matrix();
+        matrix.postRotate(90);
+        return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+    }
+
+    private void loadImage(File imgFile){
+        Bitmap bitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+        showImage(bitmap);
+    }
+
+    private void loadImage(Uri filePath) {
+        try {
+            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), filePath);
+            showImage(bitmap);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     // Select Image method
@@ -90,45 +137,17 @@ public class ImageFragment extends Fragment {
                 Intent.createChooser(intent, "Select Image from here..."), PICK_IMAGE_REQUEST);
     }
 
+    private void loadStub() {
+        if (stub != null) {
+            stub.inflate();
+        }
+    }
+
     // Override onActivityResult method
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        // checking request code and result code. if request code is PICK_IMAGE_REQUEST and
-        // resultCode is RESULT_OK then set image in the image view
-        int[] imageResized;
-        // Get the Uri of data
-        filePath = data.getData();
-        try {
-            Matrix matrix = new Matrix();
-
-            matrix.postRotate(90);
-            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), filePath);
-            imageResized = fileProcessor.getMaxImageSize(bitmap.getHeight(), bitmap.getWidth());
-            double scale = fileProcessor.getScaleReduction(imageResized, bitmap.getHeight(), bitmap.getWidth());
-            LOGGER.i("Scale = " + scale);
-            Bitmap resized = Bitmap.createScaledBitmap(bitmap, imageResized[1], imageResized[0], true);
-            Bitmap rotatedBitmap = Bitmap.createBitmap(resized, 0, 0, resized.getWidth(), resized.getHeight(), matrix, true);
-
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            rotatedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-            imageByteArray = baos.toByteArray();
-            //LOGGER.i("Image WIDTH = " + resized.getWidth());
-            //LOGGER.i("Image HEIGHT = " + resized.getHeight());
-            imageObject.setImgWidth(rotatedBitmap.getWidth());
-            imageObject.setImgHeight(rotatedBitmap.getHeight());
-            //imageView.setRotation(90);
-            imageView.setImageBitmap(rotatedBitmap);
-
-            stub = getView().findViewById(R.id.boxStub);
-            if (stub instanceof ViewStub) {
-                stub.inflate();
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        loadImage(data.getData());
+        loadStub();
     }
 }
