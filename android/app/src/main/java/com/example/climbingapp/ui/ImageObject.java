@@ -19,16 +19,7 @@ public class ImageObject {
     private double imgScale;
 
     private ArrayList<Holds> holds = new ArrayList<>();
-
-    /**
-     * public ImageObject(String filename, int imgWidth, int imgHeight, int imgDepth) {
-     * this.filename = filename;
-     * this.imgWidth = imgWidth;
-     * this.imgHeight = imgHeight;
-     * this.imgDepth = imgDepth;
-     * }
-     */
-
+    
     public class Holds {
         private String holdName;
         private int holdXMin;

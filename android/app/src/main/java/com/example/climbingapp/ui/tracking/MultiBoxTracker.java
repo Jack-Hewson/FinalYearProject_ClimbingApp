@@ -10,7 +10,6 @@ import android.graphics.RectF;
 import android.text.TextUtils;
 import android.util.Pair;
 import android.util.TypedValue;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -141,12 +140,14 @@ public class MultiBoxTracker {
             borderedText.drawText(canvas, trackedPos.left + cornerSize, trackedPos.top,
                     labelString + "%", boxPaint);
 
+
             Button myButton = new Button(context);
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             lp.height = (int) trackedPos.height();
             lp.width = (int) trackedPos.height();
             lp.setMargins((int) trackedPos.left, (int) trackedPos.top, (int) trackedPos.right, (int) trackedPos.bottom);
             myButton.setLayoutParams(lp);
+            myButton.setBackgroundColor(Color.parseColor("#1A000000"));
             buttonOverlay.addView(myButton, lp);
             myButton.setOnClickListener(new View.OnClickListener() {
                 @Override
