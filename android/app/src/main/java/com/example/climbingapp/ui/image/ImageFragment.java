@@ -20,7 +20,7 @@ import androidx.fragment.app.Fragment;
 import com.example.climbingapp.FileProcessor;
 import com.example.climbingapp.R;
 import com.example.climbingapp.ui.Firebase.FirebaseAPI;
-import com.example.climbingapp.ui.ImageObject;
+import com.example.climbingapp.ui.labeller.ImageObject;
 import com.example.climbingapp.ui.env.Logger;
 
 import java.io.ByteArrayOutputStream;

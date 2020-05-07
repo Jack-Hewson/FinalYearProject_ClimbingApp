@@ -15,7 +15,7 @@
  */
 
 
-package com.example.climbingapp.ui;
+package com.example.climbingapp.ui.labeller;
 
 import android.content.Context;
 import android.graphics.Bitmap;

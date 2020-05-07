@@ -2,7 +2,7 @@ package com.example.climbingapp;
 
 import android.content.Context;
 
-import com.example.climbingapp.ui.ImageObject;
+import com.example.climbingapp.ui.labeller.ImageObject;
 import com.example.climbingapp.ui.env.Logger;
 
 import java.io.BufferedReader;

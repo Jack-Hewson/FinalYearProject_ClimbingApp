@@ -1388,7 +1388,6 @@ public class HoldDetectFragment extends Fragment implements View.OnClickListener
         tracker.setFrameConfiguration(previewWidth, previewHeight, sensorOrientation);
     }
 
-
     private enum DetectorMode {
         TF_OD_API
     }

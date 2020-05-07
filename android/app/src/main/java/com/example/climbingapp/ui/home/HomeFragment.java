@@ -2,7 +2,6 @@ package com.example.climbingapp.ui.home;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,9 +24,9 @@ import com.google.firebase.storage.StorageReference;
 public class HomeFragment extends Fragment {
     private static final Logger LOGGER = new Logger();
     private Button btnDownload;
-    FirebaseAPI firebaseAPI = new FirebaseAPI();
-    FileProcessor fileProcessor = new FileProcessor();
-    ProgressBar progressBar;
+    private FirebaseAPI firebaseAPI = new FirebaseAPI();
+    private FileProcessor fileProcessor = new FileProcessor();
+    private ProgressBar progressBar;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
@@ -48,12 +47,11 @@ public class HomeFragment extends Fragment {
                 LOGGER.i("cloud model = " + modelVersion);
                 if (Integer.parseInt(finalLocalModel) < Integer.parseInt(modelVersion)) {
                     LOGGER.i("Cloud version is newer");
-                    LinearLayout linearLayout = (LinearLayout) View
-                            .inflate(getContext(), R.layout.model_download, null);
+                    LinearLayout linearLayout = (LinearLayout) View.inflate(getContext(), R.layout.model_download, null);
 
                     ViewStub stub = view.findViewById(R.id.modelStub);
                     stub.inflate();
-                    progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+                    progressBar = view.findViewById(R.id.progressBar);
 
                     btnDownload = view.findViewById(R.id.downloadYes);
 

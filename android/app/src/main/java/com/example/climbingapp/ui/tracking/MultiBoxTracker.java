@@ -14,10 +14,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.example.climbingapp.R;
 import com.example.climbingapp.ui.env.BorderedText;
 import com.example.climbingapp.ui.env.ImageUtils;
 import com.example.climbingapp.ui.env.Logger;
+import com.example.climbingapp.ui.info.InfoFragment;
 import com.example.climbingapp.ui.tflite.Classifier.Recognition;
 
 import java.util.LinkedList;
@@ -153,9 +158,18 @@ public class MultiBoxTracker {
                 @Override
                 public void onClick(View v) {
                     LOGGER.i(recognition.title + " BUTTON SELECTED");
+                    setFragment(context, recognition.title);
                 }
             });
         }
+    }
+
+    private void setFragment(Context context, String title){
+        Fragment fragment = new InfoFragment(title);
+        FragmentTransaction transaction = ((FragmentActivity) context).getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.activity_camera, fragment);
+        transaction.addToBackStack("main");
+        transaction.commit();
     }
 
     private void processResults(final List<Recognition> results) {

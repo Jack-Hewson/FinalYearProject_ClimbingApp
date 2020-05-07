@@ -74,7 +74,7 @@
          app:outsideCropColor="@color/transparent_50"
          app:resizeCornerDrawable="@drawable/adjust_edge_circle" />
 
-     <com.example.climbingapp.ui.DrawView
+     <com.example.climbingapp.ui.labeller.DrawView
          android:layout_width="match_parent"
          android:layout_height="match_parent"/>
 

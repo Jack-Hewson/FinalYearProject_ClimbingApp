@@ -1,4 +1,4 @@
-package com.example.climbingapp.ui;
+package com.example.climbingapp.ui.labeller;
 
 import java.util.ArrayList;
 

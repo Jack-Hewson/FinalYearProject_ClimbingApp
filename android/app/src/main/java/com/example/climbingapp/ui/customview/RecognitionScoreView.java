@@ -21,7 +21,7 @@ public class RecognitionScoreView extends View implements ResultsView {
     private List<Recognition> results;
 
     public RecognitionScoreView(final Context context, final AttributeSet set) {
-        super(context, set);
+            super(context, set);
 
         textSizePx = TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_DIP, TEXT_SIZE_DIP, getResources().getDisplayMetrics());

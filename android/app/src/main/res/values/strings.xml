@@ -25,4 +25,53 @@
     <string name="modelAvailable">There is a new model available to download</string>
     <string name="modelLocal">Current version: </string>
     <string name="modelCloud">Model Available: </string>
+
+    <!--HOLD INFORMATION-->
+    <!--SLOPER-->
+    <string name="holdTitleSloper">Sloper</string>
+    <string name="holdDifficultySloper">Average</string>
+    <string name="holdTextSloper">A rounded hand hold with no lip or edge of any kind. The secret to
+        slopers is to get as much surface area of the hand on the climbing hold as possible. Slopers
+        work best when your body is below the hold
+    </string>
+    <!--HandStart-->
+    <string name="holdTitleHandstart">Hand Start</string>
+    <string name="holdDifficultyHandstart">None</string>
+    <string name="holdTextHandstart">Used to mark the start of a climbing route, your hands must
+        start on both marked holds and feet off the floor to begin a climb. Hand starts can be
+        marked as small metal discs, tape in a V-shape, or other methods. If you are unsure then ask
+        a staff member at your climbing centre.
+    </string>
+    <!--Crimp-->
+    <string name="holdTitleCrimp">Crimp</string>
+    <string name="holdDifficultyCrimp">Hard</string>
+    <string name="holdTextCrimp">Imagine the top of a door frame. A crimp is a small hold with a
+        positive edge for your fingers. Crimps require finger strength which can take a while to
+        gain.
+    </string>
+    <!--Pinch-->
+    <string name="holdTitlePinch">Pinch</string>
+    <string name="holdDifficultyPinch">Average to Hard</string>
+    <string name="holdTextPinch">The kind of hold that you\'ll grip by squeezing with your fingers
+        and thumb placed on opposing sides. Pinches come in all different sizes and shapes. Some are
+        small and require good finger strength and some are larger and easier.
+    </string>
+    <!--Jug-->
+    <string name="holdTitleJug">Jug</string>
+    <string name="holdDifficultyJug">Easy</string>
+    <string name="holdTextJug">A climber\'s best friend. Big and deep, it\'s the kind of hold you can
+        get your fingers securely behind. When using a jug. Keep your arms straight to avoid them
+        getting tired too quickly
+    </string>
+    <!--Pocket-->
+    <string name="holdTitlePocket">Pocket</string>
+    <string name="holdDifficultyPocket">Easy to Hard</string>
+    <string name="holdTextPocket">A hold with a hole in it. Hole size varies from being able to fit
+        4 fingers in to only 1 finger.
+    </string>
+    <!--Octopus Pinch-->
+    <string name="holdTitleOctopusPinch">Octopus Pinch</string>
+    <string name="holdDifficultyOctopusPinch">Average</string>
+    <string name="holdTextOctopusPinch">A hold consisting of multiple pinch holds.</string>
+    <!--/HOLD INFORMATION-->
 </resources>

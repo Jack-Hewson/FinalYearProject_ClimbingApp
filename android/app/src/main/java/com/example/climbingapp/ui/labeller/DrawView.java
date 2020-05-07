@@ -15,9 +15,7 @@
  */
 
 
-package com.example.climbingapp.ui;
-
-import java.util.ArrayList;
+package com.example.climbingapp.ui.labeller;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -26,7 +24,6 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.text.Layout;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -38,6 +35,8 @@ import androidx.annotation.NonNull;
 
 import com.example.climbingapp.R;
 import com.example.climbingapp.ui.env.Logger;
+
+import java.util.ArrayList;
 
 public class DrawView extends View {
 
@@ -156,6 +155,7 @@ public class DrawView extends View {
             public void onClick(View v) {
                 ImageObject.Holds h = imageObject.new Holds("HOLD1", point3.x, point3.y, point1.x, point1.y);
                 LOGGER.i("Button clicked");
+
             }
         });
     }
@@ -168,7 +168,6 @@ public class DrawView extends View {
         int Y = (int) event.getY();
 
         switch (eventaction) {
-
             case MotionEvent.ACTION_DOWN: // touch down so check if the finger is on
                 // a ball
                 balID = -1;
