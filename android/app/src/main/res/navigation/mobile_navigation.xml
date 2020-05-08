@@ -19,15 +19,9 @@
 
     <fragment
         android:id="@+id/nav_info"
-        android:name="com.example.climbingapp.ui.info.InfoFragment"
+        android:name="com.example.climbingapp.ui.info.InfoListFragment"
         android:label="@string/menu_info"
         tools:layout="@layout/fragment_info" />
-
-    <fragment
-        android:id="@+id/nav_tools"
-        android:name="com.example.climbingapp.ui.options.OptionsFragment"
-        android:label="@string/menu_options"
-        tools:layout="@layout/fragment_options" />
 
     <fragment
         android:id="@+id/nav_share"
@@ -40,4 +34,10 @@
         android:name="com.example.climbingapp.ui.image.ImageFragment"
         android:label="@string/menu_image"
         tools:layout="@layout/fragment_image" />
+
+    <fragment
+        android:id="@+id/nav_options"
+        android:name="com.example.climbingapp.ui.options.OptionsFragment"
+        android:label="@string/menu_options"
+        tools:layout="@layout/fragment_options" />
 </navigation>

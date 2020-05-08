@@ -22,7 +22,6 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class InfoFragment extends Fragment {
-
     private static final Logger LOGGER = new Logger();
     TextView txtHoldTitle;
     TextView txtHoldDiff;
