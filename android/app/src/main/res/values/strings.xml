@@ -74,4 +74,14 @@
     <string name="holdDifficultyOctopusPinch">Average</string>
     <string name="holdTextOctopusPinch">A hold consisting of multiple pinch holds.</string>
     <!--/HOLD INFORMATION-->
+
+    <string-array name="hold_list">
+        <item>Sloper</item>
+        <item>Hand Start</item>
+        <item>Crimp</item>
+        <item>Pinch</item>
+        <item>Jug</item>
+        <item>Pocket</item>
+        <item>Octopus Pinch</item>
+    </string-array>
 </resources>

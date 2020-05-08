@@ -15,19 +15,18 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 
 import com.example.climbingapp.FileProcessor;
 import com.example.climbingapp.R;
 import com.example.climbingapp.ui.Firebase.FirebaseAPI;
-import com.example.climbingapp.ui.labeller.ImageObject;
 import com.example.climbingapp.ui.env.Logger;
+import com.example.climbingapp.ui.labeller.ImageObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 
-public class ImageFragment extends Fragment {
+public class ImageFragment extends androidx.fragment.app.Fragment{
     private static final Logger LOGGER = new Logger();
     // views for button
     private Button btnSelect, btnUpload;
@@ -84,6 +83,7 @@ public class ImageFragment extends Fragment {
                 LOGGER.i("file location = " + fileLocation);
                 //FileInputStream fis = fileProcessor.readFile(getContext(), filename);
                 firebaseAPI.uploadFile(getContext(), fileLocation);
+
             }
         });
         return view;

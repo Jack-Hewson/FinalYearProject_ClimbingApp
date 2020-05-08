@@ -27,8 +27,7 @@ public class ImageObject {
         private int holdXMax;
         private int holdYMax;
 
-        public Holds(String holdName, int holdXMin, int holdYMin, int holdXMax, int holdYMax) {
-            this.holdName = holdName;
+        public Holds(int holdXMin, int holdYMin, int holdXMax, int holdYMax) {
             this.holdXMin = (int) Math.floor(holdXMin / (imgScale * 0.75));
             this.holdYMin = (int) Math.floor(holdYMin / (imgScale * 0.75));
             this.holdXMax = (int) Math.ceil(holdXMax / (imgScale * 0.75));
@@ -54,6 +53,10 @@ public class ImageObject {
 
         public int getHoldYMax() {
             return holdYMax;
+        }
+
+        public void setHoldName(String holdName){
+            this.holdName = holdName;
         }
     }
 
