@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.climbingapp.ui.image.ImageFragment"
+    tools:context="com.bouldr.climbingapp.ui.image.ImageFragment"
     android:background="@color/design_default_color_primary">
 
     <!--Linear Layout with horizontal orientation
@@ -60,7 +60,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintVertical_bias="0.0" />
 
-    <com.example.climbingapp.ui.IconCropView
+    <com.bouldr.climbingapp.ui.IconCropView
          android:layout_width="match_parent"
          android:layout_height="match_parent"
          android:background="@color/transparent"
@@ -74,7 +74,7 @@
          app:outsideCropColor="@color/transparent_50"
          app:resizeCornerDrawable="@drawable/adjust_edge_circle" />
 
-     <com.example.climbingapp.ui.labeller.DrawView
+     <com.bouldr.climbingapp.ui.labeller.DrawView
          android:layout_width="match_parent"
          android:layout_height="match_parent"/>
 

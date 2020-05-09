@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="#00000000">
     <!--
-        <com.example.climbingapp.ui.customview.AutoFitTextureView
+        <com.bouldr.climbingapp.ui.customview.AutoFitTextureView
             android:id="@+id/texture"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -25,7 +25,7 @@
             android:id="@+id/container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context="com.example.climbingapp.CameraActivity">
+            tools:context="com.bouldr.climbingapp.CameraActivity">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"

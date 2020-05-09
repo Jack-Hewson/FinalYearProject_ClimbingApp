@@ -4,12 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.example.climbingapp.ui.customview.AutoFitTextureView
+    <com.bouldr.climbingapp.ui.customview.AutoFitTextureView
         android:id="@+id/texture"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <com.example.climbingapp.ui.customview.OverlayView
+    <com.bouldr.climbingapp.ui.customview.OverlayView
         android:id="@+id/tracking_overlay"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

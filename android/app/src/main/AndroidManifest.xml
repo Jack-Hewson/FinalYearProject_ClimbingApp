@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.climbingapp">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.bouldr.climbingapp">
 
     <uses-sdk />
 
@@ -16,9 +17,11 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme.NoActionBar">
+        android:theme="@style/AppTheme.NoActionBar"
+        android:debuggable="false"
+        tools:ignore="HardcodedDebugMode">
         <activity
-            android:name=".MainActivity"
+            android:name="com.bouldr.climbingapp.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>

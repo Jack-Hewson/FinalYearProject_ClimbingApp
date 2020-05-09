@@ -11,7 +11,7 @@
         android:layout_alignParentBottom="true"
         android:text="Ok" />
 
-    <com.example.climbingapp.ui.labeller.DrawView
+    <com.bouldr.climbingapp.ui.labeller.DrawView
         android:id="@+id/drawView1"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

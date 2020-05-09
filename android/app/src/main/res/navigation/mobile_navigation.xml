@@ -7,37 +7,37 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="com.example.climbingapp.ui.home.HomeFragment"
+        android:name="com.bouldr.climbingapp.ui.home.HomeFragment"
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/nav_gallery"
-        android:name="com.example.climbingapp.DetectorActivity"
+        android:name="com.bouldr.climbingapp.DetectorActivity"
         android:label="@string/menu_detection"
         tools:layout="@layout/tfe_od_activity_camera" />
 
     <fragment
         android:id="@+id/nav_info"
-        android:name="com.example.climbingapp.ui.info.InfoListFragment"
+        android:name="com.bouldr.climbingapp.ui.info.InfoListFragment"
         android:label="@string/menu_info"
         tools:layout="@layout/fragment_info" />
 
     <fragment
         android:id="@+id/nav_share"
-        android:name="com.example.climbingapp.ui.camera.CameraFragment"
+        android:name="com.bouldr.climbingapp.ui.camera.CameraFragment"
         android:label="@string/menu_camera"
         tools:layout="@layout/fragment_camera" />
 
     <fragment
         android:id="@+id/nav_send"
-        android:name="com.example.climbingapp.ui.image.ImageFragment"
+        android:name="com.bouldr.climbingapp.ui.image.ImageFragment"
         android:label="@string/menu_image"
         tools:layout="@layout/fragment_image" />
 
     <fragment
         android:id="@+id/nav_options"
-        android:name="com.example.climbingapp.ui.options.OptionsFragment"
+        android:name="com.bouldr.climbingapp.ui.options.OptionsFragment"
         android:label="@string/menu_options"
         tools:layout="@layout/fragment_options" />
 </navigation>
