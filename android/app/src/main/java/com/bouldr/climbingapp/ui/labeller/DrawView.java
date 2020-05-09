@@ -137,7 +137,7 @@ public class DrawView extends View {
             @Override
             public void onClick(View v) {
                 ImageObject.Holds h = imageObject.new Holds(point3.x, point3.y, point1.x, point1.y);
-                MyDialogFragment dialogFragment = new MyDialogFragment(h);
+                holdNameDialogFragment dialogFragment = new holdNameDialogFragment(h);
 
                 Bundle bundle = new Bundle();
                 bundle.putBoolean("notAlertDialog", true);

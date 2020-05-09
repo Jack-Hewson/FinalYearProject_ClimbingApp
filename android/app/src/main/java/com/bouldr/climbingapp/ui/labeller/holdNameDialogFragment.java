@@ -19,14 +19,14 @@ import androidx.annotation.Nullable;
 import com.bouldr.climbingapp.R;
 
 @SuppressLint("ValidFragment")
-public class MyDialogFragment extends DialogFragment {
+public class holdNameDialogFragment extends DialogFragment {
     ListView listView;
     String[] listItem;
     String holdValue;
     ImageObject.Holds hold;
 
     @SuppressLint("ValidFragment")
-    public MyDialogFragment(ImageObject.Holds hold){
+    public holdNameDialogFragment(ImageObject.Holds hold){
         this.hold = hold;
     }
 
@@ -39,7 +39,7 @@ public class MyDialogFragment extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_sample_dialog, container, false);
+        return inflater.inflate(R.layout.holdname_dialog, container, false);
     }
 
     @Override

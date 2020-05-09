@@ -19,21 +19,13 @@
 
     <fragment
         android:id="@+id/nav_info"
-<<<<<<< HEAD
-<<<<<<< HEAD
         android:name="com.bouldr.climbingapp.ui.info.InfoListFragment"
-=======
-        android:name="com.example.climbingapp.ui.info.InfoFragment"
->>>>>>> parent of 3dee2f1... minor adjustments to code
-=======
-        android:name="com.example.climbingapp.ui.info.InfoFragment"
->>>>>>> parent of 3dee2f1... minor adjustments to code
         android:label="@string/menu_info"
         tools:layout="@layout/fragment_info" />
 
     <fragment
         android:id="@+id/nav_tools"
-        android:name="com.example.climbingapp.ui.options.OptionsFragment"
+        android:name="com.bouldr.climbingapp.ui.options.OptionsFragment"
         android:label="@string/menu_options"
         tools:layout="@layout/fragment_options" />
 
@@ -48,16 +40,10 @@
         android:name="com.bouldr.climbingapp.ui.image.ImageFragment"
         android:label="@string/menu_image"
         tools:layout="@layout/fragment_image" />
-<<<<<<< HEAD
-<<<<<<< HEAD
 
     <fragment
         android:id="@+id/nav_options"
         android:name="com.bouldr.climbingapp.ui.options.OptionsFragment"
         android:label="@string/menu_options"
         tools:layout="@layout/fragment_options" />
-=======
->>>>>>> parent of 3dee2f1... minor adjustments to code
-=======
->>>>>>> parent of 3dee2f1... minor adjustments to code
 </navigation>

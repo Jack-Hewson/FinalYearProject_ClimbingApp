@@ -1,39 +1,19 @@
 package com.bouldr.climbingapp;
 
-import android.Manifest;
-import android.content.Intent;
-import android.media.ImageReader;
 import android.os.Bundle;
+import android.view.Menu;
+import android.widget.TextView;
 
-import com.example.climbingapp.ui.Firebase.FirebaseAPI;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
-import android.view.View;
-
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-<<<<<<< HEAD:android/app/src/main/java/com/bouldr/climbingapp/MainActivity.java
-<<<<<<< HEAD:android/app/src/main/java/com/bouldr/climbingapp/MainActivity.java
 import com.bouldr.climbingapp.ui.Firebase.FirebaseAPI;
-=======
->>>>>>> parent of 3dee2f1... minor adjustments to code:android/app/src/main/java/com/example/climbingapp/MainActivity.java
-=======
->>>>>>> parent of 3dee2f1... minor adjustments to code:android/app/src/main/java/com/example/climbingapp/MainActivity.java
 import com.google.android.material.navigation.NavigationView;
-
-import androidx.drawerlayout.widget.DrawerLayout;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
-import android.view.Menu;
-
-import android.media.ImageReader.OnImageAvailableListener;
-import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 

@@ -13,12 +13,6 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="10"
-        android:background="@color/transparent" />
-
-    <RelativeLayout
-        android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <TextView
@@ -64,7 +58,6 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/lblDiff"
             android:text="Easy to hard"/>
-
     </RelativeLayout>
 
     <RelativeLayout
@@ -79,10 +72,4 @@
             android:layout_height="wrap_content"
             android:text="LONG TEXT HERE" />
     </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="10"
-        android:background="@color/transparent" />
 </LinearLayout>
