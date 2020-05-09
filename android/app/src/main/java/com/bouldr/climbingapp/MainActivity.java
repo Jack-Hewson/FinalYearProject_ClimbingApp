@@ -17,7 +17,10 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 <<<<<<< HEAD:android/app/src/main/java/com/bouldr/climbingapp/MainActivity.java
+<<<<<<< HEAD:android/app/src/main/java/com/bouldr/climbingapp/MainActivity.java
 import com.bouldr.climbingapp.ui.Firebase.FirebaseAPI;
+=======
+>>>>>>> parent of 3dee2f1... minor adjustments to code:android/app/src/main/java/com/example/climbingapp/MainActivity.java
 =======
 >>>>>>> parent of 3dee2f1... minor adjustments to code:android/app/src/main/java/com/example/climbingapp/MainActivity.java
 import com.google.android.material.navigation.NavigationView;

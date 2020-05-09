@@ -21,7 +21,10 @@ import java.io.InputStream;
 
 public class InfoFragment extends Fragment {
 <<<<<<< HEAD:android/app/src/main/java/com/bouldr/climbingapp/ui/info/InfoFragment.java
+<<<<<<< HEAD:android/app/src/main/java/com/bouldr/climbingapp/ui/info/InfoFragment.java
 =======
+=======
+>>>>>>> parent of 3dee2f1... minor adjustments to code:android/app/src/main/java/com/example/climbingapp/ui/info/InfoFragment.java
 
     private static final Logger LOGGER = new Logger();
 >>>>>>> parent of 3dee2f1... minor adjustments to code:android/app/src/main/java/com/example/climbingapp/ui/info/InfoFragment.java
