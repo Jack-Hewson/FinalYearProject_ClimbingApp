@@ -13,21 +13,25 @@ import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.bouldr.climbingapp.FileProcessor;
 import com.bouldr.climbingapp.R;
 import com.bouldr.climbingapp.ui.Firebase.FirebaseAPI;
+import com.bouldr.climbingapp.ui.env.Logger;
 import com.bouldr.climbingapp.ui.labeller.ImageObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 
-public class ImageFragment extends androidx.fragment.app.Fragment{
+public class ImageFragment extends androidx.fragment.app.Fragment {
+    private static final Logger LOGGER = new Logger();
     // views for button
-    private Button btnSelect, btnUpload;
+    private Button btnSelect, btnUpload, btnRotate;
     // view for image view
     private ImageView imageView;
     // Uri indicates, where the image will be picked from
@@ -42,6 +46,8 @@ public class ImageFragment extends androidx.fragment.app.Fragment{
     ImageObject imageObject = ImageObject.getInstance();
     byte[] imageByteArray;
     ViewStub stub;
+    Bitmap bitmap;
+    private boolean isInflated;
 
     public ImageFragment(File imgFile) {
         this.imgFile = imgFile;
@@ -50,18 +56,30 @@ public class ImageFragment extends androidx.fragment.app.Fragment{
     public ImageFragment() {
     }
 
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_image, container, false);
-        // initialise views
-        btnSelect = view.findViewById(R.id.btnChoose);
-        btnUpload = view.findViewById(R.id.btnUpload);
-        imageView = view.findViewById(R.id.imgView);
-        stub = view.findViewById(R.id.boxStub);
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         if (imgFile != null) {
             loadImage(imgFile);
             loadStub();
         }
+    }
+
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_image, container, false);
+        // initialise views
+        btnSelect = view.findViewById(R.id.btnChoose);
+        btnUpload = view.findViewById(R.id.btnUpload);
+        btnRotate = view.findViewById(R.id.btnRotate);
+        imageView = view.findViewById(R.id.imgView);
+        stub = view.findViewById(R.id.boxStub);
+        stub.setOnInflateListener(new ViewStub.OnInflateListener() {
+            @Override
+            public void onInflate(ViewStub stub, View inflated) {
+                isInflated = true;
+            }
+        });
         // on pressing btnSelect SelectImage() is called
         btnSelect.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,7 +97,13 @@ public class ImageFragment extends androidx.fragment.app.Fragment{
                 String fileLocation = fileProcessor.createXMLFile(getContext(), imageName);
                 //FileInputStream fis = fileProcessor.readFile(getContext(), filename);
                 firebaseAPI.uploadFile(getContext(), fileLocation);
+            }
+        });
 
+        btnRotate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showImage();
             }
         });
         return view;
@@ -87,36 +111,40 @@ public class ImageFragment extends androidx.fragment.app.Fragment{
 
     private Bitmap resizeImage(Bitmap bitmap) {
         int[] imageResized = fileProcessor.getMaxImageSize(bitmap.getHeight(), bitmap.getWidth());
+        LOGGER.i("ORIGINAL = " + bitmap.getHeight() + " " + bitmap.getWidth() + " NEW = " + imageResized[1] + " " + imageResized[0]);
         double scale = fileProcessor.getScaleReduction(imageResized, bitmap.getHeight(), bitmap.getWidth());
         return Bitmap.createScaledBitmap(bitmap, imageResized[1], imageResized[0], true);
     }
 
-    private void showImage(Bitmap bitmap) {
+    private void showImage() {
+        LOGGER.i("bitmap is " + bitmap);
         Bitmap resized = resizeImage(bitmap);
         Bitmap rotatedBitmap = rotateImage(resized);
+        this.bitmap = rotatedBitmap;
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         rotatedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         imageByteArray = baos.toByteArray();
         imageObject.setImgWidth(rotatedBitmap.getWidth());
         imageObject.setImgHeight(rotatedBitmap.getHeight());
+        LOGGER.i("setting image bitmap");
         imageView.setImageBitmap(rotatedBitmap);
     }
 
-    private Bitmap rotateImage(Bitmap bitmap){
+    private Bitmap rotateImage(Bitmap bitmap) {
         Matrix matrix = new Matrix();
         matrix.postRotate(90);
         return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
     }
 
-    private void loadImage(File imgFile){
-        Bitmap bitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-        showImage(bitmap);
+    private void loadImage(File imgFile) {
+        bitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+        showImage();
     }
 
     private void loadImage(Uri filePath) {
         try {
-            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), filePath);
-            showImage(bitmap);
+            bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), filePath);
+            showImage();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -133,7 +161,9 @@ public class ImageFragment extends androidx.fragment.app.Fragment{
     }
 
     private void loadStub() {
-        if (stub != null) {
+        //loadRotateButton();
+        btnRotate.setVisibility(getView().VISIBLE);
+        if (stub != null && !isInflated) {
             stub.inflate();
         }
     }
@@ -144,5 +174,27 @@ public class ImageFragment extends androidx.fragment.app.Fragment{
         super.onActivityResult(requestCode, resultCode, data);
         loadImage(data.getData());
         loadStub();
+    }
+
+    public void loadRotateButton() {
+        if (!btnRotate.isEnabled()) {
+            btnRotate = new Button(getActivity());
+            btnRotate.setText("Rotate");
+            // LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            btnRotate.setHeight(getView().findViewById(R.id.btnChoose).getHeight());
+            btnRotate.setWidth(getView().findViewById(R.id.layout_button).getWidth());
+            LinearLayout ll = getView().findViewById(R.id.layout_button);
+            ll.addView(btnRotate);
+            btnRotate.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //imageView.setImageResource(0);
+                    showImage();
+                }
+            });
+        } else {
+            LOGGER.i("BUTTON IS ENABLED");
+        }
+
     }
 }

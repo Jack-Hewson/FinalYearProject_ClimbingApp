@@ -4,35 +4,51 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.bouldr.climbingapp.ui.image.ImageFragment"
-    android:background="@color/design_default_color_primary">
+    android:background="@color/colorSecondaryLight"
+    tools:context="com.bouldr.climbingapp.ui.image.ImageFragment">
 
     <!--Linear Layout with horizontal orientation
         and other properties-->
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/layout_button"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:orientation="horizontal"
-        android:weightSum="2">
+        android:layout_height="wrap_content">
 
-        <!--Button for choosing image from gallery-->
         <Button
-            android:id="@+id/btnChoose"
-            android:layout_width="0dp"
+            android:id="@+id/btnRotate"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Choose" />
+            android:text="Rotate"
+            android:visibility="invisible"/>
 
-        <!--Button for uploading image-->
-        <Button
-            android:id="@+id/btnUpload"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:id="@+id/linear_button"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Upload" />
-    </LinearLayout>
+            android:layout_alignParentTop="true"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <!--Button for choosing image from gallery-->
+            <Button
+                android:id="@+id/btnChoose"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Choose"
+                android:backgroundTint="@color/colorSecondaryDark"/>
+
+            <!--Button for uploading image-->
+            <Button
+                android:id="@+id/btnUpload"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Upload"
+                android:backgroundTint="@color/colorSecondaryDark"/>
+        </LinearLayout>
+    </RelativeLayout>
+
 
     <!--Image View for showing image choosen from gallery-->
     <RelativeLayout
@@ -44,8 +60,8 @@
             android:id="@+id/imgView"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:scaleType="fitCenter"
-            android:adjustViewBounds="true" />
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter" />
         <!--
     <ImageView
         android:id="@+id/crop_image"

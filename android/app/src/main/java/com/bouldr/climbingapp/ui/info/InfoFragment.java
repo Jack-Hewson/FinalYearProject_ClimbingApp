@@ -4,6 +4,7 @@ import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,19 +43,23 @@ public class InfoFragment extends DialogFragment {
         txtHoldTitle = view.findViewById(R.id.holdTitle);
         txtHoldDiff = view.findViewById(R.id.holdDiff);
         txtHoldText = view.findViewById(R.id.holdText);
+        txtHoldDiff.setMovementMethod(new ScrollingMovementMethod());
         imgHold = view.findViewById(R.id.holdImage);
 
-        int titleInt = getContext().getResources().getIdentifier("holdTitle" + holdName, "string", getContext().getPackageName());
-        int diffInt = getContext().getResources().getIdentifier("holdDifficulty" + holdName, "string", getContext().getPackageName());
-        int textInt = getContext().getResources().getIdentifier("holdText" + holdName, "string", getContext().getPackageName());
-        int imgInt = getContext().getResources().getIdentifier(holdName, "holdImages", getContext().getPackageName());
+        int titleInt = getContext().getResources().getIdentifier("holdTitle" + holdName.replaceAll("\\s+", ""), "string", getContext().getPackageName());
+        int diffInt = getContext().getResources().getIdentifier("holdDifficulty" + holdName.replaceAll("\\s+", ""), "string", getContext().getPackageName());
+        int textInt = getContext().getResources().getIdentifier("holdText" + holdName.replaceAll("\\s+", ""), "string", getContext().getPackageName());
+        int imgInt = getContext().getResources().getIdentifier((holdName.toLowerCase()).replaceAll("\\s+", ""), "drawable", getContext().getPackageName());
 
-        Bitmap assetFile = getBitmapFromAssets(holdName);
+        LOGGER.i("Hold name = " + holdName);
+        LOGGER.i("Hold lower case = " + holdName.toLowerCase());
+        LOGGER.i("Hold no white space = " + (holdName.toLowerCase()).replaceAll("\\s+", ""));
+
 
         txtHoldTitle.setText(titleInt);
         txtHoldDiff.setText(diffInt);
         txtHoldText.setText(textInt);
-        imgHold.setImageResource(R.drawable.sloper);
+        imgHold.setImageResource(imgInt);
 
         btnClose.setOnClickListener(new View.OnClickListener() {
             @Override

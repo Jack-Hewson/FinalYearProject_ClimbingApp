@@ -24,8 +24,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.ImageFormat;
 import android.graphics.Matrix;
 import android.graphics.Point;
@@ -442,8 +440,6 @@ public class CameraFragment extends androidx.fragment.app.Fragment
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
         view.findViewById(R.id.picture).setOnClickListener(this);
-        view.findViewById(R.id.info).setOnClickListener(this);
-        photoView = view.findViewById(R.id.photoView);
         mTextureView = view.findViewById(R.id.texture);
     }
 
@@ -850,19 +846,6 @@ public class CameraFragment extends androidx.fragment.app.Fragment
                     showToast("Saved: " + mFile);
                     Log.d(TAG, mFile.toString());
                     unlockFocus();
-
-                    final Activity activity = getActivity();
-                    if (activity != null) {
-                        activity.runOnUiThread(new Runnable() {
-
-                            Bitmap myBitmap = BitmapFactory.decodeFile(mFile.getAbsolutePath());
-
-                            @Override
-                            public void run() {
-                                photoView.setImageBitmap(myBitmap);
-                            }
-                        });
-                    }
 
                     setFragment();
                 }

@@ -1,17 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorPrimary">#fbc02d</color>
+    <color name="colorPrimaryDark">#c49000</color>
+    <color name="colorPrimaryLight">#fff263</color>
+    <color name="colorSecondary">#2d67fb</color>
+    <color name="colorSecondaryDark">#003ec7</color>
+    <color name="colorSecondaryLight">#7794ff</color>
     <color name="colorAccent">#D81B60</color>
     <color name="control_background">#cc4285f4</color>
 
+    <!--
     <color name="tfe_color_primary">#ffa800</color>
     <color name="tfe_color_primary_dark">#ff6f00</color>
     <color name="tfe_color_accent">#425066</color>
 
     <color name="tfe_semi_transparent">#66000000</color>
-
+-->
     <color name="transparent">#06000000</color>
     <color name="transparent_50">#7FFF0000</color>
     <color name="turq">#40E0D0</color>
+    <color name="black">#000</color>
 </resources>

@@ -146,7 +146,8 @@ public class MultiBoxTracker {
             lp.width = (int) trackedPos.height();
             lp.setMargins((int) trackedPos.left, (int) trackedPos.top, (int) trackedPos.right, (int) trackedPos.bottom);
             myButton.setLayoutParams(lp);
-            myButton.setBackgroundColor(Color.parseColor("#1A000000"));
+            //myButton.setBackgroundColor(Color.parseColor("#1A000000"));
+            myButton.getBackground().setAlpha(0);
             buttonOverlay.addView(myButton, lp);
             myButton.setOnClickListener(new View.OnClickListener() {
                 @Override

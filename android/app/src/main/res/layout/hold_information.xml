@@ -6,9 +6,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center_horizontal"
+    android:background="@color/colorSecondary"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:padding="8dp"
+    android:padding="10dp"
     app:behavior_hideable="true">
 
     <RelativeLayout
@@ -20,56 +21,63 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_alignParentEnd="true"
-            android:background="@color/colorPrimary"
-            android:text="HOLD NAME"
-            android:textAlignment="center"/>
+            android:background="@color/colorSecondaryDark"
+            android:padding="10dp"
+            android:textAlignment="center"
+            android:textAllCaps="true" />
 
         <Button
             android:id="@+id/holdClose"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="43dp"
+            android:layout_height="38dp"
             android:layout_alignParentEnd="true"
-            android:text="X" />
+            android:layout_marginEnd="0dp"
+            android:text="X"
+            android:background="#00FF0000"/>
     </RelativeLayout>
 
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="20"
-        android:background="@color/colorPrimary">
+        android:layout_weight="20">
 
         <ImageView
             android:id="@+id/holdImage"
             android:layout_width="200dp"
             android:layout_height="200dp"
             android:layout_alignParentLeft="true"
-            android:layout_marginLeft="0dp" />
+            android:layout_marginLeft="0dp"
+            android:padding="10dp" />
 
         <TextView
             android:id="@+id/lblDiff"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/holdImage"
+            android:layout_toEndOf="@id/holdImage"
+            android:padding="10dp"
             android:text="Difficulty: " />
+
         <TextView
             android:id="@+id/holdDiff"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/lblDiff"
-            android:text="Easy to hard"/>
+            android:layout_toEndOf="@+id/lblDiff"
+            android:padding="10dp" />
     </RelativeLayout>
 
-    <RelativeLayout
-        android:layout_width="fill_parent"
+    <ScrollView
+        android:id="@+id/holdScroll"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="70"
-        android:background="@color/colorPrimary">
+        android:scrollbars="vertical">
 
         <TextView
             android:id="@+id/holdText"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="LONG TEXT HERE" />
-    </RelativeLayout>
+            android:layout_height="match_parent"
+            android:background="@color/colorSecondaryLight"
+            android:padding="10dp" />
+    </ScrollView>
 </LinearLayout>

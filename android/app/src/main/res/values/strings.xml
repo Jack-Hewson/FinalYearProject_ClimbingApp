@@ -35,9 +35,9 @@
         work best when your body is below the hold
     </string>
     <!--HandStart-->
-    <string name="holdTitleHandstart">Hand Start</string>
-    <string name="holdDifficultyHandstart">None</string>
-    <string name="holdTextHandstart">Used to mark the start of a climbing route, your hands must
+    <string name="holdTitleHandStart">Hand Start</string>
+    <string name="holdDifficultyHandStart">None</string>
+    <string name="holdTextHandStart">Used to mark the start of a climbing route, your hands must
         start on both marked holds and feet off the floor to begin a climb. Hand starts can be
         marked as small metal discs, tape in a V-shape, or other methods. If you are unsure then ask
         a staff member at your climbing centre.

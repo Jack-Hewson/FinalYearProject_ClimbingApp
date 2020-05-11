@@ -55,7 +55,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:text="Download" />
+            android:text="Download"
+            android:backgroundTint="@color/colorSecondary"/>
 
     </RelativeLayout>
 
