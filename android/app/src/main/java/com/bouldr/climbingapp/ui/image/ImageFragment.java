@@ -14,11 +14,12 @@ import android.view.ViewStub;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.bouldr.climbingapp.FileProcessor;
+import com.bouldr.climbingapp.ui.labeller.FileProcessor;
 import com.bouldr.climbingapp.R;
 import com.bouldr.climbingapp.ui.Firebase.FirebaseAPI;
 import com.bouldr.climbingapp.ui.env.Logger;
@@ -92,21 +93,40 @@ public class ImageFragment extends androidx.fragment.app.Fragment {
         btnUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(imageLabelled()) {
                 String imageName = firebaseAPI.uploadImage(getContext(), imageByteArray);
                 imageObject.setFilename(imageName + ".jpg");
                 String fileLocation = fileProcessor.createXMLFile(getContext(), imageName);
                 //FileInputStream fis = fileProcessor.readFile(getContext(), filename);
                 firebaseAPI.uploadFile(getContext(), fileLocation);
+                stub.setVisibility(View.GONE);
+                imageView.setImageResource(0);
+                } else {
+                    Toast.makeText(getContext(), "Image not labelled",
+                            Toast.LENGTH_LONG).show();
+                }
             }
         });
 
         btnRotate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showImage();
+                try {
+                    showImage();
+                } catch (Exception e) {
+
+                }
             }
         });
         return view;
+    }
+
+    public boolean imageLabelled(){
+        if(imageObject.getHolds() == null || imageObject.getHolds().isEmpty()) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     private Bitmap resizeImage(Bitmap bitmap) {
@@ -132,8 +152,12 @@ public class ImageFragment extends androidx.fragment.app.Fragment {
 
     private Bitmap rotateImage(Bitmap bitmap) {
         Matrix matrix = new Matrix();
-        matrix.postRotate(90);
-        return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+        try {
+            matrix.postRotate(90);
+            return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+        } catch (Exception e) {
+            return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+        }
     }
 
     private void loadImage(File imgFile) {
@@ -162,9 +186,10 @@ public class ImageFragment extends androidx.fragment.app.Fragment {
 
     private void loadStub() {
         //loadRotateButton();
-        btnRotate.setVisibility(getView().VISIBLE);
         if (stub != null && !isInflated) {
             stub.inflate();
+        } else {
+            stub.setVisibility(View.VISIBLE);
         }
     }
 

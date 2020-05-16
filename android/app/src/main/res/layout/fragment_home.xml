@@ -3,7 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/fragment_home">
+
+    <TextView
+        android:id="@+id/homeWelcome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Welcome to Bouldr!"
+        android:padding="10dp"
+        android:textAlignment="center"
+        android:textSize="30dp"/>
 <!--
     <TextView
         android:id="@+id/text_home"
@@ -33,7 +43,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inflatedId="@+id/inflateview"
-
+        app:layout_constraintTop_toBottomOf="@+id/homeWelcome"
         android:layout="@layout/model_download"
         tools:layout_editor_absoluteX="14dp"/>
     <!--app:layout_constraintTop_toBottomOf="@+id/text_home"-->

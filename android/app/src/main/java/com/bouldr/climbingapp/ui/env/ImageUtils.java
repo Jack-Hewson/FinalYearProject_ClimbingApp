@@ -10,13 +10,6 @@ import java.io.FileOutputStream;
 public class ImageUtils {
     static final int kMaxChannelValue = 262143;
 
-    public static int getYUVByteSize(final int width, final int height) {
-        final int ySize = width * height;
-        final int uvSize = ((width + 1) / 2) * ((height + 1) / 2) * 2;
-
-        return ySize + uvSize;
-    }
-
     public static void saveBitmap(final Bitmap bitmap) {
         saveBitmap(bitmap, "preview.png");
     }
@@ -40,25 +33,6 @@ public class ImageUtils {
             out.flush();
             out.close();
         } catch (final Exception e) {
-        }
-    }
-
-    public static void convertYUV420SPToARGB8888(byte[] input, int width, int height, int[] output) {
-        final int frameSize = width * height;
-        for (int j = 0, yp = 0; j < height; j++) {
-            int uvp = frameSize + (j >> 1) * width;
-            int u = 0;
-            int v = 0;
-
-            for (int i = 0; i < width; i++, yp++) {
-                int y = 0xff & input[yp];
-                if ((i & 1) == 0) {
-                    v = 0xff & input[uvp++];
-                    u = 0xff & input[uvp++];
-                }
-
-                output[yp] = YUV2RGB(y, u, v);
-            }
         }
     }
 

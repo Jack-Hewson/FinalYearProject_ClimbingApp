@@ -103,4 +103,8 @@ public class ImageObject {
     public ArrayList<Holds> getHolds() {
         return holds;
     }
+
+    public void deleteHolds() {
+        holds.clear();
+    }
 }

@@ -8,7 +8,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import com.bouldr.climbingapp.FileProcessor;
+import com.bouldr.climbingapp.ui.labeller.FileProcessor;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FileDownloadTask;
@@ -64,7 +64,7 @@ public class FirebaseAPI {
         String filename = UUID.randomUUID().toString();
         if (bitmap != null) {
             ProgressDialog progressDialog = new ProgressDialog(context);
-            progressDialog.setTitle("Uploading...");
+            progressDialog.setTitle("Uploading image...");
             progressDialog.show();
 
             UploadTask uploadTask = (UploadTask) storageReference.child("images/" + filename + ".jpg")
@@ -74,7 +74,7 @@ public class FirebaseAPI {
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {// Image uploaded successfully. Dismiss dialog
                             progressDialog.dismiss();
                             Toast.makeText(context, "Image Uploaded!",
-                                    Toast.LENGTH_SHORT).show();
+                                    Toast.LENGTH_LONG).show();
                         }
                     })
 
@@ -83,7 +83,7 @@ public class FirebaseAPI {
                         public void onFailure(@NonNull Exception e) {// Error, Image not uploaded
                             progressDialog.dismiss();
                             Toast.makeText(context, "Failed " + e.getMessage(),
-                                    Toast.LENGTH_SHORT).show();
+                                    Toast.LENGTH_LONG).show();
                         }
                     })
                     .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
@@ -118,7 +118,7 @@ public class FirebaseAPI {
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {// Image uploaded successfully. Dismiss dialog
                             progressDialog.dismiss();
                             Toast.makeText(context, "Image Uploaded!",
-                                    Toast.LENGTH_SHORT).show();
+                                    Toast.LENGTH_LONG).show();
                         }
                     })
 
@@ -127,7 +127,7 @@ public class FirebaseAPI {
                         public void onFailure(@NonNull Exception e) {// Error, Image not uploaded
                             progressDialog.dismiss();
                             Toast.makeText(context, "Failed " + e.getMessage(),
-                                    Toast.LENGTH_SHORT).show();
+                                    Toast.LENGTH_LONG).show();
                         }
                     })
                     .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
@@ -147,7 +147,7 @@ public class FirebaseAPI {
     public void uploadFile(Context context, String fileLocation) {
         if (fileLocation != null) {
             ProgressDialog progressDialog = new ProgressDialog(context);
-            progressDialog.setTitle("Uploading...");
+            progressDialog.setTitle("Uploading XML file...");
             progressDialog.show();
 
             //Upload input stream to Firebase
@@ -163,6 +163,8 @@ public class FirebaseAPI {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             progressDialog.dismiss();
+                            Toast.makeText(context, "Image Uploaded!",
+                                    Toast.LENGTH_LONG).show();
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -183,7 +185,7 @@ public class FirebaseAPI {
     }
 
     public void downloadModel(Context context, ProgressBar progressBar) {
-        Toast.makeText(context, "Downloading model from the cloud", Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, "Downloading model from the cloud", Toast.LENGTH_LONG).show();
         File folder = fileProcessor.createFolder(context, "fireBaseModels");
         getLatestCloudModel(new FirebaseCallback() {
             @Override
@@ -194,14 +196,14 @@ public class FirebaseAPI {
                         .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                             @Override
                             public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                                Toast.makeText(context, "Download successful", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, "Download successful", Toast.LENGTH_LONG).show();
                                 fileProcessor.deleteOldModel(latestFilename);
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(context, "Download failed", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, "Download failed", Toast.LENGTH_LONG).show();
                             }
                         })
                         .addOnProgressListener(new OnProgressListener<FileDownloadTask.TaskSnapshot>() {

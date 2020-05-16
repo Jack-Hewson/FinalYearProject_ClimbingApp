@@ -21,7 +21,7 @@ import android.graphics.Bitmap;
 import android.graphics.RectF;
 import android.os.Trace;
 
-import com.bouldr.climbingapp.FileProcessor;
+import com.bouldr.climbingapp.ui.labeller.FileProcessor;
 import com.bouldr.climbingapp.ui.Firebase.FirebaseAPI;
 import com.google.firebase.storage.StorageReference;
 

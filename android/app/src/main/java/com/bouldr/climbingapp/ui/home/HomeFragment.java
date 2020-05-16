@@ -14,7 +14,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.bouldr.climbingapp.FileProcessor;
+import com.bouldr.climbingapp.ui.labeller.FileProcessor;
 import com.bouldr.climbingapp.R;
 import com.bouldr.climbingapp.ui.Firebase.FirebaseAPI;
 import com.google.firebase.storage.StorageReference;
@@ -29,7 +29,8 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         String localModel = fileProcessor.getLocalModel();
-
+        //FirebaseApp.initializeApp(getActivity());
+        //firebaseAPI = new FirebaseAPI();
         if (localModel == null) {
             localModel = "1";
         }

@@ -7,50 +7,42 @@
     android:background="@color/colorSecondaryLight"
     tools:context="com.bouldr.climbingapp.ui.image.ImageFragment">
 
-    <!--Linear Layout with horizontal orientation
-        and other properties-->
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/layout_button"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:orientation="horizontal"
+        android:weightSum="3"
+        android:background="@color/colorPrimaryDark">
+
+        <!--Button for choosing image from gallery-->
+        <Button
+            android:id="@+id/btnChoose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@color/colorSecondary"
+            android:text="Choose" />
 
         <Button
             android:id="@+id/btnRotate"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="Rotate"
-            android:visibility="invisible"/>
+            android:backgroundTint="@color/colorSecondary"/>
 
-        <LinearLayout
-            android:id="@+id/linear_button"
-            android:layout_width="match_parent"
+        <!--Button for uploading image-->
+        <Button
+            android:id="@+id/btnUpload"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:orientation="horizontal"
-            android:weightSum="2">
+            android:layout_weight="1"
+            android:backgroundTint="@color/colorSecondary"
+            android:text="Upload" />
+    </LinearLayout>
 
-            <!--Button for choosing image from gallery-->
-            <Button
-                android:id="@+id/btnChoose"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Choose"
-                android:backgroundTint="@color/colorSecondaryDark"/>
-
-            <!--Button for uploading image-->
-            <Button
-                android:id="@+id/btnUpload"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Upload"
-                android:backgroundTint="@color/colorSecondaryDark"/>
-        </LinearLayout>
-    </RelativeLayout>
-
-
-    <!--Image View for showing image choosen from gallery-->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
