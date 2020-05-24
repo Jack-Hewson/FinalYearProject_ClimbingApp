@@ -53,7 +53,7 @@ public class HomeFragment extends Fragment {
                     btnDownload.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            firebaseAPI.downloadModel(getContext(), progressBar);
+                            firebaseAPI.downloadModel(getContext(), progressBar, btnDownload);
                         }
                     });
 

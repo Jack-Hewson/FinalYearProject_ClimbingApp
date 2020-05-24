@@ -10,6 +10,14 @@
 
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
+    
+    <permission
+        android:name="com.bouldr.climbingapp.permission.UPLOAD"
+        android:label="@string/uploadPermissionLabel"
+        android:description="@string/uploadPermissionDescription"
+        android:protectionLevel="normal">
+
+    </permission>
 
     <application
         android:allowBackup="true"

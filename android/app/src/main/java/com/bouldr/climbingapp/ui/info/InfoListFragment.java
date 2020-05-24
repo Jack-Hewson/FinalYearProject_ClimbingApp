@@ -30,7 +30,23 @@ public class InfoListFragment extends Fragment {
         ListView listView = view.findViewById(R.id.infoList);
         String[] listItem = getResources().getStringArray(R.array.hold_list);
         final ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
-                android.R.layout.simple_list_item_1, android.R.id.text1, listItem);
+                android.R.layout.simple_list_item_1, android.R.id.text1, listItem) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent){
+                // Get the current item from ListView
+                View view = super.getView(position,convertView,parent);
+                //if(position %2 == 1)
+                //{
+                    // Set a background color for ListView regular row/item
+                    view.setBackgroundColor(getResources().getColor(R.color.colorSecondary));
+                //}
+                //else
+                //{
+                    // Set the background color for alternate row/item
+                //}
+                return view;
+            }
+        };
 
         listView.setAdapter(adapter);
 

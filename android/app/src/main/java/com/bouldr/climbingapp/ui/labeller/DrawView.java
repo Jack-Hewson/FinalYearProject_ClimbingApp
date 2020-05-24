@@ -41,8 +41,9 @@ public class DrawView extends View {
     Paint paint;
     Canvas canvas;
     ImageObject imageObject;
-    View view;
     Boolean OKPressed;
+
+    ImageObject.Holds hold;
 
     private Button btnOk;
     private Button btnUndo;
@@ -92,10 +93,10 @@ public class DrawView extends View {
 
         // declare each ball with the ColorBall class
         colorballs = new ArrayList<ColorBall>();
-        colorballs.add(0, new ColorBall(context, R.drawable.gray_circle, point1, 0));
-        colorballs.add(1, new ColorBall(context, R.drawable.gray_circle, point2, 1));
-        colorballs.add(2, new ColorBall(context, R.drawable.gray_circle, point3, 2));
-        colorballs.add(3, new ColorBall(context, R.drawable.gray_circle, point4, 3));
+        colorballs.add(0, new ColorBall(context, R.drawable.label_circle, point1, 0));
+        colorballs.add(1, new ColorBall(context, R.drawable.label_circle, point2, 1));
+        colorballs.add(2, new ColorBall(context, R.drawable.label_circle, point3, 2));
+        colorballs.add(3, new ColorBall(context, R.drawable.label_circle, point4, 3));
 
         imageObject = ImageObject.getInstance();
     }
@@ -135,29 +136,23 @@ public class DrawView extends View {
         }
 
         if (btnOk == null) {
-
-            btnOk = getRootView().findViewById(R.id.drawOk);
+            btnOk = getRootView().findViewById(R.id.drawAddLabel);
             btnOk.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (!OKPressed) {
                         OKPressed = true;
-                        ImageObject.Holds hold = imageObject.new Holds(point3.x, point3.y, point1.x, point1.y);
+                        if (groupId == 1) {
+                            hold = imageObject.new Holds(point1.x + colorballs.get(0).getWidthOfBall() / 2, point3.y + colorballs.get(2).getWidthOfBall() / 2,
+                                    point3.x + colorballs.get(2).getWidthOfBall() / 2, point1.y + colorballs.get(0).getWidthOfBall() / 2);
+                        } else {
+                            hold = imageObject.new Holds(point2.x + colorballs.get(1).getWidthOfBall() / 2, point4.y + colorballs.get(3).getWidthOfBall() / 2,
+                                    point4.x + colorballs.get(3).getWidthOfBall() / 2, point2.y + colorballs.get(1).getWidthOfBall() / 2);
+                        }
+                        //ImageObject.Holds hold = imageObject.new Holds(point3.x, point3.y, point1.x, point1.y);
                         createHoldDialog(hold);
                         invalidate();
-                        paint.setColor(CYAN);
-                        paint.setStyle(Paint.Style.STROKE);
-                        if (groupId == 1) {
-                            canvas.drawRect(point1.x + colorballs.get(0).getWidthOfBall() / 2,
-                                    point3.y + colorballs.get(2).getWidthOfBall() / 2, point3.x
-                                            + colorballs.get(2).getWidthOfBall() / 2, point1.y
-                                            + colorballs.get(0).getWidthOfBall() / 2, paint);
-                        } else {
-                            canvas.drawRect(point2.x + colorballs.get(1).getWidthOfBall() / 2,
-                                    point4.y + colorballs.get(3).getWidthOfBall() / 2, point4.x
-                                            + colorballs.get(3).getWidthOfBall() / 2, point2.y
-                                            + colorballs.get(1).getWidthOfBall() / 2, paint);
-                        }
+
                     }
                 }
             });
@@ -182,6 +177,7 @@ public class DrawView extends View {
         bundle.putBoolean("notAlertDialog", true);
         dialogFragment.setArguments(bundle);
         FragmentManager ft = ((Activity) getContext()).getFragmentManager();
+        dialogFragment.setCancelable(false);
         dialogFragment.show(ft, "dialog");
     }
 

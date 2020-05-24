@@ -2,7 +2,9 @@ package com.bouldr.climbingapp.ui.Firebase;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.net.Uri;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -184,9 +186,12 @@ public class FirebaseAPI {
         }
     }
 
-    public void downloadModel(Context context, ProgressBar progressBar) {
+    public void downloadModel(Context context, ProgressBar progressBar, Button btnDownload) {
         Toast.makeText(context, "Downloading model from the cloud", Toast.LENGTH_LONG).show();
         File folder = fileProcessor.createFolder(context, "fireBaseModels");
+        btnDownload.setText("Downloading...");
+        btnDownload.setClickable(false);
+
         getLatestCloudModel(new FirebaseCallback() {
             @Override
             public void onFirebaseCallback(StorageReference value) {
@@ -198,12 +203,17 @@ public class FirebaseAPI {
                             public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                                 Toast.makeText(context, "Download successful", Toast.LENGTH_LONG).show();
                                 fileProcessor.deleteOldModel(latestFilename);
+                                btnDownload.setBackgroundColor(Color.parseColor("#77dd77"));
+                                btnDownload.setText("Downloaded");
+
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
                                 Toast.makeText(context, "Download failed", Toast.LENGTH_LONG).show();
+                                btnDownload.setText("Failed");
+                                btnDownload.setBackgroundColor(Color.parseColor("#ff6961"));
                             }
                         })
                         .addOnProgressListener(new OnProgressListener<FileDownloadTask.TaskSnapshot>() {

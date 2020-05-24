@@ -17,4 +17,10 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="horizProgress" parent="@style/Widget.AppCompat.ProgressBar.Horizontal">
+        <item name="android:progressBackgroundTint">#69f0ae</item>
+        <item name="android:progressTint">#ffffff</item>
+        <item name="android:minWidth">200dp</item>
+    </style>
+
 </resources>

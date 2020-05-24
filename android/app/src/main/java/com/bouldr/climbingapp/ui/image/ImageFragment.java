@@ -19,10 +19,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.bouldr.climbingapp.ui.labeller.FileProcessor;
 import com.bouldr.climbingapp.R;
 import com.bouldr.climbingapp.ui.Firebase.FirebaseAPI;
 import com.bouldr.climbingapp.ui.env.Logger;
+import com.bouldr.climbingapp.ui.labeller.FileProcessor;
 import com.bouldr.climbingapp.ui.labeller.ImageObject;
 
 import java.io.ByteArrayOutputStream;
@@ -93,36 +93,42 @@ public class ImageFragment extends androidx.fragment.app.Fragment {
         btnUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(imageLabelled()) {
-                String imageName = firebaseAPI.uploadImage(getContext(), imageByteArray);
-                imageObject.setFilename(imageName + ".jpg");
-                String fileLocation = fileProcessor.createXMLFile(getContext(), imageName);
-                //FileInputStream fis = fileProcessor.readFile(getContext(), filename);
-                firebaseAPI.uploadFile(getContext(), fileLocation);
-                stub.setVisibility(View.GONE);
-                imageView.setImageResource(0);
-                } else {
-                    Toast.makeText(getContext(), "Image not labelled",
-                            Toast.LENGTH_LONG).show();
-                }
+                    if (imageLabelled()) {
+                        LOGGER.i("LABELLED");
+                        String imageName = firebaseAPI.uploadImage(getContext(), imageByteArray);
+                        imageObject.setFilename(imageName + ".jpg");
+                        String fileLocation = fileProcessor.createXMLFile(getContext(), imageName);
+                        //FileInputStream fis = fileProcessor.readFile(getContext(), filename);
+                        firebaseAPI.uploadFile(getContext(), fileLocation);
+                        stub.setVisibility(View.GONE);
+                        imageView.setImageResource(0);
+                    } else {
+                        LOGGER.i("NOT LABELLED");
+                        Toast.makeText(getContext(), "Image not labelled",
+                                Toast.LENGTH_LONG).show();
+                    }
             }
         });
 
         btnRotate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    showImage();
-                } catch (Exception e) {
+                if (!imageLabelled()) {
+                    try {
+                        showImage();
+                    } catch (Exception e) {
 
+                    }
                 }
             }
         });
         return view;
     }
 
-    public boolean imageLabelled(){
-        if(imageObject.getHolds() == null || imageObject.getHolds().isEmpty()) {
+
+
+    public boolean imageLabelled() {
+        if (imageObject.getHolds() == null || imageObject.getHolds().isEmpty()) {
             return false;
         } else {
             return true;

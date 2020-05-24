@@ -84,4 +84,7 @@
         <item>Pocket</item>
         <item>Octopus Pinch</item>
     </string-array>
+
+    <string name="uploadPermissionLabel">Octopus Pinch</string>
+    <string name="uploadPermissionDescription">This permission allows the app to upload the selected image to Firebase</string>
 </resources>

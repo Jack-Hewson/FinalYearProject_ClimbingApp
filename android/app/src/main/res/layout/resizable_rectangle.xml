@@ -3,30 +3,36 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/drawUndo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/colorSecondary"
-        android:gravity="center|bottom"
-        android:text="Undo"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:textAlignment="center"/>
-
-    <Button
-        android:id="@+id/drawOk"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/colorSecondary"
-        android:gravity="center|bottom"
-        android:text="Add Label"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:textAlignment="center"/>
-
     <com.bouldr.climbingapp.ui.labeller.DrawView
         android:id="@+id/drawView1"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:weightSum="2"
+        android:background="@color/colorPrimaryDark">
+
+        <Button
+            android:id="@+id/drawUndo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorSecondary"
+            android:gravity="center|bottom"
+            android:text="Undo"
+            android:textAlignment="center"
+            android:layout_weight="1"/>
+
+        <Button
+            android:id="@+id/drawAddLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorSecondary"
+            android:gravity="center|bottom"
+            android:text="Add Label"
+            android:textAlignment="center"
+            android:layout_weight="1"/>
+    </LinearLayout>
 </RelativeLayout>

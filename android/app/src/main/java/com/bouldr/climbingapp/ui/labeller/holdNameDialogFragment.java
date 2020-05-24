@@ -22,7 +22,7 @@ import com.bouldr.climbingapp.R;
 public class holdNameDialogFragment extends DialogFragment {
     ListView listView;
     String[] listItem;
-    String holdValue;
+    String holdValue = null;
     ImageObject.Holds hold;
 
     @SuppressLint("ValidFragment")
@@ -51,7 +51,6 @@ public class holdNameDialogFragment extends DialogFragment {
         final ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_list_item_1, android.R.id.text1, listItem);
         listView.setAdapter(adapter);
-
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
@@ -64,8 +63,10 @@ public class holdNameDialogFragment extends DialogFragment {
         btnDone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                hold.setHoldName(holdValue);
-                dismiss();
+                if(holdValue != null) {
+                    hold.setHoldName(holdValue);
+                    dismiss();
+                }
             }
         });
     }

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center_horizontal"
-    android:background="@color/colorSecondary"
+    android:background="@color/colorPrimaryLight"
     android:gravity="center_horizontal"
     android:orientation="vertical"
     android:padding="10dp"
@@ -21,10 +21,14 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_alignParentEnd="true"
-            android:background="@color/colorSecondaryDark"
+            android:background="@color/transparent"
             android:padding="10dp"
             android:textAlignment="center"
-            android:textAllCaps="true" />
+            android:textAllCaps="true"
+            android:text="TITLE"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textSize="25dp"/>
 
         <Button
             android:id="@+id/holdClose"
@@ -48,7 +52,8 @@
             android:layout_height="200dp"
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="0dp"
-            android:padding="10dp" />
+            android:padding="10dp"
+            />
 
         <TextView
             android:id="@+id/lblDiff"

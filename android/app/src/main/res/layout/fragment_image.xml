@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorSecondaryLight"
-    tools:context="com.bouldr.climbingapp.ui.image.ImageFragment">
+    tools:context="com.bouldr.climbingapp.ui.image.ImageFragment"
+    android:background="@color/white">
 
     <LinearLayout
         android:id="@+id/layout_button"
@@ -48,12 +48,6 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/layout_button">
 
-        <ImageView
-            android:id="@+id/imgView"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:adjustViewBounds="true"
-            android:scaleType="fitCenter" />
         <!--
     <ImageView
         android:id="@+id/crop_image"
@@ -90,6 +84,13 @@
          android:layout_width="fill_parent"
          android:layout_height="wrap_content"
          layout="@layout/resizable_rectangle"/>-->
+
+        <ImageView
+            android:id="@+id/imgView"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter" />
 
         <ViewStub
             android:id="@+id/boxStub"
