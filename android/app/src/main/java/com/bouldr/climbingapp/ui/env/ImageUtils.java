@@ -1,41 +1,11 @@
 package com.bouldr.climbingapp.ui.env;
 
-import android.graphics.Bitmap;
 import android.graphics.Matrix;
-import android.os.Environment;
-
-import java.io.File;
-import java.io.FileOutputStream;
 
 public class ImageUtils {
     static final int kMaxChannelValue = 262143;
 
-    public static void saveBitmap(final Bitmap bitmap) {
-        saveBitmap(bitmap, "preview.png");
-    }
-
-    public static void saveBitmap(final Bitmap bitmap, final String filename) {
-        final String root = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "tensorflow";
-        final File myDir = new File(root);
-
-        if (!myDir.mkdirs()) {
-        }
-
-        final String fname = filename;
-        final File file = new File(myDir, fname);
-        if (file.exists()) {
-            file.delete();
-        }
-
-        try {
-            final FileOutputStream out = new FileOutputStream(file);
-            bitmap.compress(Bitmap.CompressFormat.PNG, 99, out);
-            out.flush();
-            out.close();
-        } catch (final Exception e) {
-        }
-    }
-
+    //Converts the image's YUV values to RGB
     private static int YUV2RGB(int y, int u, int v) {
         y = (y - 16) < 0 ? 0 : (y - 16);
         u -= 128;
@@ -53,6 +23,7 @@ public class ImageUtils {
         return 0xff000000 | ((r << 6) & 0xff0000) | ((g >> 2) & 0xff00) | ((b >> 10) & 0xff);
     }
 
+    //Converts YUV420 to ARGB8888
     public static void convertYUV420ToARGB8888(byte[] yData, byte[] uData, byte[] vData, int width,
                                                int height, int yRowStride, int uvRowStride, int uvPixelStride, int[] out) {
         int yp = 0;
@@ -68,6 +39,7 @@ public class ImageUtils {
         }
     }
 
+    //Retrives the transfomationMatrix, used for cropping images in Tensorflow interpreter
     public static Matrix getTransformationMatrix(final int srcWidth, final int srcHeight,
                                                  final int dstWidth, final int dstHeight,
                                                  final int applyRotation, final boolean maintainAspectRatio) {

@@ -10,7 +10,8 @@ import com.bouldr.climbingapp.ui.tflite.Classifier.Recognition;
 
 import java.util.List;
 
-public class RecognitionScoreView extends View implements ResultsView {
+//View used for managing the displaying of the percentage scores of each object detection
+public class RecognitionScoreView extends View {
     private static final float TEXT_SIZE_DIP = 14;
     private final float textSizePx;
     private final Paint fgPaint;
@@ -27,12 +28,6 @@ public class RecognitionScoreView extends View implements ResultsView {
 
         bgPaint = new Paint();
         bgPaint.setColor(0xcc4285f4);
-    }
-
-    @Override
-    public void setResults(final List<Recognition> results) {
-        this.results = results;
-        postInvalidate();
     }
 
     @Override

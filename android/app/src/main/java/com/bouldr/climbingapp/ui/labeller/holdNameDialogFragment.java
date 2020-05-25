@@ -18,6 +18,7 @@ import androidx.annotation.Nullable;
 
 import com.bouldr.climbingapp.R;
 
+//DialogFragment for the list of hold names that can be used for labelling
 @SuppressLint("ValidFragment")
 public class holdNameDialogFragment extends DialogFragment {
     ListView listView;
@@ -50,10 +51,12 @@ public class holdNameDialogFragment extends DialogFragment {
         listItem = getResources().getStringArray(R.array.hold_list);
         final ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_list_item_1, android.R.id.text1, listItem);
+        //Loads the list of hold names and displays it
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                //Selecting a hold from the list will set that as the hold's label name
                 holdValue = adapter.getItem(position);
                 Toast.makeText(getActivity().getApplicationContext(), holdValue, Toast.LENGTH_SHORT).show();
             }
@@ -63,6 +66,8 @@ public class holdNameDialogFragment extends DialogFragment {
         btnDone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //Selecting "done" will close the DialogFragment but only if the user has selected
+                //a hold from the list
                 if(holdValue != null) {
                     hold.setHoldName(holdValue);
                     dismiss();

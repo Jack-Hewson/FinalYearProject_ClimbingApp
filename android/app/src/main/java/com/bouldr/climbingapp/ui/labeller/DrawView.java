@@ -6,16 +6,11 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Point;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.util.AttributeSet;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
-
-import androidx.annotation.NonNull;
 
 import com.bouldr.climbingapp.R;
 
@@ -24,20 +19,18 @@ import java.util.ArrayList;
 import static android.graphics.Color.CYAN;
 import static android.graphics.Color.parseColor;
 
+//View for displaying the label drawer
 public class DrawView extends View {
-
     Point point1, point3;
     Point point2, point4;
     Point startMovePoint;
 
-    /**
-     * point1 and point 3 are of same group and same as point 2 and point4
-     */
+    // point1 and point 3 are of same group and same as point 2 and point4
     int groupId = 2;
-    public ArrayList<ColorBall> colorballs;
     // array that holds the balls
-    private int balID = 0;
+    public ArrayList<ColorBall> colorballs;
     // variable to know what ball is being dragged
+    private int balID = 0;
     Paint paint;
     Canvas canvas;
     ImageObject imageObject;
@@ -47,10 +40,6 @@ public class DrawView extends View {
 
     private Button btnOk;
     private Button btnUndo;
-
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.resizable_rectangle, container, false);
-    }
 
     public DrawView(Context context) {
         super(context);
@@ -66,6 +55,7 @@ public class DrawView extends View {
         init(context);
     }
 
+    //When initialised, the initial points of the box are created (top right of view)
     private void init(Context context) {
         OKPressed = false;
 
@@ -109,12 +99,11 @@ public class DrawView extends View {
         paint.setColor(parseColor("#55000000"));
         paint.setStyle(Paint.Style.FILL);
         paint.setStrokeJoin(Paint.Join.ROUND);
-        // mPaint.setStrokeCap(Paint.Cap.ROUND);
         paint.setStrokeWidth(5);
-
-        //canvas.drawPaint(paint);
         paint.setColor(parseColor("#55FFFFFF"));
 
+        //Box can fold over so it's important to know what circle is the top left and bottom right
+        //This draws the box on the canvas
         if (groupId == 1) {
             canvas.drawRect(point1.x + colorballs.get(0).getWidthOfBall() / 2,
                     point3.y + colorballs.get(2).getWidthOfBall() / 2, point3.x
@@ -126,15 +115,15 @@ public class DrawView extends View {
                             + colorballs.get(3).getWidthOfBall() / 2, point2.y
                             + colorballs.get(1).getWidthOfBall() / 2, paint);
         }
-        BitmapDrawable mBitmap = new BitmapDrawable();
 
-        // draw the balls on the canvas
+        //If image labelled then the box cannot be adjusted
         if (OKPressed == false) {
             for (ColorBall ball : colorballs) {
                 canvas.drawBitmap(ball.getBitmap(), ball.getX(), ball.getY(), new Paint());
             }
         }
 
+        //Creates the button that created the DialogFragment for hold names
         if (btnOk == null) {
             btnOk = getRootView().findViewById(R.id.drawAddLabel);
             btnOk.setOnClickListener(new View.OnClickListener() {
@@ -149,7 +138,6 @@ public class DrawView extends View {
                             hold = imageObject.new Holds(point2.x + colorballs.get(1).getWidthOfBall() / 2, point4.y + colorballs.get(3).getWidthOfBall() / 2,
                                     point4.x + colorballs.get(3).getWidthOfBall() / 2, point2.y + colorballs.get(1).getWidthOfBall() / 2);
                         }
-                        //ImageObject.Holds hold = imageObject.new Holds(point3.x, point3.y, point1.x, point1.y);
                         createHoldDialog(hold);
                         invalidate();
 
@@ -162,6 +150,7 @@ public class DrawView extends View {
         btnUndo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Pressing undo will delete the label and allow a new label to be added
                 if (OKPressed) {
                     OKPressed = false;
                     imageObject.deleteHolds();
@@ -171,6 +160,7 @@ public class DrawView extends View {
         });
     }
 
+    //Creates the DialogFragment that allows the users to select a name for the label
     public void createHoldDialog(ImageObject.Holds hold) {
         holdNameDialogFragment dialogFragment = new holdNameDialogFragment(hold);
         Bundle bundle = new Bundle();
@@ -190,8 +180,7 @@ public class DrawView extends View {
             int Y = (int) event.getY();
 
             switch (eventaction) {
-                case MotionEvent.ACTION_DOWN: // touch down so check if the finger is on
-                    // a ball
+                case MotionEvent.ACTION_DOWN: // touch down so check if the finger is on a ball
                     balID = -1;
                     startMovePoint = new Point(X, Y);
                     for (ColorBall ball : colorballs) {
@@ -202,8 +191,8 @@ public class DrawView extends View {
                         paint.setColor(CYAN);
                         // calculate the radius from the touch to the center of the ball
                         double radCircle = Math
-                                .sqrt((double) (((centerX - X) * (centerX - X)) + (centerY - Y)
-                                        * (centerY - Y)));
+                                .sqrt(((centerX - X) * (centerX - X)) + (centerY - Y)
+                                        * (centerY - Y));
 
                         if (radCircle < ball.getWidthOfBall()) {
 
@@ -225,8 +214,7 @@ public class DrawView extends View {
 
                     break;
 
-                case MotionEvent.ACTION_MOVE: // touch drag with the ball
-                    // move the balls the same as the finger
+                case MotionEvent.ACTION_MOVE: // touch drag with the ball move the balls the same as the finger
                     if (balID > -1) {
                         colorballs.get(balID).setX(X);
                         colorballs.get(balID).setY(Y);
@@ -274,19 +262,10 @@ public class DrawView extends View {
                             invalidate();
                         }
                     }
-
-                    //"Top Right: X = " + point1.x + " Y = " + point1.y);
-                    //"Bottom Right: X = " + point2.x + " Y = " + point2.y);
-                    //"Bottom Left: X = " + point3.x + " Y = " + point3.y);
-                    //"Top Left: X = " + point4.x + " Y = " + point4.y);
-                    //"maxX = " + point1.x + " maxY = " + point1.y);
-                    //"minX = " + point3.x + " minY = " + point3.y);
-
                     break;
 
                 case MotionEvent.ACTION_UP:
                     // touch drop - just do things here after dropping
-
                     break;
             }
             // redraw the canvas
@@ -295,9 +274,5 @@ public class DrawView extends View {
         } else {
             return false;
         }
-    }
-
-    public void shade_region_between_points() {
-        canvas.drawRect(point1.x, point3.y, point3.x, point1.y, paint);
     }
 }

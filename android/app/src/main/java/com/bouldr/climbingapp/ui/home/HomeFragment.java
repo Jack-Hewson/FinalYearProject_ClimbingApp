@@ -19,6 +19,7 @@ import com.bouldr.climbingapp.R;
 import com.bouldr.climbingapp.ui.Firebase.FirebaseAPI;
 import com.google.firebase.storage.StorageReference;
 
+//Class for the HomeFragment, the first screen on app loading
 @SuppressLint("ValidFragment")
 public class HomeFragment extends Fragment {
     private Button btnDownload;
@@ -28,14 +29,17 @@ public class HomeFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+
         String localModel = fileProcessor.getLocalModel();
-        //FirebaseApp.initializeApp(getActivity());
-        //firebaseAPI = new FirebaseAPI();
         if (localModel == null) {
             localModel = "1";
         }
 
         String finalLocalModel = localModel;
+
+        //Gets the latest model from Firebase and compares it with the current model installed locally
+        //If the model on the cloud is a newer version then a stub is displayed that gives the user
+        //the option to download the model
         firebaseAPI.getLatestCloudModel(new FirebaseAPI.FirebaseCallback() {
             @Override
             public void onFirebaseCallback(StorageReference value) {
@@ -64,7 +68,6 @@ public class HomeFragment extends Fragment {
                 }
             }
         });
-
         return view;
     }
 }

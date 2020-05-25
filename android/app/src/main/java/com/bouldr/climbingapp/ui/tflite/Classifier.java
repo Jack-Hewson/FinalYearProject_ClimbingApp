@@ -5,15 +5,9 @@ import android.graphics.RectF;
 
 import java.util.List;
 
+//Classifier contains the list of recognitions from the interpreter
 public interface Classifier {
     List<Recognition> recognizeImage(Bitmap bitmap);
-
-    void enableStatLogging(final boolean debug);
-
-    String getStatString();
-
-    void close();
-
     void setNumThreads(int num_threads);
 
     void setUseNNAPI(boolean isChecked);

@@ -29,8 +29,13 @@ import java.util.List;
 import java.util.Queue;
 
 public class MultiBoxTracker {
+    // Text size in dp
     private static final float TEXT_SIZE_DP = 18;
+
+    //Minimum side size of box drawn
     private static final float MIN_SIZE = 16.0f;
+
+    //Creates the colours the 7 boxes can be
     private static final int[] COLOURS = {
             Color.BLUE,
             Color.RED,
@@ -49,21 +54,30 @@ public class MultiBoxTracker {
             Color.parseColor("#0D0068")
     };
 
-    final List<Pair<Float, RectF>> screenRects = new LinkedList<Pair<Float, RectF>>();
-    private final Queue<Integer> availableColours = new LinkedList<Integer>();
-    private final List<TrackedRecognition> trackedObjects = new LinkedList<TrackedRecognition>();
+    //LinkedList of current highlight squares
+    final List<Pair<Float, RectF>> screenRects = new LinkedList<>();
+    //LinkedList of current objects being tracked
+    private final List<TrackedRecognition> trackedObjects = new LinkedList<>();
+    //paint object for boxes
     private final Paint boxPaint = new Paint();
-    private final float textSizePx;
+    //text that borders the box
     private final BorderedText borderedText;
+
     private Matrix frameToCanvasMatrix;
+    //box frame's width
     private int frameWidth;
+    //box frame's height
     private int frameHeight;
+    //orientation of app
     private int sensorOrientation;
+    //button overlay for highlight object's info button
     LinearLayout buttonOverlay;
 
     @SuppressLint("ClickableViewAccessibility")
     public MultiBoxTracker(final Context context) {
+        //contains colours that are currently available
         for (final int colour : COLOURS) {
+            Queue<Integer> availableColours = new LinkedList<>();
             availableColours.add(colour);
         }
         boxPaint.setColor(Color.RED);
@@ -73,7 +87,7 @@ public class MultiBoxTracker {
         boxPaint.setStrokeJoin(Paint.Join.ROUND);
         boxPaint.setStrokeMiter(100);
 
-        textSizePx = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, TEXT_SIZE_DP,
+        float textSizePx = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, TEXT_SIZE_DP,
                 context.getResources().getDisplayMetrics());
         borderedText = new BorderedText(textSizePx);
     }
@@ -84,25 +98,7 @@ public class MultiBoxTracker {
         frameHeight = height;
         this.sensorOrientation = sensorOrientation;
     }
-/**
-    public synchronized void drawDebug(final Canvas canvas) {
-        final Paint textPaint = new Paint();
-        textPaint.setColor(Color.WHITE);
-        textPaint.setTextSize(60.0f);
 
-        final Paint boxPaint = new Paint();
-        boxPaint.setColor(Color.RED);
-        boxPaint.setAlpha(200);
-        boxPaint.setStyle(Paint.Style.STROKE);
-
-        for (final Pair<Float, RectF> detection : screenRects) {
-            final RectF rect = detection.second;
-            canvas.drawRect(rect, boxPaint);
-            canvas.drawText("" + detection.first, rect.left, rect.top, textPaint);
-            borderedText.drawText(canvas, rect.centerX(), rect.centerY(), "" + detection.first);
-        }
-    }
-*/
     public synchronized void trackResults(final List<Recognition> results, final long timestamp) {
         processResults(results);
     }
@@ -111,19 +107,24 @@ public class MultiBoxTracker {
         return frameToCanvasMatrix;
     }
 
+    //Draws the box
     @SuppressLint("ClickableViewAccessibility")
     public synchronized void draw(final Canvas canvas, Context context, View view) {
         buttonOverlay = view.findViewById(R.id.object_layout);
         final boolean rotated = sensorOrientation % 180 == 90;
+        //adjustments made for canvas size and frame sizes
         final float multiplier = Math.min(
                 canvas.getHeight() / (float) (rotated ? frameWidth : frameHeight),
                 canvas.getWidth() / (float) (rotated ? frameHeight : frameWidth));
+
         frameToCanvasMatrix = ImageUtils.getTransformationMatrix(
                 frameWidth, frameHeight,
                 (int) (multiplier * (rotated ? frameHeight : frameWidth)),
                 (int) (multiplier * (rotated ? frameWidth : frameHeight)),
                 sensorOrientation,
                 false);
+
+        //Loops through every object being tracked and draws the box and creates the invisible button
         for (final TrackedRecognition recognition : trackedObjects) {
             final RectF trackedPos = new RectF(recognition.location);
             getFrameToCanvasMatrix().mapRect(trackedPos);
@@ -139,18 +140,19 @@ public class MultiBoxTracker {
             borderedText.drawText(canvas, trackedPos.left + cornerSize, trackedPos.top,
                     labelString + "%", boxPaint);
 
-
+            //invisible button created where the box is created, clicking button will open the fragment
+            //displaying the information about the hold
             Button myButton = new Button(context);
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             lp.height = (int) trackedPos.height();
             lp.width = (int) trackedPos.height();
             lp.setMargins((int) trackedPos.left, (int) trackedPos.top, (int) trackedPos.right, (int) trackedPos.bottom);
             myButton.setLayoutParams(lp);
-            //myButton.setBackgroundColor(Color.parseColor("#1A000000"));
             myButton.getBackground().setAlpha(0);
             buttonOverlay.addView(myButton, lp);
             myButton.setOnClickListener(new View.OnClickListener() {
                 @Override
+                //Opens fragment with information about that particular hold
                 public void onClick(View v) {
                     setFragment(context, recognition.title);
                 }
@@ -158,36 +160,40 @@ public class MultiBoxTracker {
         }
     }
 
-    private void setFragment(Context context, String title){
+    //opens information fragment
+    private void setFragment(Context context, String title) {
         Fragment fragment = new InfoFragment(title);
         FragmentTransaction transaction = ((FragmentActivity) context).getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.activity_camera, fragment);
+        //Closing the info fragment will return the user to the camera
         transaction.addToBackStack("main");
         transaction.commit();
     }
 
+    //Processes the results of every object detection, if any objects detected then draw is called
     private void processResults(final List<Recognition> results) {
-        final List<Pair<Float, Recognition>> rectsToTrack = new LinkedList<Pair<Float, Recognition>>();
-
+        final List<Pair<Float, Recognition>> rectsToTrack = new LinkedList<>();
+        //Clears the screen of current boxes
         screenRects.clear();
         final Matrix rgbFrameToScreen = new Matrix(getFrameToCanvasMatrix());
 
+        //Loops through all recognitions
         for (final Recognition result : results) {
+            //Skips if current result has no location on the screnn
             if (result.getLocation() == null) {
                 continue;
             }
-            final RectF detectionFrameRect = new RectF(result.getLocation());
 
+            final RectF detectionFrameRect = new RectF(result.getLocation());
             final RectF detectionScreenRect = new RectF();
             rgbFrameToScreen.mapRect(detectionScreenRect, detectionFrameRect);
-
-            screenRects.add(new Pair<Float, RectF>(result.getConfidence(), detectionScreenRect));
+            screenRects.add(new Pair<>(result.getConfidence(), detectionScreenRect));
 
             if (detectionFrameRect.width() < MIN_SIZE || detectionFrameRect.height() < MIN_SIZE) {
                 continue;
             }
 
-            rectsToTrack.add(new Pair<Float, Recognition>(result.getConfidence(), result));
+            rectsToTrack.add(new Pair<>(result.getConfidence(), result));
         }
 
         trackedObjects.clear();
@@ -195,6 +201,7 @@ public class MultiBoxTracker {
             return;
         }
 
+        //Adds recognitions to static class TrackedRecognition
         for (final Pair<Float, Recognition> potential : rectsToTrack) {
             final TrackedRecognition trackedRecognition = new TrackedRecognition();
             trackedRecognition.detectionConfidence = potential.first;

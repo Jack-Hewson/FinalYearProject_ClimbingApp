@@ -1,10 +1,8 @@
 package com.bouldr.climbingapp.ui.detection;
 
 import android.Manifest;
-
 import android.app.Fragment;
 import android.content.Context;
-
 import android.content.pm.PackageManager;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCharacteristics;
@@ -70,10 +68,7 @@ public abstract class CameraActivity extends androidx.fragment.app.Fragment
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        //  super.onCreate(null);
         View view = inflater.inflate(R.layout.tfe_od_activity_camera, container, false);
-
-        //  getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         if (hasPermission()) {
             setFragment();
@@ -95,19 +90,13 @@ public abstract class CameraActivity extends androidx.fragment.app.Fragment
                 new ViewTreeObserver.OnGlobalLayoutListener() {
                     @Override
                     public void onGlobalLayout() {
-                        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-                            gestureLayout.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                        } else {
-                            gestureLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                        }
-                        //int width = bottomSheetLayout.getMeasuredWidth();
-                        int height = gestureLayout.getMeasuredHeight();
+                        gestureLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
 
-                        sheetBehavior.setPeekHeight(height);
+                        sheetBehavior.setPeekHeight(gestureLayout.getMeasuredHeight());
                     }
                 });
-        sheetBehavior.setHideable(false);
 
+        sheetBehavior.setHideable(false);
         sheetBehavior.setBottomSheetCallback(
                 new BottomSheetBehavior.BottomSheetCallback() {
                     @Override
@@ -153,9 +142,7 @@ public abstract class CameraActivity extends androidx.fragment.app.Fragment
         return rgbBytes;
     }
 
-    /**
-     * Callback for Camera2 API
-     */
+    // Callback for Camera2 API
     @Override
     public void onImageAvailable(final ImageReader reader) {
         // We need wait until we have some size from onPreviewSizeChosen

@@ -45,10 +45,7 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
-/**
- * An activity that uses a TensorFlowMultiBoxDetector and ObjectTracker to detect and then track
- * objects.
- */
+ // An activity that uses a MultiBoxDetector and ObjectTracker to detect and then track objects.
 public class DetectorActivity extends CameraActivity implements OnImageAvailableListener {
     private static final boolean TF_OD_API_IS_QUANTIZED = false;
 
@@ -56,19 +53,11 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
     private static final String TF_OD_API_MODEL_FILE = "detectClimb.tflite";
     private static final String TF_OD_API_LABELS_FILE = "file:///android_asset/labelmap.txt";
 
-    private enum DetectorMode {
-        TF_OD_API
-    }
-
-    private static final DetectorMode MODE = DetectorMode.TF_OD_API;
-
     // Minimum detection confidence to track a detection.
     private static final float MINIMUM_CONFIDENCE_TF_OD_API = 0.6f;
     private static final boolean MAINTAIN_ASPECT = false;
 
-    private static final Size DESIRED_PREVIEW_SIZE = new Size(1920, 1080);
-
-    private static final boolean SAVE_PREVIEW_BITMAP = false;
+    private static final Size DESIRED_PREVIEW_SIZE = new Size(600, 600);
     private static final float TEXT_SIZE_DIP = 10;
 
     OverlayView trackingOverlay;
@@ -107,16 +96,9 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
 
         int cropSize = TF_OD_API_INPUT_SIZE;
 
+        //Runs the creates the tensorflow interpreter using the image's specs as input
         try {
             detector =
-                    /** FirebaseObjectDetectionAPIModel.create(
-                     getActivity().getAssets(),
-                     TF_OD_API_MODEL_FILE,
-                     TF_OD_API_LABELS_FILE,
-                     TF_OD_API_INPUT_SIZE,
-                     TF_OD_API_IS_QUANTIZED,
-                     getActivity().getApplicationContext());
-                     */
                     TFLiteObjectDetectionAPIModel.create(
                             getActivity().getAssets(),
                             TF_OD_API_MODEL_FILE,
@@ -137,8 +119,6 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
         previewHeight = size.getHeight();
 
         sensorOrientation = rotation - getScreenOrientation();
-
-        //   LOGGER.i("Initializing at size %dx%d", previewWidth, previewHeight);
         rgbFrameBitmap = Bitmap.createBitmap(previewWidth, previewHeight, Bitmap.Config.ARGB_8888);
         croppedBitmap = Bitmap.createBitmap(cropSize, cropSize, Bitmap.Config.ARGB_8888);
 
@@ -161,7 +141,6 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
                 });
 
         trackingOverlay.setOnTouchListener(new View.OnTouchListener() {
-
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 float x = event.getX();
@@ -186,19 +165,15 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
             return;
         }
         computingDetection = true;
-        // LOGGER.i("Preparing image " + currTimestamp + " for detection in bg thread.");
-
         rgbFrameBitmap.setPixels(getRgbBytes(), 0, previewWidth, 0, 0, previewWidth, previewHeight);
 
+        //Image processed so next image can now be processed
         readyForNextImage();
 
         final Canvas canvas = new Canvas(croppedBitmap);
         canvas.drawBitmap(rgbFrameBitmap, frameToCropTransform, null);
-        // For examining the actual TF input.
-        if (SAVE_PREVIEW_BITMAP) {
-            ImageUtils.saveBitmap(croppedBitmap);
-        }
 
+        //Runs on a thread, the tensorflow interpreter
         runInBackground(
                 new Runnable() {
                     @Override
@@ -239,17 +214,6 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
                                         showCropInfo(cropCopyBitmap.getWidth() + "x" + cropCopyBitmap.getHeight());
                                         showInference(lastProcessingTimeMs + "ms");
                                         buttonOverlay.removeAllViews();
-                                        /**for (final Classifier.Recognition result : results) {
-                                         final RectF location = result.getLocation();
-                                         if (location != null && result.getConfidence() >= minimumConfidence) {
-                                         LOGGER.i("Center X = " + location.centerX());
-                                         LOGGER.i("Center Y = " + location.centerY());
-                                         LOGGER.i("LEFT = " + location.left);
-                                         LOGGER.i("RIGHT = " + location.right);
-
-                                         }
-                                         }*/
-
                                     }
                                 });
                     }

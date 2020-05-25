@@ -39,6 +39,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
+// NOT USED BUT THIS IS THE FIREBASE INFERENCE.
+// TFLiteObjectDetectionAPIModel is used instead
 public class FirebaseObjectDetectionAPIModel implements Classifier {
     private static final int NUM_DETECTIONS = 10;
     private static final float IMAGE_MEAN = 128.0f;
@@ -57,7 +59,6 @@ public class FirebaseObjectDetectionAPIModel implements Classifier {
 
     private FirebaseObjectDetectionAPIModel() {
     }
-
 
     private static MappedByteBuffer loadModelFile(AssetManager assets, String modelFilename)
             throws IOException {
@@ -154,10 +155,8 @@ public class FirebaseObjectDetectionAPIModel implements Classifier {
         } catch (FirebaseMLException e) {
             e.printStackTrace();
         }
-
         return d;
     }
-
 
     @Override
     public List<Recognition> recognizeImage(final Bitmap bitmap) {
@@ -230,33 +229,6 @@ public class FirebaseObjectDetectionAPIModel implements Classifier {
                                     isComplete = true;
                                 }
                             });
-            /**
-             Map<Integer, Object> outputMap = new HashMap<>();
-             outputMap.put(0, outputLocations);
-             outputMap.put(1, outputClasses);
-             outputMap.put(2, outputScores);
-             outputMap.put(3, numDetections);
-             Trace.endSection();
-             Trace.beginSection("run");
-             //       tflite.runForMultipleInputsOutputs(inputArray, outputMap);
-             Trace.endSection();
-
-             final ArrayList<Recognition> recognitions = new ArrayList<>(NUM_DETECTIONS);
-             for (int i = 0; i < NUM_DETECTIONS; ++i) {
-             final RectF detection = new RectF(
-             outputLocations[0][i][1] * inputSize,
-             outputLocations[0][i][0] * inputSize,
-             outputLocations[0][i][3] * inputSize,
-             outputLocations[0][i][2] * inputSize);
-             int labelOffset = 1;
-             recognitions.add(new Recognition(
-             "" + 1,
-             labels.get((int) outputClasses[0][i] + labelOffset),
-             outputScores[0][i],
-             detection)
-             );
-             }
-             */
             Trace.endSection();
             while (isComplete == false) {
                 try {
@@ -269,19 +241,6 @@ public class FirebaseObjectDetectionAPIModel implements Classifier {
         }
 
         return recognitionsFB;
-    }
-
-    @Override
-    public void enableStatLogging(final boolean logStats) {
-    }
-
-    @Override
-    public String getStatString() {
-        return "";
-    }
-
-    @Override
-    public void close() {
     }
 
     public void setNumThreads(int num_threads) {

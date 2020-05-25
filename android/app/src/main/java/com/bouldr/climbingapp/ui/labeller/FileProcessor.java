@@ -16,6 +16,8 @@ import java.util.ArrayList;
 public class FileProcessor {
     ImageObject imageObject = ImageObject.getInstance();
 
+    //Creates a folder from the string given
+    //Only creates a folder if the folder doesn't yet exist
     public File createFolder(Context context, String foldername) {
         File file = new File(context.getFilesDir(), foldername);
         if (!file.exists()) {
@@ -24,7 +26,9 @@ public class FileProcessor {
         return file;
     }
 
-    public File createFile(Context context, File foldername, String filename) {
+    //Creates a file from the string given
+    //Only creates a file if the file doesn't yet exist
+    public File createFile(File foldername, String filename) {
         File file = new File(foldername + "/" + filename);
         if (!file.exists()) {
             try {
@@ -36,20 +40,9 @@ public class FileProcessor {
         return file;
     }
 
+    //Creates an XML file for the labelled image
     public String createXMLFile(Context context, String filename) {
-        /** String fileName = "Hello_file";
-         String string = "jello world";
-         FileOutputStream fos = getContext().openFileOutput(fileName, Context.MODE_PRIVATE);
-         fos.write(string.getBytes());
-         fos.close();
-         */
-
-        //ImageObject imageObject = new ImageObject("TestFilename", 100, 200, 300);
-
-
         ArrayList<ImageObject.Holds> holds = imageObject.getHolds();
-        //ImageObject.Holds hold1 = holds.get(0);
-
         String foldername = "xml";
         String filelocation = foldername + "/" + filename;
         String folder = "test";
@@ -58,14 +51,11 @@ public class FileProcessor {
         String imgWidth = String.valueOf(imageObject.getImgWidth());
         String imgHeight = String.valueOf(imageObject.getImgHeight());
         String imgDepth = String.valueOf(imageObject.getImgDepth());
-        //String holdName = hold.getHoldname();
-        //String holdXMin = String.valueOf(hold1.getHoldXMin());
-        // String holdYMin = String.valueOf(hold1.getHoldYMin());
-        //String holdXMax = String.valueOf(hold1.getHoldXMax());
-        //String holdYMax = String.valueOf(hold1.getHoldYMax());
 
         File file = createFolder(context, foldername);
 
+        //Template of the xml layout that is required for the xml to csv python script
+        //Missing values are filled in during the python script
         try {
             File gpxfile = new File(file, filename);
             FileWriter writer = new FileWriter(gpxfile);
@@ -123,15 +113,14 @@ public class FileProcessor {
             }
             BuffWriter.newLine();
             BuffWriter.write("</annotation>");
-            // writer.flush();
             BuffWriter.close();
-        } catch (IOException e) {
+        } catch (IOException ignored) {
         }
-
         return filelocation;
     }
 
-    public FileInputStream readFile(Context context, String filename) {
+    //Currently not used but will read and print the contents of a file
+    public FileInputStream readFile(String filename) {
         FileInputStream fis = null;
         try {
             fis = new FileInputStream(new File("/data/user/0/com.bouldr.climbingapp/files/" + filename));
@@ -155,6 +144,8 @@ public class FileProcessor {
         return fis;
     }
 
+    //Used to resize the images, finds the max size the image can be.
+    //Max size a side can be is 1100, ratio is kept
     public int[] getMaxImageSize(int inHeight, int inWidth) {
         int outHeight;
         int outWidth;
@@ -172,35 +163,34 @@ public class FileProcessor {
         return new int[]{outHeight, outWidth};
     }
 
-    public double getScaleReduction(int[] newSize, int oldH, int oldW) {
+    //Returns what reduction was done to the image to have the correct size
+    public double getScaleReduction(int[] newSize, int oldH) {
         int newH = newSize[0];
-        int newW = newSize[1];
         return (double) oldH / (double) newH;
     }
 
+    //Retrieves the local model that has been downloaded from Firebase
     public String getLocalModel() {
         try {
             String dirPath = "/data/user/0/com.bouldr.climbingapp/files/fireBaseModels/";
             File dir = new File(dirPath);
             String[] files = dir.list();
-
-            for (String aFile : files) {
-            }
             return files[0].split("\\.")[0];
         } catch (Exception e) {
+            //If no model is found then the only model is the model that comes with the app
             return "1";
         }
     }
 
+    //Old models are deleted if a new one is downloaded from Firebase to save space
     public void deleteOldModel(String lastestModel) {
         String oldModel = getLocalModel();
-
         if (Integer.parseInt(lastestModel.split("\\.")[0]) != Integer.parseInt(oldModel)) {
             String dirPath = "/data/user/0/com.bouldr.climbingapp/files/fireBaseModels/" + oldModel + ".tflite";
             File old = new File(dirPath);
             try {
                 old.delete();
-            } catch (Exception e) {
+            } catch (Exception ignored) {
             }
         }
     }

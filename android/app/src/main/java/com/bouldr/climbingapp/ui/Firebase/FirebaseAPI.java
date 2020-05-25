@@ -23,10 +23,10 @@ import com.google.firebase.storage.UploadTask;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.UUID;
 
+//API for managing interactions between Android and Firebase
 public class FirebaseAPI {
     FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference storageReference = storage.getReference();
@@ -35,33 +35,8 @@ public class FirebaseAPI {
     StorageReference modelsReference = storageReference.child("tfliteModels");
     FileProcessor fileProcessor = new FileProcessor();
 
-    public void setFolder(Context context) throws IOException {
-        String filename = "xmlFile";
-        File localFile = File.createTempFile(filename, "xml");
-        xmlReference.child("20200219_095048_020.xml").getFile(localFile)
-                .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                    }
-                });
-/**
- String filename = "myfile";
- String fileContents = "Hello world!";
- try (FileOutputStream fos = context.openFileOutput(filename, Context.MODE_PRIVATE)) {
- byte[] byteContents = fileContents.getBytes();
- fos.write(byteContents);
- } catch (FileNotFoundException e) {
- e.printStackTrace();
- } catch (IOException e) {
- e.printStackTrace();
- }*/
-    }
-
+    //method for uploading an image to firebase, a random name is generated for the image and the
+    //provided bitmap is uploaded
     public String uploadImage(Context context, byte[] bitmap) {
         String filename = UUID.randomUUID().toString();
         if (bitmap != null) {
@@ -101,6 +76,7 @@ public class FirebaseAPI {
         return filename;
     }
 
+    //NOT USED: uploads images to Firebase with the provided Uri
     public String uploadImage(Context context, Uri filePath) {
         String fileName = UUID.randomUUID().toString();
 
@@ -146,6 +122,7 @@ public class FirebaseAPI {
         return fileName;
     }
 
+    //Uploads any file to Firebase given the String value for the local filelocation
     public void uploadFile(Context context, String fileLocation) {
         if (fileLocation != null) {
             ProgressDialog progressDialog = new ProgressDialog(context);
@@ -153,7 +130,6 @@ public class FirebaseAPI {
             progressDialog.show();
 
             //Upload input stream to Firebase
-
             InputStream stream = null;
             try {
                 stream = new FileInputStream(new File("/data/user/0/com.bouldr.climbingapp/files/" + fileLocation));
@@ -186,6 +162,8 @@ public class FirebaseAPI {
         }
     }
 
+    //Downloads the latest model from Firebase
+    //Places the model in a folder for models (creates the folder if it doesn't exist)
     public void downloadModel(Context context, ProgressBar progressBar, Button btnDownload) {
         Toast.makeText(context, "Downloading model from the cloud", Toast.LENGTH_LONG).show();
         File folder = fileProcessor.createFolder(context, "fireBaseModels");
@@ -196,7 +174,7 @@ public class FirebaseAPI {
             @Override
             public void onFirebaseCallback(StorageReference value) {
                 String latestFilename = value.toString().split("/")[4];
-                File file = fileProcessor.createFile(context, folder, latestFilename);
+                File file = fileProcessor.createFile(folder, latestFilename);
                 modelsReference.child(latestFilename).getFile(file)
                         .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                             @Override
@@ -204,9 +182,8 @@ public class FirebaseAPI {
                                 Toast.makeText(context, "Download successful", Toast.LENGTH_LONG).show();
                                 fileProcessor.deleteOldModel(latestFilename);
                                 btnDownload.setBackgroundColor(Color.parseColor("#77dd77"));
-                                btnDownload.setText("Downloaded");
+                                btnDownload.setText("Downloaded");                            }
 
-                            }
                         })
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
@@ -228,10 +205,12 @@ public class FirebaseAPI {
         });
     }
 
+    //Callback for other classes waiting for a model to be checked on the cloud
     public interface FirebaseCallback {
         void onFirebaseCallback(StorageReference value);
     }
 
+    //Retrieves the name of the latest model from Firebase. Used to compare with local model
     public void getLatestCloudModel(FirebaseCallback myCallback) {
         final StorageReference[] latestModel = {null};
         modelsReference.listAll()

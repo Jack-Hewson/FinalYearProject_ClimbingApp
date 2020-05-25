@@ -3,11 +3,9 @@ package com.bouldr.climbingapp.ui.env;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Rect;
 import android.graphics.Typeface;
 
-import java.util.Vector;
-
+//Class used for adding the text around the boxed detected object
 public class BorderedText {
     private final Paint interiorPaint;
     private final Paint exteriorPaint;
@@ -36,14 +34,10 @@ public class BorderedText {
         this.textSize = textSize;
     }
 
+    //Sets the typeface
     public void setTypeface(Typeface typeface) {
         interiorPaint.setTypeface(typeface);
         exteriorPaint.setTypeface(typeface);
-    }
-
-    public void drawText(final Canvas canvas, final float posX, final float posY, final String text) {
-        canvas.drawText(text, posX, posY, exteriorPaint);
-        canvas.drawText(text, posX, posY, interiorPaint);
     }
 
     public void drawText(final Canvas canvas, final float posX, final float posY, final String text, Paint bgPaint) {
@@ -55,39 +49,5 @@ public class BorderedText {
         canvas.drawRect(posX, (posY + (int) (textSize)), (posX + (int) (width)), posY, paint);
 
         canvas.drawText(text, posX, (posY + textSize), interiorPaint);
-    }
-
-    public void drawLines(Canvas canvas, final float posX, final float posY, Vector<String> lines) {
-        int lineNum = 0;
-        for (final String line : lines) {
-            drawText(canvas, posX, posY - getTextSize() * (lines.size() - lineNum - 1), line);
-            ++lineNum;
-        }
-    }
-
-    public void setInteriorPaint(final int color) {
-        interiorPaint.setColor(color);
-    }
-
-    public void setExteriorPaint(final int color) {
-        exteriorPaint.setColor(color);
-    }
-
-    private float getTextSize() {
-        return textSize;
-    }
-
-    public void setAlpha(final int alpha) {
-        interiorPaint.setAlpha(alpha);
-        exteriorPaint.setAlpha(alpha);
-    }
-
-    public void getTextBounds(final String line, final int index, final int count, final Rect lineBounds) {
-        interiorPaint.getTextBounds(line, index, count, lineBounds);
-    }
-
-    public void setTextAlign(final Paint.Align align) {
-        interiorPaint.setTextAlign(align);
-        exteriorPaint.setTextAlign(align);
     }
 }

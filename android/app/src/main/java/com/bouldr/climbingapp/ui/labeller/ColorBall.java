@@ -5,59 +5,56 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
 
-public class ColorBall {
+//ColorBall for all 4 balls (one of each corner)
+class ColorBall {
+    private Bitmap bitmap;
+    private Point point;
+    private int id;
 
-    Bitmap bitmap;
-    Context mContext;
-    Point point;
-    int id;
-    static int count = 0;
-
-    public ColorBall(Context context, int resourceId, Point point, int id) {
+    ColorBall(Context context, int resourceId, Point point, int id) {
         this.id = id;
         bitmap = BitmapFactory.decodeResource(context.getResources(),
                 resourceId);
-        mContext = context;
         this.point = point;
     }
 
-    public int getWidthOfBall() {
+    int getWidthOfBall() {
         return bitmap.getWidth();
     }
 
-    public int getHeightOfBall() {
+    int getHeightOfBall() {
         return bitmap.getHeight();
     }
 
-    public Bitmap getBitmap() {
+    Bitmap getBitmap() {
         return bitmap;
     }
 
-    public int getX() {
+    int getX() {
         return point.x;
     }
 
-    public int getY() {
+    int getY() {
         return point.y;
     }
 
-    public int getID() {
+    int getID() {
         return id;
     }
 
-    public void setX(int x) {
+    void setX(int x) {
         point.x = x;
     }
 
-    public void setY(int y) {
+    void setY(int y) {
         point.y = y;
     }
 
-    public void addY(int y) {
+    void addY(int y) {
         point.y = point.y + y;
     }
 
-    public void addX(int x) {
+    void addX(int x) {
         point.x = point.x + x;
     }
 }

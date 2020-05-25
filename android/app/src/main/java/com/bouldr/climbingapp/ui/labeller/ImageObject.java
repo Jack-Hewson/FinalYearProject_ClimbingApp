@@ -2,21 +2,21 @@ package com.bouldr.climbingapp.ui.labeller;
 
 import java.util.ArrayList;
 
+//Contains the information about the current image that is being labelled and the label information
 public class ImageObject {
-    private static ImageObject imageObject = new ImageObject();
-
-    private ImageObject() {
-    }
-
-    public static ImageObject getInstance() {
-        return imageObject;
-    }
-
     private String filename;
     private int imgWidth;
     private int imgHeight;
     private int imgDepth;
     private double imgScale;
+
+    private static ImageObject imageObject = new ImageObject();
+
+    private ImageObject() {}
+
+    public static ImageObject getInstance() {
+        return imageObject;
+    }
 
     private ArrayList<Holds> holds = new ArrayList<>();
     
@@ -27,6 +27,7 @@ public class ImageObject {
         private int holdXMax;
         private int holdYMax;
 
+        //Scaling required because of offset on screen
         public Holds(int holdXMin, int holdYMin, int holdXMax, int holdYMax) {
             this.holdXMin = (int) Math.floor(holdXMin / (imgScale * 0.75));
             this.holdYMin = (int) Math.floor(holdYMin / (imgScale * 0.75));

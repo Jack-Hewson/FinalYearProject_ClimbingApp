@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -29,31 +28,29 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 
+//Fragment that is the base for labelling images
 public class ImageFragment extends androidx.fragment.app.Fragment {
     private static final Logger LOGGER = new Logger();
-    // views for button
-    private Button btnSelect, btnUpload, btnRotate;
+    private Button btnRotate;
     // view for image view
     private ImageView imageView;
     // Uri indicates, where the image will be picked from
-    private Uri filePath;
     private File imgFile;
-    // request code
-    private final int PICK_IMAGE_REQUEST = 22;
     // instance for firebase storage and StorageReference
-    //private SendViewModel sendViewModel;
     private FirebaseAPI firebaseAPI = new FirebaseAPI();
     private FileProcessor fileProcessor = new FileProcessor();
-    ImageObject imageObject = ImageObject.getInstance();
-    byte[] imageByteArray;
-    ViewStub stub;
-    Bitmap bitmap;
+    private ImageObject imageObject = ImageObject.getInstance();
+    private byte[] imageByteArray;
+    private ViewStub stub;
+    private Bitmap bitmap;
     private boolean isInflated;
 
+    //Can be called from CameraFragment indicating a photograph has been taken
     public ImageFragment(File imgFile) {
         this.imgFile = imgFile;
     }
 
+    //Loading from navigation bar indicates that no image has been selected yet
     public ImageFragment() {
     }
 
@@ -61,6 +58,7 @@ public class ImageFragment extends androidx.fragment.app.Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        //If there is an image then load it and display
         if (imgFile != null) {
             loadImage(imgFile);
             loadStub();
@@ -69,11 +67,11 @@ public class ImageFragment extends androidx.fragment.app.Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_image, container, false);
-        // initialise views
-        btnSelect = view.findViewById(R.id.btnChoose);
-        btnUpload = view.findViewById(R.id.btnUpload);
+        Button btnSelect = view.findViewById(R.id.btnChoose);
+        Button btnUpload = view.findViewById(R.id.btnUpload);
         btnRotate = view.findViewById(R.id.btnRotate);
         imageView = view.findViewById(R.id.imgView);
+
         stub = view.findViewById(R.id.boxStub);
         stub.setOnInflateListener(new ViewStub.OnInflateListener() {
             @Override
@@ -81,7 +79,7 @@ public class ImageFragment extends androidx.fragment.app.Fragment {
                 isInflated = true;
             }
         });
-        // on pressing btnSelect SelectImage() is called
+        // on pressing btnSelect, SelectImage() is called
         btnSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -93,23 +91,23 @@ public class ImageFragment extends androidx.fragment.app.Fragment {
         btnUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    if (imageLabelled()) {
-                        LOGGER.i("LABELLED");
-                        String imageName = firebaseAPI.uploadImage(getContext(), imageByteArray);
-                        imageObject.setFilename(imageName + ".jpg");
-                        String fileLocation = fileProcessor.createXMLFile(getContext(), imageName);
-                        //FileInputStream fis = fileProcessor.readFile(getContext(), filename);
-                        firebaseAPI.uploadFile(getContext(), fileLocation);
-                        stub.setVisibility(View.GONE);
-                        imageView.setImageResource(0);
-                    } else {
-                        LOGGER.i("NOT LABELLED");
-                        Toast.makeText(getContext(), "Image not labelled",
-                                Toast.LENGTH_LONG).show();
-                    }
+                if (imageLabelled()) {
+                    String imageName = firebaseAPI.uploadImage(getContext(), imageByteArray);
+                    imageObject.setFilename(imageName + ".jpg");
+                    String fileLocation = fileProcessor.createXMLFile(getContext(), imageName);
+                    //FileInputStream fis = fileProcessor.readFile(getContext(), filename);
+                    firebaseAPI.uploadFile(getContext(), fileLocation);
+                    stub.setVisibility(View.GONE);
+                    imageView.setImageResource(0);
+                } else {
+                    Toast.makeText(getContext(), "Image not labelled",
+                            Toast.LENGTH_LONG).show();
+                }
             }
         });
 
+        //Selecting this button will rotate the image by 90 degrees if there is an image and it
+        //hasn't been labelled yet
         btnRotate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -125,8 +123,7 @@ public class ImageFragment extends androidx.fragment.app.Fragment {
         return view;
     }
 
-
-
+    //Checks if the image has been labelled yet, returns true if it has
     public boolean imageLabelled() {
         if (imageObject.getHolds() == null || imageObject.getHolds().isEmpty()) {
             return false;
@@ -135,15 +132,16 @@ public class ImageFragment extends androidx.fragment.app.Fragment {
         }
     }
 
+    //Resizes the image so it is appropriate size for Firebase and model training
     private Bitmap resizeImage(Bitmap bitmap) {
         int[] imageResized = fileProcessor.getMaxImageSize(bitmap.getHeight(), bitmap.getWidth());
         LOGGER.i("ORIGINAL = " + bitmap.getHeight() + " " + bitmap.getWidth() + " NEW = " + imageResized[1] + " " + imageResized[0]);
-        double scale = fileProcessor.getScaleReduction(imageResized, bitmap.getHeight(), bitmap.getWidth());
+        double scale = fileProcessor.getScaleReduction(imageResized, bitmap.getHeight());
         return Bitmap.createScaledBitmap(bitmap, imageResized[1], imageResized[0], true);
     }
 
+    //Main function for loading the image onto the ImageView
     private void showImage() {
-        LOGGER.i("bitmap is " + bitmap);
         Bitmap resized = resizeImage(bitmap);
         Bitmap rotatedBitmap = rotateImage(resized);
         this.bitmap = rotatedBitmap;
@@ -152,10 +150,10 @@ public class ImageFragment extends androidx.fragment.app.Fragment {
         imageByteArray = baos.toByteArray();
         imageObject.setImgWidth(rotatedBitmap.getWidth());
         imageObject.setImgHeight(rotatedBitmap.getHeight());
-        LOGGER.i("setting image bitmap");
         imageView.setImageBitmap(rotatedBitmap);
     }
 
+    //Called when rotate button is selected, rotates image by 90 degrees
     private Bitmap rotateImage(Bitmap bitmap) {
         Matrix matrix = new Matrix();
         try {
@@ -166,11 +164,13 @@ public class ImageFragment extends androidx.fragment.app.Fragment {
         }
     }
 
+    //Loads image by File
     private void loadImage(File imgFile) {
         bitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
         showImage();
     }
 
+    //Loads image by Uri
     private void loadImage(Uri filePath) {
         try {
             bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), filePath);
@@ -186,12 +186,14 @@ public class ImageFragment extends androidx.fragment.app.Fragment {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
+        // request code
+        int PICK_IMAGE_REQUEST = 22;
         startActivityForResult(
                 Intent.createChooser(intent, "Select Image from here..."), PICK_IMAGE_REQUEST);
     }
 
+    //Loads the labeller stub
     private void loadStub() {
-        //loadRotateButton();
         if (stub != null && !isInflated) {
             stub.inflate();
         } else {
@@ -205,27 +207,5 @@ public class ImageFragment extends androidx.fragment.app.Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         loadImage(data.getData());
         loadStub();
-    }
-
-    public void loadRotateButton() {
-        if (!btnRotate.isEnabled()) {
-            btnRotate = new Button(getActivity());
-            btnRotate.setText("Rotate");
-            // LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            btnRotate.setHeight(getView().findViewById(R.id.btnChoose).getHeight());
-            btnRotate.setWidth(getView().findViewById(R.id.layout_button).getWidth());
-            LinearLayout ll = getView().findViewById(R.id.layout_button);
-            ll.addView(btnRotate);
-            btnRotate.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //imageView.setImageResource(0);
-                    showImage();
-                }
-            });
-        } else {
-            LOGGER.i("BUTTON IS ENABLED");
-        }
-
     }
 }

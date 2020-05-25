@@ -19,7 +19,6 @@ import com.google.firebase.FirebaseApp;
 public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
     FileProcessor fileProcessor = new FileProcessor();
-   // FirebaseAPI firebaseAPI = new FirebaseAPI();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,15 +27,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         FirebaseApp.initializeApp(this);
-        /**
-         FloatingActionButton fab = findViewById(R.id.fab);
-         fab.setOnClickListener(new View.OnClickListener() {
-        @Override public void onClick(View view) {
-        Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-        .setAction("Action", null).show();
-        }
-        });
-         */
+
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
@@ -56,7 +47,6 @@ public class MainActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         TextView modelVersion = findViewById(R.id.model_version);
         String modelVal = fileProcessor.getLocalModel();
-        //firebaseAPI.downloadModel(getBaseContext());
         modelVersion.setText(modelVal);
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
@@ -65,7 +55,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onSupportNavigateUp() {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        return NavigationUI.navigateUp(navController, mAppBarConfiguration)
-                || super.onSupportNavigateUp();
+        return NavigationUI.navigateUp(navController, mAppBarConfiguration) || super.onSupportNavigateUp();
     }
 }

@@ -76,13 +76,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="70"
-        android:scrollbars="vertical">
+        android:scrollbars="vertical"
+        android:background="@color/colorSecondaryLight">
 
         <TextView
             android:id="@+id/holdText"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/colorSecondaryLight"
+            android:layout_height="wrap_content"
             android:padding="10dp" />
     </ScrollView>
 </LinearLayout>
