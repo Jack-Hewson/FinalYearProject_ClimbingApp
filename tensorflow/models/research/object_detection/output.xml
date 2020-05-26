@@ -1,0 +1,26 @@
+<annotation>
+	<folder>test</folder>
+	<filename>20200219_095118_048.jpg</filename>
+	<path>4</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>567</width>
+		<height>1008</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>Pocket</name>
+		<pose>Unspecified</pose>
+		<truncated>1</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>1</xmin>
+			<ymin>195</ymin>
+			<xmax>358</xmax>
+			<ymax>427</ymax>
+		</bndbox>
+	</object>
+</annotation>
