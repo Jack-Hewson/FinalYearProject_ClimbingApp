@@ -359,12 +359,10 @@ public class CameraFragment extends androidx.fragment.app.Fragment
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mFile = new File(getActivity().getExternalFilesDir(null), "pic3.jpg");
-        if (mFile.exists()) {
-            showToast("FILE EXISTS");
-        } else {
-            showToast("FILE DOESN'T EXIST");
-        }
+        //Creates a placeholder file for the image to be stored. Doesn't matter that this will
+        //overwrite any photo already there since only one image can be labelled and uploaded at a
+        //time
+        mFile = new File(getActivity().getExternalFilesDir(null), "pic.jpg");
     }
 
     @Override
